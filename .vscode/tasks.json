@@ -1,0 +1,51 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++ build all source files in folder",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                {
+                    "value": "${workspaceFolder}/*.cpp",
+                    // escape spaces in any parent folder names (and let shell expand wildcard)
+                    "quoting": "escape"
+                },
+                "-o",
+                {
+                    "value": "${workspaceFolder}/kdeck.out",
+                    // escape spaces in any parent folder names
+                    "quoting": "escape"
+                },
+
+                // run `wx-config --cxxflags)
+                "-I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2",
+                "-I/usr/include/wx-3.2",
+                "-D_FILE_OFFSET_BITS=64",
+                "-DWXUSINGDLL",
+                "-D__WXGTK__",
+                "-pthread",
+
+                // run `wx-config --libs`
+                "-L/usr/lib/x86_64-linux-gnu",
+                "-pthread",
+                "-lwx_gtk3u_xrc-3.2",
+                "-lwx_gtk3u_html-3.2",
+                "-lwx_gtk3u_qa-3.2",
+                "-lwx_gtk3u_core-3.2",
+                "-lwx_baseu_xml-3.2",
+                "-lwx_baseu_net-3.2",
+                "-lwx_baseu-3.2"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        }
+    ],
+    "version": "2.0.0"
+}
