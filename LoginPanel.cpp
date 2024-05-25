@@ -7,6 +7,7 @@
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/Exception.hpp>
+#include <curlpp/Infos.hpp>
 
 #include "config.h"
 #include "LoginPanel.h"
@@ -54,6 +55,19 @@ void LoginPanel::AddControls()
 //TODO move to own class
 std::string LoginPanel::RequestLoginToken(std::string email, std::string password)
 {
+    if (email.empty())
+    {
+        wxLogMessage("Email not provided.");
+
+        return std::string();
+    }
+    else if (password.empty())
+    {
+        wxLogMessage("Password not provided.");
+
+        return std::string();
+    }
+
     try
     {
         cURLpp::Easy req;
@@ -73,16 +87,22 @@ std::string LoginPanel::RequestLoginToken(std::string email, std::string passwor
         req.setOpt(cURLpp::Options::WriteStream(&res));
         req.perform();
 
-        //TODO test return code
-        return res.str();
+        if (cURLpp::infos::ResponseCode::get(req) == 200)
+        {
+            return res.str();
+        }
+
+        return std::string();
     }
     catch (cURLpp::RuntimeError &e)
     {
-        std::cerr << e.what() << std::endl;
+        wxLogDebug(e.what());
+        wxLogError("Unknown CURL error.");
     }
     catch (cURLpp::LogicError &e)
     {
-        std::cerr << e.what() << std::endl;
+        wxLogDebug(e.what());
+        wxLogError("Unknown CURL error.");
     }
 
     return std::string();
@@ -97,10 +117,10 @@ void LoginPanel::OnLoginButtonClicked(wxCommandEvent& event)
     std::string loginToken = RequestLoginToken(txtEmail->GetValue().ToStdString(), txtPassword->GetValue().ToStdString());
 
     if (loginToken.empty()) {
-        wxLogMessage("Login failed!");
+        wxLogStatus("Login failed!");
     }
     else
     {
-        wxLogMessage("Login succeeded!");
+        wxLogStatus("Login succeeded!");
     }
 }
