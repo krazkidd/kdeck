@@ -1,6 +1,7 @@
 #include <wx/wx.h>
 
 #include "MainFrame.h"
+#include "LoginPanel.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -8,10 +9,15 @@
 MainFrame::MainFrame()
     : wxFrame(nullptr, wxID_ANY, "kdeck")
 {
-    AddMenuBar();
-    AddStatusBar();
+    // NOTE: It seems to be important that we add the status bar (and possibly
+    //       the menu bar) before we add a panel. It seems to change the dimensions
+    //       of the panel/frame and messes with sizer logic.
 
+    AddMenuBar();
+    CreateStatusBar();
     SetStatusText("Welcome to kdeck!");
+
+    AddLoginPanel();
 
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -35,9 +41,10 @@ void MainFrame::AddMenuBar()
     SetMenuBar(menuBar);
 }
 
-void MainFrame::AddStatusBar()
+void MainFrame::AddLoginPanel()
 {
-    CreateStatusBar();
+    LoginPanel* loginPanel = new LoginPanel(this);
+    loginPanel->GetSizer()->SetSizeHints(this);
 }
 
 // event handlers /////////////////////////////////////////////////////////////

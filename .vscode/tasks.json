@@ -19,7 +19,22 @@
                     "quoting": "escape"
                 },
 
-                // run `wx-config --cxxflags)
+                "-lfmt",
+
+                // run `curlpp-config --cxxflags`
+                // [nothing to add]
+
+                // run `curlpp-config --libs`
+                //"-Wl",
+                "-z",
+                "relro",
+                //"-Wl",
+                "-z",
+                "now",
+                "-lcurl",
+                "-lcurlpp",
+
+                // run `wx-config --cxxflags`
                 "-I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2",
                 "-I/usr/include/wx-3.2",
                 "-D_FILE_OFFSET_BITS=64",
