@@ -18,8 +18,8 @@ private:
     void AddLoginPanel();
 
     // event handlers
-    void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
 };
 
 #endif
