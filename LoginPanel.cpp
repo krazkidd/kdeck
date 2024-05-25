@@ -32,7 +32,7 @@ void LoginPanel::AddControls()
     txtPassword = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
 
     wxButton* btnLogin = new wxButton(this, wxID_ANY, "Login");
-    Bind(wxEVT_BUTTON, &LoginPanel::OnLoginButtonClicked, this);
+    btnLogin->Bind(wxEVT_BUTTON, &LoginPanel::OnLoginButtonClicked, this);
 
     wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
