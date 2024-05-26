@@ -1,18 +1,19 @@
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <stdexcept>
 
-#include <fmt/core.h>
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/Exception.hpp>
 #include <curlpp/Infos.hpp>
+#include <boost/json.hpp>
 
 #include "config.h"
 #include "Api.h"
 
-std::string Api::MakeRequest(std::string endpoint, std::string json)
+boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json::value &json)
 {
     try
     {
@@ -35,7 +36,7 @@ std::string Api::MakeRequest(std::string endpoint, std::string json)
 
         if (cURLpp::infos::ResponseCode::get(req) == 200)
         {
-            return res.str();
+            return boost::json::parse(res.str());
         }
     }
     catch (cURLpp::RuntimeError &e)
@@ -50,13 +51,13 @@ std::string Api::MakeRequest(std::string endpoint, std::string json)
     }
 
     //TODO do we want to throw an exception here? (note that /logout returns 204, not 200)
-    return std::string();
+    return boost::json::value();
 }
 
-// API requests ///////////////////////////////////////////////////////////////
+// auth ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-std::string Api::RequestLoginToken(std::string email, std::string password)
+void Api::Login(std::string_view email, std::string_view password)
 {
     if (email.empty())
     {
@@ -67,10 +68,21 @@ std::string Api::RequestLoginToken(std::string email, std::string password)
         throw std::invalid_argument("Password not provided.");
     }
 
-    return Api::MakeRequest(std::string{"/login"}, fmt::format(
-        "{{"
-            "\"email\":\"{0}\","
-            "\"password\":\"{1}\""
-        "}}"
-    , email, password));
+    boost::json::object jsonReq = {
+        { "email", email },
+        { "password", password }
+    };
+
+    boost::json::value jsonRes = MakeRequest("/login", jsonReq);
+
+    if (auto jsonObj = jsonRes.if_object())
+    {
+        member_id = jsonObj->at("member_id").as_string();
+        token = jsonObj->at("token").as_string();
+    }
+    else
+    {
+        //TODO throw?
+    }
+}
 }

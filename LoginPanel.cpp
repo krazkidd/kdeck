@@ -49,28 +49,27 @@ void LoginPanel::OnLoginButtonClicked(wxCommandEvent& event)
 {
     try
     {
-        std::string loginToken = Api::RequestLoginToken(txtEmail->GetValue().ToStdString(), txtPassword->GetValue().ToStdString());
+        Api::Login(txtEmail->GetValue().ToStdString(), txtPassword->GetValue().ToStdString());
 
-        if (loginToken.empty())
-        {
-            wxLogStatus("Login failed!");
-        }
-        else
-        {
-            wxLogStatus("Login succeeded!");
-        }
+        wxLogStatus("Login succeeded!");
     }
     catch (std::invalid_argument &e)
     {
         wxLogError(e.what());
+
+        wxLogStatus("Login failed!");
     }
     catch (std::logic_error &e)
     {
         wxLogError(e.what());
+
+        wxLogStatus("Login failed!");
     }
     catch (std::runtime_error &e)
     {
         wxLogError("Unknown error.");
         wxLogDebug(e.what());
+
+        wxLogStatus("Login failed!");
     }
 }

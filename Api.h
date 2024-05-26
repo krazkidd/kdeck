@@ -3,13 +3,18 @@
 
 #include <string>
 
+#include <boost/json.hpp>
+
 class Api
 {
 private:
-    static std::string MakeRequest(std::string endpoint, std::string json);
+    static inline std::string member_id;
+    static inline std::string token;
+
+    static boost::json::value MakeRequest(std::string_view endpoint, const boost::json::value &json);
 public:
-    // API requests
-    static std::string RequestLoginToken(std::string email, std::string password);
+    // auth
+    static void Login(std::string_view email, std::string_view password);
 };
 
 #endif
