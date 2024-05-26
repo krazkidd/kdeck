@@ -5,6 +5,8 @@
             "label": "C/C++: g++ build all source files in folder",
             "command": "/usr/bin/g++",
             "args": [
+                "-Wall",
+                "-Werror",
                 "-fdiagnostics-color=always",
                 "-g",
                 {
