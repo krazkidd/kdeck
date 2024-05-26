@@ -24,8 +24,8 @@ std::string Api::MakeRequest(std::string endpoint, std::string json)
         //req.setOpt(new cURLpp::Options::Port(80));
 
         std::list<std::string> headers;
-		headers.push_back("accept: application/json");
-        headers.push_back("content-type: application/json");
+		headers.push_back("Accept: application/json");
+        headers.push_back("Content-Type: application/json");
         req.setOpt(new cURLpp::Options::HttpHeader(headers));
 
         req.setOpt(new cURLpp::Options::PostFields(json));
@@ -40,16 +40,16 @@ std::string Api::MakeRequest(std::string endpoint, std::string json)
     }
     catch (cURLpp::RuntimeError &e)
     {
-        //TODO do we want to deal with CURL errors here?
+        //TODO do we want to deal with CURL errors here? (we probably want to provide a user-friendly messaage)
         throw;
     }
     catch (cURLpp::LogicError &e)
     {
-        //TODO do we want to deal with CURL errors here?
+        //TODO do we want to deal with CURL errors here? (we probably want to provide a user-friendly messaage)
         throw;
     }
 
-    //TODO do we want to throw an exception here?
+    //TODO do we want to throw an exception here? (note that /logout returns 204, not 200)
     return std::string();
 }
 

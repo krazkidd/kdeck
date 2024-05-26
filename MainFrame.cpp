@@ -10,8 +10,8 @@ MainFrame::MainFrame()
     : wxFrame(nullptr, wxID_ANY, "kdeck")
 {
     // NOTE: It seems to be important that we add the status bar (and possibly
-    //       the menu bar) before we add a panel. It seems to change the dimensions
-    //       of the panel/frame and messes with sizer logic.
+    //       the menu bar) before we add a panel/sizer. It seems to change the
+    //       dimensions of the panel/frame and messes with sizer logic.
 
     AddMenuBar();
     CreateStatusBar();
