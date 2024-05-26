@@ -13,6 +13,13 @@
 #include "config.h"
 #include "Api.h"
 
+boost::json::value Api::MakeRequest(std::string_view endpoint)
+{
+    static boost::json::value nullValueSentinel;
+
+    return MakeRequest(endpoint, nullValueSentinel);
+}
+
 boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json::value &json)
 {
     try
@@ -26,17 +33,45 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
 
         std::list<std::string> headers;
 		headers.push_back("Accept: application/json");
-        headers.push_back("Content-Type: application/json");
-        req.setOpt(new cURLpp::Options::HttpHeader(headers));
 
-        req.setOpt(new cURLpp::Options::PostFields(json));
+        if (IsLoggedIn())
+        {
+		    headers.push_back(std::string{"Authorization: Bearer "}.append(token));
+        }
+
+        if (json.is_null())
+        {
+            // NOTE: Because we are using the POST method, we have to be explicit about what to
+            //       post, otherwise libcurl will read from standard input. (Also note that an
+            //       empty body would not be valid JSON so we don't provide a content type.)
+            //
+            //       Source: https://github.com/curl/curl/issues/1625#issuecomment-312456910
+
+            req.setOpt(new cURLpp::Options::PostFields(""));
+        }
+        else
+        {
+            headers.push_back("Content-Type: application/json");
+
+            req.setOpt(new cURLpp::Options::PostFields(boost::json::serialize(json)));
+        }
+
+        req.setOpt(new cURLpp::Options::HttpHeader(headers));
 
         req.setOpt(cURLpp::Options::WriteStream(&res));
         req.perform();
 
         if (cURLpp::infos::ResponseCode::get(req) == 200)
         {
+            // success
+
             return boost::json::parse(res.str());
+        }
+        else if (cURLpp::infos::ResponseCode::get(req) == 204)
+        {
+            // success (no response body)
+
+            return boost::json::value();
         }
     }
     catch (cURLpp::RuntimeError &e)
@@ -85,4 +120,19 @@ void Api::Login(std::string_view email, std::string_view password)
         //TODO throw?
     }
 }
+
+void Api::Logout()
+{
+    MakeRequest("/logout");
+
+    member_id = std::string();
+    token = std::string();
+}
+
+// helpers ////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+bool Api::IsLoggedIn()
+{
+    return !member_id.empty();
 }

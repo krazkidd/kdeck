@@ -2,6 +2,7 @@
 
 #include "MainFrame.h"
 #include "LoginPanel.h"
+#include "Api.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,6 +20,7 @@ MainFrame::MainFrame()
 
     AddLoginPanel();
 
+    Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
 }
@@ -29,6 +31,8 @@ MainFrame::MainFrame()
 void MainFrame::AddMenuBar()
 {
     wxMenu *menuFile = new wxMenu;
+    menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
+    menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
     wxMenu *menuHelp = new wxMenu;
@@ -50,6 +54,34 @@ void MainFrame::AddLoginPanel()
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent& event)
+{
+    int answer = wxMessageBox("Logout?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
+
+    if (answer == wxYES)
+    {
+        try
+        {
+            Api::Logout();
+
+            wxLogStatus("Logout succeeded!");
+        }
+        catch (std::logic_error &e)
+        {
+            wxLogError(e.what());
+
+            wxLogStatus("Logout failed!");
+        }
+        catch (std::runtime_error &e)
+        {
+            wxLogError("Unknown error.");
+            wxLogDebug(e.what());
+
+            wxLogStatus("Logout failed!");
+        }
+    }
+}
+
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
@@ -57,5 +89,35 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnExit(wxCommandEvent& event)
 {
-    Close(true);
+    int answer = wxMessageBox("Quit?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
+
+    if (answer == wxYES)
+    {
+        try
+        {
+            Api::Logout();
+        }
+        catch (std::logic_error &e)
+        {
+            wxLogError(e.what());
+
+            wxLogStatus("Logout failed!");
+        }
+        catch (std::runtime_error &e)
+        {
+            wxLogError("Unknown error.");
+            wxLogDebug(e.what());
+
+            wxLogStatus("Logout failed!");
+        }
+        catch (std::exception &e)
+        {
+            wxLogError("Unknown error.");
+            wxLogDebug(e.what());
+
+            wxLogStatus("Logout failed!");
+        }
+
+        Close(true);
+    }
 }
