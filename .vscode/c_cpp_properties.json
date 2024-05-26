@@ -8,7 +8,10 @@
                 "/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2",
                 "/usr/include/wx-3.2"
             ],
-            "defines": [],
+            "defines": [
+                // show wxLogDebug() messages
+                //"__WXDEBUG__"
+            ],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
