@@ -94,7 +94,11 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
 
 void Api::Login(std::string_view email, std::string_view password)
 {
-    if (email.empty())
+    if (IsLoggedIn())
+    {
+        throw std::logic_error("Already logged in.");
+    }
+    else if (email.empty())
     {
         throw std::invalid_argument("Email not provided.");
     }
@@ -123,6 +127,11 @@ void Api::Login(std::string_view email, std::string_view password)
 
 void Api::Logout()
 {
+    if (!IsLoggedIn())
+    {
+        throw std::logic_error("Already logged out.");
+    }
+
     MakeRequest("/logout");
 
     member_id = std::string();

@@ -7,7 +7,8 @@
 enum
 {
     //TODO i think i heard this can't be 0 or 1?
-    ID_Logout = 1
+    ID_Login = 1,
+    ID_Logout = 2,
 };
 
 class MainFrame : public wxFrame
@@ -19,11 +20,14 @@ private:
     // handles global cURLpp::initialize()/terminate()
     cURLpp::Cleanup cURLpp();
 
+    wxMenuItem *logoutMenuItem;
+
     // init
-    void AddMenuBar();
+    void UpdateMenuBar();
     void AddLoginPanel();
 
     // event handlers
+    void OnLoginButtonClicked(wxCommandEvent& event);
     void OnLogoutMenuItemSelected(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);

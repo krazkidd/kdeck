@@ -14,12 +14,13 @@ MainFrame::MainFrame()
     //       the menu bar) before we add a panel/sizer. It seems to change the
     //       dimensions of the panel/frame and messes with sizer logic.
 
-    AddMenuBar();
+    UpdateMenuBar();
     CreateStatusBar();
     SetStatusText("Welcome to kdeck!");
 
     AddLoginPanel();
 
+    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -28,21 +29,26 @@ MainFrame::MainFrame()
 // init ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::AddMenuBar()
+void MainFrame::UpdateMenuBar()
 {
-    wxMenu *menuFile = new wxMenu;
-    menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
-    menuFile->AppendSeparator();
-    menuFile->Append(wxID_EXIT);
+    if (GetMenuBar() == nullptr)
+    {
+        wxMenu *menuFile = new wxMenu;
+        logoutMenuItem = menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
+        menuFile->AppendSeparator();
+        menuFile->Append(wxID_EXIT);
 
-    wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT);
+        wxMenu *menuHelp = new wxMenu;
+        menuHelp->Append(wxID_ABOUT);
 
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(menuHelp, "&Help");
+        wxMenuBar *menuBar = new wxMenuBar;
+        menuBar->Append(menuFile, "&File");
+        menuBar->Append(menuHelp, "&Help");
 
-    SetMenuBar(menuBar);
+        SetMenuBar(menuBar);
+    }
+
+    logoutMenuItem->Enable(Api::IsLoggedIn());
 }
 
 void MainFrame::AddLoginPanel()
@@ -53,6 +59,15 @@ void MainFrame::AddLoginPanel()
 
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+
+//TODO this should be implemented as a custom event
+void MainFrame::OnLoginButtonClicked(wxCommandEvent& event)
+{
+    if (event.GetId() == ID_Login)
+    {
+        UpdateMenuBar();
+    }
+}
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent& event)
 {
@@ -79,6 +94,8 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent& event)
 
             wxLogStatus("Logout failed!");
         }
+
+        UpdateMenuBar();
     }
 }
 
@@ -120,4 +137,9 @@ void MainFrame::OnExit(wxCommandEvent& event)
 
         Close(true);
     }
+}
+
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+
 }
