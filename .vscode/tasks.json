@@ -48,6 +48,9 @@
 
                 "-lboost_json",
 
+                // show wxLogDebug() messages
+                //"-D__WXDEBUG__",
+
                 // run `wx-config --cxxflags`
                 "-I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2",
                 "-I/usr/include/wx-3.2",
