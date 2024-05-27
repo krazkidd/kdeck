@@ -116,35 +116,38 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnExit(wxCommandEvent& event)
 {
-    int answer = wxMessageBox("Quit?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
-
-    if (answer == wxYES)
+    if (Api::IsLoggedIn())
     {
-        try
-        {
-            Api::Logout();
-        }
-        catch (std::logic_error &e)
-        {
-            wxLogError(e.what());
+        int answer = wxMessageBox("Quit?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
 
-            wxLogStatus("Logout failed!");
-        }
-        catch (std::runtime_error &e)
+        if (answer == wxYES)
         {
-            wxLogError("Unknown error.");
-            wxLogDebug(e.what());
+            try
+            {
+                Api::Logout();
+            }
+            catch (std::logic_error &e)
+            {
+                wxLogError(e.what());
 
-            wxLogStatus("Logout failed!");
+                wxLogStatus("Logout failed!");
+            }
+            catch (std::runtime_error &e)
+            {
+                wxLogError("Unknown error.");
+                wxLogDebug(e.what());
+
+                wxLogStatus("Logout failed!");
+            }
+            catch (std::exception &e)
+            {
+                wxLogError("Unknown error.");
+                wxLogDebug(e.what());
+
+                wxLogStatus("Logout failed!");
+            }
         }
-        catch (std::exception &e)
-        {
-            wxLogError("Unknown error.");
-            wxLogDebug(e.what());
-
-            wxLogStatus("Logout failed!");
-        }
-
-        Close(true);
     }
+
+    Close(true);
 }
