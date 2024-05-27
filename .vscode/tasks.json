@@ -33,8 +33,6 @@
 
                 "-I${workspaceFolder}/include",
 
-                "-lfmt",
-
                 // run `curlpp-config --cxxflags`
                 // [nothing to add]
 
