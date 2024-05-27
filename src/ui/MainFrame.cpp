@@ -1,9 +1,9 @@
 #include <wx/wx.h>
 
-#include "MainFrame.h"
-#include "LoginPanel.h"
-#include "PortfolioPanel.h"
-#include "Api.h"
+#include "ui/MainFrame.h"
+#include "ui/LoginPanel.h"
+#include "ui/PortfolioPanel.h"
+#include "api/Api.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

@@ -10,7 +10,7 @@
 #include <curlpp/Infos.hpp>
 #include <boost/json.hpp>
 
-#include "Api.h"
+#include "api/Api.h"
 
 boost::json::value Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
 {

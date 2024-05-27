@@ -10,16 +10,28 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 {
-                    "value": "${workspaceFolder}/*.cpp",
+                    "value": "${workspaceFolder}/src/*.cpp",
+                    // escape spaces in any parent folder names (and let shell expand wildcard)
+                    "quoting": "escape"
+                },
+                {
+                    "value": "${workspaceFolder}/src/api/*.cpp",
+                    // escape spaces in any parent folder names (and let shell expand wildcard)
+                    "quoting": "escape"
+                },
+                {
+                    "value": "${workspaceFolder}/src/ui/*.cpp",
                     // escape spaces in any parent folder names (and let shell expand wildcard)
                     "quoting": "escape"
                 },
                 "-o",
                 {
-                    "value": "${workspaceFolder}/kdeck.out",
+                    "value": "${workspaceFolder}/build/kdeck.out",
                     // escape spaces in any parent folder names
                     "quoting": "escape"
                 },
+
+                "-I${workspaceFolder}/include",
 
                 "-lfmt",
 
@@ -58,7 +70,7 @@
                 "-lwx_baseu-3.2"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/build"
             },
             "problemMatcher": [
                 "$gcc"

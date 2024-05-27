@@ -1,5 +1,5 @@
-#include "App.h"
-#include "MainFrame.h"
+#include "ui/App.h"
+#include "ui/MainFrame.h"
 
 bool App::OnInit()
 {
