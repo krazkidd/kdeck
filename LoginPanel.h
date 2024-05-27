@@ -13,7 +13,7 @@ private:
     wxTextCtrl* txtPassword;
 
     // init
-    void AddControls();
+    void Setup();
 
     // event handlers
     void OnLoginButtonClicked(wxCommandEvent& event);

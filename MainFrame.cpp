@@ -2,6 +2,7 @@
 
 #include "MainFrame.h"
 #include "LoginPanel.h"
+#include "PortfolioPanel.h"
 #include "Api.h"
 
 // constructor ////////////////////////////////////////////////////////////////
@@ -10,15 +11,8 @@
 MainFrame::MainFrame()
     : wxFrame(nullptr, wxID_ANY, "kdeck")
 {
-    // NOTE: It seems to be important that we add the status bar (and possibly
-    //       the menu bar) before we add a panel/sizer. It seems to change the
-    //       dimensions of the panel/frame and messes with sizer logic.
-
-    UpdateMenuBar();
-    CreateStatusBar();
-    SetStatusText("Welcome to kdeck!");
-
-    AddLoginPanel();
+    Setup();
+    Update();
 
     Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
@@ -29,32 +23,48 @@ MainFrame::MainFrame()
 // init ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::UpdateMenuBar()
+void MainFrame::Setup()
 {
-    if (GetMenuBar() == nullptr)
-    {
-        wxMenu *menuFile = new wxMenu;
-        logoutMenuItem = menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
-        menuFile->AppendSeparator();
-        menuFile->Append(wxID_EXIT);
+    // NOTE: It seems to be important that we add the status bar (and possibly
+    //       the menu bar) before we add a panel/sizer. It seems to change the
+    //       dimensions of the panel/frame and messes with sizer logic.
 
-        wxMenu *menuHelp = new wxMenu;
-        menuHelp->Append(wxID_ABOUT);
+    wxMenu *menuFile = new wxMenu;
+    logoutMenuItem = menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
+    menuFile->AppendSeparator();
+    menuFile->Append(wxID_EXIT);
 
-        wxMenuBar *menuBar = new wxMenuBar;
-        menuBar->Append(menuFile, "&File");
-        menuBar->Append(menuHelp, "&Help");
+    wxMenu *menuHelp = new wxMenu;
+    menuHelp->Append(wxID_ABOUT);
 
-        SetMenuBar(menuBar);
-    }
+    wxMenuBar *menuBar = new wxMenuBar;
+    menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuHelp, "&Help");
 
-    logoutMenuItem->Enable(Api::IsLoggedIn());
+    SetMenuBar(menuBar);
+
+    CreateStatusBar();
+    SetStatusText("Welcome to kdeck!");
 }
 
-void MainFrame::AddLoginPanel()
+void MainFrame::Update()
 {
-    LoginPanel* loginPanel = new LoginPanel(this);
-    loginPanel->GetSizer()->SetSizeHints(this);
+    DestroyChildren();
+
+    if (Api::IsLoggedIn())
+    {
+        logoutMenuItem->Enable(true);
+
+        PortfolioPanel* panel = new PortfolioPanel(this);
+        panel->GetSizer()->SetSizeHints(this);
+    }
+    else
+    {
+        logoutMenuItem->Enable(false);
+
+        LoginPanel* panel = new LoginPanel(this);
+        panel->GetSizer()->SetSizeHints(this);
+    }
 }
 
 // event handlers /////////////////////////////////////////////////////////////
@@ -65,7 +75,7 @@ void MainFrame::OnLoginButtonClicked(wxCommandEvent& event)
 {
     if (event.GetId() == ID_Login)
     {
-        UpdateMenuBar();
+        Update();
     }
 }
 
@@ -95,7 +105,7 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent& event)
             wxLogStatus("Logout failed!");
         }
 
-        UpdateMenuBar();
+        Update();
     }
 }
 
@@ -137,9 +147,4 @@ void MainFrame::OnExit(wxCommandEvent& event)
 
         Close(true);
     }
-}
-
-void MainFrame::OnClose(wxCloseEvent& event)
-{
-
 }

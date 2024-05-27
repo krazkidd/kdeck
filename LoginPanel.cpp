@@ -12,13 +12,13 @@
 LoginPanel::LoginPanel(wxWindow* parent)
     : wxPanel(parent, wxID_ANY)
 {
-    AddControls();
+    Setup();
 }
 
 // init ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void LoginPanel::AddControls()
+void LoginPanel::Setup()
 {
     wxStaticText* lblName = new wxStaticText(this, wxID_ANY, "Email:");
     wxStaticText* lblPassword = new wxStaticText(this, wxID_ANY, "Password:");

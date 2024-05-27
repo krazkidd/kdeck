@@ -13,25 +13,24 @@
 #include "config.h"
 #include "Api.h"
 
-boost::json::value Api::MakeRequest(std::string_view endpoint)
+boost::json::value Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
 {
     static boost::json::value nullValueSentinel;
 
-    return MakeRequest(endpoint, nullValueSentinel);
+    return MakeRequest(endpoint, nullValueSentinel, doPostMethod);
 }
 
-boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json::value &json)
+boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod)
 {
     try
     {
         cURLpp::Easy req;
         std::stringstream res;
+        std::list<std::string> headers;
 
-        req.setOpt(new cURLpp::Options::Post(true));
         req.setOpt(new cURLpp::Options::Url(std::string{kKalshiApiUrl}.append(endpoint)));
         //req.setOpt(new cURLpp::Options::Port(80));
 
-        std::list<std::string> headers;
 		headers.push_back("Accept: application/json");
 
         if (IsLoggedIn())
@@ -39,21 +38,26 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
 		    headers.push_back(std::string{"Authorization: Bearer "}.append(token));
         }
 
-        if (json.is_null())
+        if (doPostMethod)
         {
-            // NOTE: Because we are using the POST method, we have to be explicit about what to
-            //       post, otherwise libcurl will read from standard input. (Also note that an
-            //       empty body would not be valid JSON so we don't provide a content type.)
-            //
-            //       Source: https://github.com/curl/curl/issues/1625#issuecomment-312456910
+            req.setOpt(new cURLpp::Options::Post(true));
 
-            req.setOpt(new cURLpp::Options::PostFields(""));
-        }
-        else
-        {
-            headers.push_back("Content-Type: application/json");
+            if (json.is_null())
+            {
+                // NOTE: Because we are using the POST method, we have to be explicit about what to
+                //       post, otherwise libcurl will read from standard input. (Also note that an
+                //       empty body would not be valid JSON so we don't provide a content type.)
+                //
+                //       Source: https://github.com/curl/curl/issues/1625#issuecomment-312456910
 
-            req.setOpt(new cURLpp::Options::PostFields(boost::json::serialize(json)));
+                req.setOpt(new cURLpp::Options::PostFields(""));
+            }
+            else
+            {
+                headers.push_back("Content-Type: application/json");
+
+                req.setOpt(new cURLpp::Options::PostFields(boost::json::serialize(json)));
+            }
         }
 
         req.setOpt(new cURLpp::Options::HttpHeader(headers));
@@ -89,6 +93,26 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
     return boost::json::value();
 }
 
+boost::json::value Api::GetRequest(std::string_view endpoint)
+{
+    return MakeRequest(endpoint);
+}
+
+boost::json::value Api::GetRequest(std::string_view endpoint, const boost::json::value &json)
+{
+    return MakeRequest(endpoint, json);
+}
+
+boost::json::value Api::PostRequest(std::string_view endpoint)
+{
+    return MakeRequest(endpoint, true);
+}
+
+boost::json::value Api::PostRequest(std::string_view endpoint, const boost::json::value &json)
+{
+    return MakeRequest(endpoint, json, true);
+}
+
 // auth ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -112,7 +136,7 @@ void Api::Login(std::string_view email, std::string_view password)
         { "password", password }
     };
 
-    boost::json::value jsonRes = MakeRequest("/login", jsonReq);
+    boost::json::value jsonRes = PostRequest("/login", jsonReq);
 
     if (auto jsonObj = jsonRes.if_object())
     {
@@ -132,10 +156,35 @@ void Api::Logout()
         throw std::logic_error("Already logged out.");
     }
 
-    MakeRequest("/logout");
+    PostRequest("/logout");
 
     member_id = std::string();
     token = std::string();
+}
+
+// portfolio //////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+double Api::GetBalance()
+{
+    if (!IsLoggedIn())
+    {
+        throw std::logic_error("Not logged in.");
+    }
+
+    boost::json::value jsonRes = GetRequest("/portfolio/balance");
+
+    if (auto jsonObj = jsonRes.if_object())
+    {
+        balance = jsonObj->at("balance").as_int64() / 100.0;
+        //payout = jsonObj->at("payout").as_int64() / 100.0;
+    }
+    else
+    {
+        //TODO throw?
+    }
+
+    return balance;
 }
 
 // helpers ////////////////////////////////////////////////////////////////////

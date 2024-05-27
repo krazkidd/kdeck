@@ -23,8 +23,8 @@ private:
     wxMenuItem *logoutMenuItem;
 
     // init
-    void UpdateMenuBar();
-    void AddLoginPanel();
+    void Setup();
+    void Update();
 
     // event handlers
     void OnLoginButtonClicked(wxCommandEvent& event);
