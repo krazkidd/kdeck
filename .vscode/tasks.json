@@ -33,16 +33,12 @@
 
                 "-I${workspaceFolder}/include",
 
-                // run `curlpp-config --cxxflags`
+                // run `curlpp-config --cflags`
                 // [nothing to add]
 
                 // run `curlpp-config --libs`
-                //"-Wl",
-                "-z",
-                "relro",
-                //"-Wl",
-                "-z",
-                "now",
+                "-Wl,-z,relro",
+                "-Wl,-z,now",
                 "-lcurl",
                 "-lcurlpp",
 
