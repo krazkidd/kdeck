@@ -5,6 +5,8 @@
 #include <boost/json.hpp>
 
 #include "api/Api.h"
+#include "api/types.h"
+#include "api/converters.h"
 
 double Api::GetBalance()
 {
@@ -13,17 +15,7 @@ double Api::GetBalance()
         throw std::logic_error("Not logged in.");
     }
 
-    boost::json::value jsonRes = GetRequest("/portfolio/balance");
+    balance = GetRequest<PortfolioBalanceResponse>("/portfolio/balance");
 
-    if (auto jsonObj = jsonRes.if_object())
-    {
-        balance = jsonObj->at("balance").as_int64() / 100.0;
-        //payout = jsonObj->at("payout").as_int64() / 100.0;
-    }
-    else
-    {
-        //TODO throw?
-    }
-
-    return balance;
+    return balance.balance;
 }

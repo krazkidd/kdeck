@@ -2,8 +2,11 @@
 #define API_H
 
 #include <string>
+#include <utility>
 
 #include <boost/json.hpp>
+
+#include "api/types.h"
 
 //constexpr std::string_view kKalshiApiUrl{"https://trading-api.kalshi.com/trade-api/v2"};
 constexpr std::string_view kKalshiApiUrl{"https://demo-api.kalshi.co/trade-api/v2"};
@@ -23,22 +26,54 @@ public:
 
 private:
     // auth
-    static inline std::string member_id;
-    static inline std::string token;
+    static inline LoginResponse login;
 
     // portfolio
-    static inline double balance;
-    //static inline double payout;
+    static inline PortfolioBalanceResponse balance;
 
     // core
     static boost::json::value MakeRequest(std::string_view endpoint, bool doPostMethod = false);
     static boost::json::value MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod = false);
 
-    static boost::json::value GetRequest(std::string_view endpoint);
-    static boost::json::value GetRequest(std::string_view endpoint, const boost::json::value &json);
+    static void GetRequest(std::string_view endpoint)
+    {
+        MakeRequest(endpoint);
+    }
 
-    static boost::json::value PostRequest(std::string_view endpoint);
-    static boost::json::value PostRequest(std::string_view endpoint, const boost::json::value &json);
+    template <typename TResponse>
+    static TResponse GetRequest(std::string_view endpoint)
+    {
+        return boost::json::value_to<TResponse>(MakeRequest(endpoint));
+    }
+
+    template <typename TResponse, typename TRequest>
+    static TResponse GetRequest(std::string_view endpoint, TRequest&& req)
+    {
+        boost::json::value jv;
+        boost::json::value_from<TRequest>(std::forward<TRequest>(req), jv);
+
+        return boost::json::value_to<TResponse>(MakeRequest(endpoint, jv));
+    }
+
+    static void PostRequest(std::string_view endpoint)
+    {
+        MakeRequest(endpoint, true);
+    }
+
+    template <typename TResponse>
+    static TResponse PostRequest(std::string_view endpoint)
+    {
+        return boost::json::value_to<TResponse>(MakeRequest(endpoint, true));
+    }
+
+    template <typename TResponse, typename TRequest>
+    static TResponse PostRequest(std::string_view endpoint, TRequest&& req)
+    {
+        boost::json::value jv;
+        boost::json::value_from<TRequest>(std::forward<TRequest>(req), jv);
+
+        return boost::json::value_to<TResponse>(MakeRequest(endpoint, jv, true));
+    }
 };
 
 #endif

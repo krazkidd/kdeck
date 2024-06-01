@@ -34,7 +34,7 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
 
         if (IsLoggedIn())
         {
-		    headers.push_back(std::string{"Authorization: Bearer "}.append(token));
+		    headers.push_back(std::string{"Authorization: Bearer "}.append(login.token));
         }
 
         if (doPostMethod)
@@ -90,24 +90,4 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
 
     //TODO do we want to throw an exception here? (note that /logout returns 204, not 200)
     return boost::json::value();
-}
-
-boost::json::value Api::GetRequest(std::string_view endpoint)
-{
-    return MakeRequest(endpoint);
-}
-
-boost::json::value Api::GetRequest(std::string_view endpoint, const boost::json::value &json)
-{
-    return MakeRequest(endpoint, json);
-}
-
-boost::json::value Api::PostRequest(std::string_view endpoint)
-{
-    return MakeRequest(endpoint, true);
-}
-
-boost::json::value Api::PostRequest(std::string_view endpoint, const boost::json::value &json)
-{
-    return MakeRequest(endpoint, json, true);
 }
