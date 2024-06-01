@@ -2,5 +2,5 @@
 
 bool Api::IsLoggedIn()
 {
-    return !member_id.empty();
+    return !login.member_id.empty();
 }

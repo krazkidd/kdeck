@@ -5,6 +5,8 @@
 #include <boost/json.hpp>
 
 #include "api/Api.h"
+#include "api/types.h"
+#include "api/converters.h"
 
 void Api::Login(std::string_view email, std::string_view password)
 {
@@ -21,22 +23,7 @@ void Api::Login(std::string_view email, std::string_view password)
         throw std::invalid_argument("Password not provided.");
     }
 
-    boost::json::object jsonReq = {
-        { "email", email },
-        { "password", password }
-    };
-
-    boost::json::value jsonRes = PostRequest("/login", jsonReq);
-
-    if (auto jsonObj = jsonRes.if_object())
-    {
-        member_id = jsonObj->at("member_id").as_string();
-        token = jsonObj->at("token").as_string();
-    }
-    else
-    {
-        //TODO throw?
-    }
+    login = PostRequest<LoginResponse, LoginRequest>("/login", LoginRequest{email, password});
 }
 
 void Api::Logout()
@@ -48,6 +35,5 @@ void Api::Logout()
 
     PostRequest("/logout");
 
-    member_id = std::string();
-    token = std::string();
+    login = LoginResponse{};
 }
