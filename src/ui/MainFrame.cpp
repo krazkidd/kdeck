@@ -71,7 +71,7 @@ void MainFrame::Update()
 ///////////////////////////////////////////////////////////////////////////////
 
 //TODO this should be implemented as a custom event
-void MainFrame::OnLoginButtonClicked(wxCommandEvent& event)
+void MainFrame::OnLoginButtonClicked(wxCommandEvent &event)
 {
     if (event.GetId() == ID_Login)
     {
@@ -79,7 +79,7 @@ void MainFrame::OnLoginButtonClicked(wxCommandEvent& event)
     }
 }
 
-void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent& event)
+void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
 {
     int answer = wxMessageBox("Logout?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
 
@@ -109,12 +109,12 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent& event)
     }
 }
 
-void MainFrame::OnAbout(wxCommandEvent& event)
+void MainFrame::OnAbout(wxCommandEvent &event)
 {
     wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
 }
 
-void MainFrame::OnExit(wxCommandEvent& event)
+void MainFrame::OnExit(wxCommandEvent &event)
 {
     if (Api::IsLoggedIn())
     {

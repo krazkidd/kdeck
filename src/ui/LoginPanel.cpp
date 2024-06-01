@@ -46,7 +46,7 @@ void LoginPanel::Setup()
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void LoginPanel::OnLoginButtonClicked(wxCommandEvent& event)
+void LoginPanel::OnLoginButtonClicked(wxCommandEvent &event)
 {
     try
     {
