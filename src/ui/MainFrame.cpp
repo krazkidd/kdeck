@@ -153,8 +153,8 @@ void MainFrame::OnExit(wxCommandEvent &event)
 
                 wxLogStatus("Logout failed!");
             }
+
+            Close(true);
         }
     }
-
-    Close(true);
 }
