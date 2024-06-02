@@ -15,7 +15,7 @@ MainFrame::MainFrame()
     Setup();
     Update();
 
-    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this);
+    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this, ID_Login);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -81,10 +81,7 @@ void MainFrame::Update()
 //TODO this should be implemented as a custom event
 void MainFrame::OnLoginButtonClicked(wxCommandEvent &event)
 {
-    if (event.GetId() == ID_Login)
-    {
-        Update();
-    }
+    Update();
 }
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
