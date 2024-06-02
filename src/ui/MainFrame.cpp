@@ -19,6 +19,7 @@ MainFrame::MainFrame()
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -123,7 +124,12 @@ void MainFrame::OnAbout(wxCommandEvent &event)
 
 void MainFrame::OnExit(wxCommandEvent &event)
 {
-    if (Api::IsLoggedIn())
+    Close();
+}
+
+void MainFrame::OnClose(wxCloseEvent &event)
+{
+    if (event.CanVeto() && Api::IsLoggedIn())
     {
         int answer = wxMessageBox("Quit?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
 
@@ -154,7 +160,15 @@ void MainFrame::OnExit(wxCommandEvent &event)
                 wxLogStatus("Logout failed!");
             }
 
-            Close(true);
+            Destroy();
         }
+        else
+        {
+            event.Veto();
+        }
+    }
+    else
+    {
+        Destroy();
     }
 }

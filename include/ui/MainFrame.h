@@ -31,6 +31,7 @@ private:
     void OnLogoutMenuItemSelected(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
+    void OnClose(wxCloseEvent& event);
 };
 
 #endif
