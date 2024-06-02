@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <wx/wx.h>
 
 #include "ui/MainFrame.h"
@@ -53,17 +54,23 @@ void MainFrame::Update()
 
     if (Api::IsLoggedIn())
     {
-        logoutMenuItem->Enable(true);
-
-        PortfolioPanel* panel = new PortfolioPanel(this);
+        wxPanel* panel = new PortfolioPanel(this);
         panel->GetSizer()->SetSizeHints(this);
+
+        SetMinSize(wxSize{400, 400});
+
+        logoutMenuItem->Enable(true);
     }
     else
     {
-        logoutMenuItem->Enable(false);
-
-        LoginPanel* panel = new LoginPanel(this);
+        wxPanel* panel = new LoginPanel(this);
         panel->GetSizer()->SetSizeHints(this);
+
+        wxSize minSize = GetMinSize();
+
+        SetMinSize(wxSize{std::max(400, minSize.GetX()), std::max(400, minSize.GetY())});
+
+        logoutMenuItem->Enable(false);
     }
 }
 
