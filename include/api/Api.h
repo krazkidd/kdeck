@@ -3,6 +3,7 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 #include <boost/json.hpp>
 
@@ -20,6 +21,7 @@ public:
 
     // portfolio
     static double GetBalance();
+    static std::vector<PortfolioPositionsResponse::MarketPosition> GetPositions();
 
     // helpers
     static bool IsLoggedIn();
@@ -30,6 +32,7 @@ private:
 
     // portfolio
     static inline PortfolioBalanceResponse balance;
+    static inline PortfolioPositionsResponse positions;
 
     // core
     static boost::json::value MakeRequest(std::string_view endpoint, bool doPostMethod = false);

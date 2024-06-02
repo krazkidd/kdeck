@@ -1,6 +1,7 @@
 #include <string>
 #include <string_view>
 #include <stdexcept>
+#include <vector>
 
 #include <boost/json.hpp>
 
@@ -18,4 +19,16 @@ double Api::GetBalance()
     balance = GetRequest<PortfolioBalanceResponse>("/portfolio/balance");
 
     return balance.balance;
+}
+
+std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetPositions()
+{
+    if (!IsLoggedIn())
+    {
+        throw std::logic_error("Not logged in.");
+    }
+
+    positions = GetRequest<PortfolioPositionsResponse>("/portfolio/positions");
+
+    return positions.market_positions;
 }
