@@ -4,6 +4,7 @@
 
 #include "ui/PortfolioPanel.h"
 #include "ui/MainFrame.h"
+#include "ui/MarketPositionPanel.h"
 #include "api/Api.h"
 
 // constructor ////////////////////////////////////////////////////////////////
@@ -46,9 +47,9 @@ void PortfolioPanel::Update()
 
         pnlPositions->DestroyChildren();
 
-        for (const PortfolioPositionsResponse::MarketPosition &position : Api::GetPositions())
+        for (PortfolioPositionsResponse::MarketPosition position : Api::GetPositions())
         {
-            new wxStaticText(pnlPositions, wxID_ANY, position.ticker);
+            new MarketPositionPanel(pnlPositions, &position);
         }
 
         wxLogStatus("Portfolio update succeeded!");
