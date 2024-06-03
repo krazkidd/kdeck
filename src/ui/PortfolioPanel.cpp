@@ -30,7 +30,7 @@ void PortfolioPanel::Setup()
     wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
     wxSizerFlags flagsLbl = wxSizerFlags().Border(wxALL, 25).Left();
-    wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 15).Expand();
+    wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 25).Expand();
 
     boxSizer->Add(lblBalance, flagsLbl);
     boxSizer->Add(lblBalanceAmount, flagsLbl);
@@ -51,7 +51,7 @@ void PortfolioPanel::Update()
 
         wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
-        wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 10).Left();
+        wxSizerFlags flagsPnl = wxSizerFlags().Border(wxUP | wxDOWN, 5).Expand();
 
         for (PortfolioPositionsResponse::EventPosition event : Api::GetEventPositions())
         {
