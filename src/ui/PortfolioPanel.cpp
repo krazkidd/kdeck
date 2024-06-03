@@ -22,18 +22,15 @@ PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
 
 void PortfolioPanel::Setup()
 {
-    wxStaticText* lblBalance = new wxStaticText(this, wxID_ANY, "Balance:");
-    lblBalanceAmount = new wxStaticText(this, wxID_ANY, "");
+    pnlBalance = new BalancePanel(this);
 
-    pnlPositions = new wxPanel(this, wxID_ANY);
+    pnlPositions = new wxPanel(this);
 
     wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
-    wxSizerFlags flagsLbl = wxSizerFlags().Border(wxALL, 25).Left();
     wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 25).Expand();
 
-    boxSizer->Add(lblBalance, flagsLbl);
-    boxSizer->Add(lblBalanceAmount, flagsLbl);
+    boxSizer->Add(pnlBalance, flagsPnl);
     boxSizer->Add(pnlPositions, flagsPnl);
 
     SetSizer(boxSizer);
@@ -43,7 +40,7 @@ void PortfolioPanel::Update()
 {
     try
     {
-        lblBalanceAmount->SetLabelText(std::to_string(Api::GetBalance()));
+        pnlBalance->Update();
 
         Api::GetPositions();
 

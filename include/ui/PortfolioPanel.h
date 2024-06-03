@@ -3,13 +3,15 @@
 
 #include <wx/wx.h>
 
+#include "ui/BalancePanel.h"
+
 class PortfolioPanel : public wxPanel
 {
 public:
     PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
 private:
-    wxStaticText* lblBalanceAmount;
+    BalancePanel* pnlBalance;
     wxPanel* pnlPositions;
 
     // init
