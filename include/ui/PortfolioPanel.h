@@ -10,6 +10,7 @@ public:
 
 private:
     wxStaticText* lblBalanceAmount;
+    wxPanel* pnlPositions;
 
     // init
     void Setup();

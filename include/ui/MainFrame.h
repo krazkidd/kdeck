@@ -6,9 +6,8 @@
 
 enum
 {
-    //TODO i think i heard this can't be 0 or 1?
-    ID_Login = 1,
-    ID_Logout = 2,
+    ID_Login = wxID_HIGHEST + 1,
+    ID_Logout = wxID_HIGHEST + 2,
 };
 
 class MainFrame : public wxFrame
@@ -31,6 +30,7 @@ private:
     void OnLogoutMenuItemSelected(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
+    void OnClose(wxCloseEvent& event);
 };
 
 #endif

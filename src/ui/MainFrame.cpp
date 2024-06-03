@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <wx/wx.h>
 
 #include "ui/MainFrame.h"
@@ -14,10 +15,11 @@ MainFrame::MainFrame()
     Setup();
     Update();
 
-    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this);
+    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this, ID_Login);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -53,17 +55,23 @@ void MainFrame::Update()
 
     if (Api::IsLoggedIn())
     {
-        logoutMenuItem->Enable(true);
-
-        PortfolioPanel* panel = new PortfolioPanel(this);
+        wxPanel* panel = new PortfolioPanel(this);
         panel->GetSizer()->SetSizeHints(this);
+
+        SetMinSize(wxSize{400, 400});
+
+        logoutMenuItem->Enable(true);
     }
     else
     {
-        logoutMenuItem->Enable(false);
-
-        LoginPanel* panel = new LoginPanel(this);
+        wxPanel* panel = new LoginPanel(this);
         panel->GetSizer()->SetSizeHints(this);
+
+        wxSize minSize = GetMinSize();
+
+        SetMinSize(wxSize{std::max(400, minSize.GetX()), std::max(400, minSize.GetY())});
+
+        logoutMenuItem->Enable(false);
     }
 }
 
@@ -73,10 +81,7 @@ void MainFrame::Update()
 //TODO this should be implemented as a custom event
 void MainFrame::OnLoginButtonClicked(wxCommandEvent &event)
 {
-    if (event.GetId() == ID_Login)
-    {
-        Update();
-    }
+    Update();
 }
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
@@ -116,7 +121,12 @@ void MainFrame::OnAbout(wxCommandEvent &event)
 
 void MainFrame::OnExit(wxCommandEvent &event)
 {
-    if (Api::IsLoggedIn())
+    Close();
+}
+
+void MainFrame::OnClose(wxCloseEvent &event)
+{
+    if (event.CanVeto() && Api::IsLoggedIn())
     {
         int answer = wxMessageBox("Quit?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
 
@@ -146,8 +156,16 @@ void MainFrame::OnExit(wxCommandEvent &event)
 
                 wxLogStatus("Logout failed!");
             }
+
+            Destroy();
+        }
+        else
+        {
+            event.Veto();
         }
     }
-
-    Close(true);
+    else
+    {
+        Destroy();
+    }
 }
