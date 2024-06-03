@@ -63,8 +63,11 @@ inline PortfolioPositionsResponse tag_invoke(const boost::json::value_to_tag<Por
         boost::json::array event_positions = jo->at("event_positions").as_array();
         boost::json::array market_positions = jo->at("market_positions").as_array();
 
-        std::vector<PortfolioPositionsResponse::EventPosition> eventPositions(event_positions.size());
-        std::vector<PortfolioPositionsResponse::MarketPosition> marketPositions(market_positions.size());
+        std::vector<PortfolioPositionsResponse::EventPosition> eventPositions;
+        std::vector<PortfolioPositionsResponse::MarketPosition> marketPositions;
+
+        eventPositions.reserve(event_positions.size());
+        marketPositions.reserve(market_positions.size());
 
         for (boost::json::value val : event_positions)
         {
