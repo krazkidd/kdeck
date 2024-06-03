@@ -26,16 +26,17 @@ void MarketPositionPanel::Setup()
     wxStaticText* lblTotalTraded = new wxStaticText(this, wxID_ANY, std::to_string(market->total_traded));
     wxStaticText* lblRestingOrders = new wxStaticText(this, wxID_ANY, std::to_string(market->resting_orders_count));
 
-    wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxGridSizer* gridSizer = new wxGridSizer(6, wxSize{10, 0});
 
-    wxSizerFlags flagsLbl = wxSizerFlags().Border(wxALL, 10).Left();
+    wxSizerFlags flagsLblLeft = wxSizerFlags().CenterVertical().Left();
+    wxSizerFlags flagsLblRight = wxSizerFlags().CenterVertical().Right();
 
-    boxSizer->Add(lblTicker, flagsLbl);
-    boxSizer->Add(lblPosition, flagsLbl);
-    boxSizer->Add(lblExposure, flagsLbl);
-    boxSizer->Add(lblRealizedPnL, flagsLbl);
-    boxSizer->Add(lblTotalTraded, flagsLbl);
-    boxSizer->Add(lblRestingOrders, flagsLbl);
+    gridSizer->Add(lblTicker, flagsLblLeft);
+    gridSizer->Add(lblPosition, flagsLblRight);
+    gridSizer->Add(lblExposure, flagsLblRight);
+    gridSizer->Add(lblRealizedPnL, flagsLblRight);
+    gridSizer->Add(lblTotalTraded, flagsLblRight);
+    gridSizer->Add(lblRestingOrders, flagsLblRight);
 
-    SetSizer(boxSizer);
+    SetSizer(gridSizer);
 }
