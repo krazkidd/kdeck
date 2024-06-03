@@ -8,11 +8,11 @@
 class MarketPositionPanel : public wxPanel
 {
 public:
-    MarketPositionPanel(wxWindow* parent, PortfolioPositionsResponse::MarketPosition* position);
+    MarketPositionPanel(wxWindow* parent, wxWindowID winid, PortfolioPositionsResponse::MarketPosition* market);
 
 private:
     //TODO this is a pointer, should be a reference?
-    PortfolioPositionsResponse::MarketPosition* position;
+    PortfolioPositionsResponse::MarketPosition* market;
 
     // init
     void Setup();

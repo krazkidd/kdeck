@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 
 #include "ui/PortfolioPanel.h"
-#include "ui/MainFrame.h"
+#include "ui/EventPositionPanel.h"
 #include "ui/MarketPositionPanel.h"
 #include "api/Api.h"
 
@@ -30,11 +30,11 @@ void PortfolioPanel::Setup()
     wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
     wxSizerFlags flagsLbl = wxSizerFlags().Border(wxALL, 25).Left();
-    //wxSizerFlags flagsInput = wxSizerFlags().Border(wxALL, 25).Expand();
+    wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 15).Expand();
 
     boxSizer->Add(lblBalance, flagsLbl);
     boxSizer->Add(lblBalanceAmount, flagsLbl);
-    boxSizer->Add(pnlPositions, flagsLbl);
+    boxSizer->Add(pnlPositions, flagsPnl);
 
     SetSizer(boxSizer);
 }
@@ -45,12 +45,25 @@ void PortfolioPanel::Update()
     {
         lblBalanceAmount->SetLabelText(std::to_string(Api::GetBalance()));
 
+        Api::GetPositions();
+
         pnlPositions->DestroyChildren();
 
-        for (PortfolioPositionsResponse::MarketPosition position : Api::GetPositions())
+        wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
+
+        wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 10).Left();
+
+        for (PortfolioPositionsResponse::EventPosition event : Api::GetEventPositions())
         {
-            new MarketPositionPanel(pnlPositions, &position);
+            boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, &event), flagsPnl);
         }
+
+        for (PortfolioPositionsResponse::MarketPosition market : Api::GetMarketPositions())
+        {
+            boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
+        }
+
+        pnlPositions->SetSizer(boxSizer);
 
         wxLogStatus("Portfolio update succeeded!");
     }
