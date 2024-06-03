@@ -25,6 +25,8 @@ public:
 
     // helpers
     static bool IsLoggedIn();
+    static std::vector<PortfolioPositionsResponse::EventPosition> GetEventPositions();
+    static std::vector<PortfolioPositionsResponse::MarketPosition> GetMarketPositions();
 
 private:
     // auth
