@@ -6,7 +6,7 @@
 class PortfolioPanel : public wxPanel
 {
 public:
-    PortfolioPanel(wxWindow* parent);
+    PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
 private:
     wxStaticText* lblBalanceAmount;

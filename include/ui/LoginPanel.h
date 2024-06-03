@@ -6,7 +6,7 @@
 class LoginPanel : public wxPanel
 {
 public:
-    LoginPanel(wxWindow* parent);
+    LoginPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
 private:
     wxTextCtrl* txtEmail;

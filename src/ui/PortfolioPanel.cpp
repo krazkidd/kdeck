@@ -10,8 +10,8 @@
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-PortfolioPanel::PortfolioPanel(wxWindow* parent)
-    : wxPanel(parent, wxID_ANY)
+PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
+    : wxPanel(parent, winid)
 {
     Setup();
     Update();

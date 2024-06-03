@@ -9,8 +9,8 @@
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-LoginPanel::LoginPanel(wxWindow* parent)
-    : wxPanel(parent, wxID_ANY)
+LoginPanel::LoginPanel(wxWindow* parent, wxWindowID winid)
+    : wxPanel(parent, winid)
 {
     Setup();
 }
