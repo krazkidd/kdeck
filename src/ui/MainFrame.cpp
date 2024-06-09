@@ -16,8 +16,8 @@ MainFrame::MainFrame()
     Setup();
     Update();
 
-    Bind(EVT_LOGIN, &MainFrame::OnLogin, this);
-    Bind(EVT_LOGOUT, &MainFrame::OnLogout, this);
+    Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
     Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
@@ -82,14 +82,7 @@ void MainFrame::Update()
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::OnLogin(wxCommandEvent &event)
-{
-    Update();
-
-    wxLogStatus(event.GetString());
-}
-
-void MainFrame::OnLogout(wxCommandEvent &event)
+void MainFrame::OnLoginOrLogout(wxCommandEvent &event)
 {
     Update();
 

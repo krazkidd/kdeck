@@ -26,8 +26,7 @@ private:
     void Update();
 
     // event handlers
-    void OnLogin(wxCommandEvent& event);
-    void OnLogout(wxCommandEvent& event);
+    void OnLoginOrLogout(wxCommandEvent& event);
     void OnApiError(wxCommandEvent& event);
     void OnLogoutMenuItemSelected(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
