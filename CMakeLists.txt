@@ -3,3 +3,4 @@ project(kdeck VERSION 0.1.0 LANGUAGES C CXX)
 
 add_executable(kdeck main.cpp)
 
+set_property(TARGET kdeck PROPERTY CXX_STANDARD 17)
