@@ -6,6 +6,7 @@
 #include "ui/EventPositionPanel.h"
 #include "ui/MarketPositionPanel.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,13 +43,15 @@ void BalancePanel::Update()
     {
         lblBalanceAmount->SetLabelText(std::to_string(Api::GetBalance()));
     }
-    catch (std::logic_error &e)
+    catch (std::exception &e)
     {
-        wxLogError(e.what());
-    }
-    catch (std::runtime_error &e)
-    {
-        wxLogError("Unknown error.");
-        wxLogDebug(e.what());
+        std::cerr << e.what() << std::endl;
+
+        wxCommandEvent* event = new wxCommandEvent(EVT_API_ERROR);
+        event->SetString("Balance update failed!");
+
+        event->SetEventObject(this);
+
+        QueueEvent(event);
     }
 }

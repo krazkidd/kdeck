@@ -6,7 +6,7 @@
 
 enum
 {
-    ID_Login = wxID_HIGHEST + 1,
+    //ID_Login = wxID_HIGHEST + 1,
     ID_Logout = wxID_HIGHEST + 2,
 };
 
@@ -26,7 +26,8 @@ private:
     void Update();
 
     // event handlers
-    void OnLoginButtonClicked(wxCommandEvent& event);
+    void OnLoginOrLogout(wxCommandEvent& event);
+    void OnApiError(wxCommandEvent& event);
     void OnLogoutMenuItemSelected(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
