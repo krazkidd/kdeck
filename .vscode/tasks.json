@@ -24,6 +24,11 @@
                     // escape spaces in any parent folder names (and let shell expand wildcard)
                     "quoting": "escape"
                 },
+                {
+                    "value": "${workspaceFolder}/src/util/*.cpp",
+                    // escape spaces in any parent folder names (and let shell expand wildcard)
+                    "quoting": "escape"
+                },
                 "-o",
                 {
                     "value": "${workspaceFolder}/build/kdeck.out",
