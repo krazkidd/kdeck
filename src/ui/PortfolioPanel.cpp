@@ -6,6 +6,7 @@
 #include "ui/EventPositionPanel.h"
 #include "ui/MarketPositionPanel.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,17 +65,15 @@ void PortfolioPanel::Update()
 
         wxLogStatus("Portfolio update succeeded!");
     }
-    catch (std::logic_error &e)
+    catch (std::exception &e)
     {
-        wxLogError(e.what());
+        std::cerr << e.what() << std::endl;
 
-        wxLogStatus("Portfolio update failed!");
-    }
-    catch (std::runtime_error &e)
-    {
-        wxLogError("Unknown error.");
-        wxLogDebug(e.what());
+        wxCommandEvent* event = new wxCommandEvent(EVT_API_ERROR);
+        event->SetString("Portfolio update failed!");
 
-        wxLogStatus("Portfolio update failed!");
+        event->SetEventObject(this);
+
+        QueueEvent(event);
     }
 }
