@@ -16,7 +16,7 @@ private:
 
     // init
     void Setup();
-    void Update();
+    void UpdateStuff();
 };
 
 #endif

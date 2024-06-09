@@ -15,7 +15,7 @@ PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
     : wxScrolledWindow(parent, winid)
 {
     Setup();
-    Update();
+    UpdateStuff();
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -38,11 +38,11 @@ void PortfolioPanel::Setup()
     SetScrollRate(10, 10);
 }
 
-void PortfolioPanel::Update()
+void PortfolioPanel::UpdateStuff()
 {
     try
     {
-        pnlBalance->Update();
+        pnlBalance->UpdateStuff();
 
         Api::GetPositions();
 

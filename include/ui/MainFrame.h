@@ -23,7 +23,7 @@ private:
 
     // init
     void Setup();
-    void Update();
+    void UpdateStuff();
 
     // event handlers
     void OnLoginOrLogout(wxCommandEvent& event);
