@@ -5,6 +5,7 @@
 #include "ui/LoginPanel.h"
 #include "ui/PortfolioPanel.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -15,7 +16,8 @@ MainFrame::MainFrame()
     Setup();
     Update();
 
-    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this, ID_Login);
+    Bind(EVT_LOGIN, &MainFrame::OnLogin, this);
+    Bind(EVT_LOGOUT, &MainFrame::OnLogout, this);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -78,10 +80,18 @@ void MainFrame::Update()
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-//TODO this should be implemented as a custom event
-void MainFrame::OnLoginButtonClicked(wxCommandEvent &event)
+void MainFrame::OnLogin(wxCommandEvent &event)
 {
     Update();
+
+    wxLogStatus("Login succeeded!");
+}
+
+void MainFrame::OnLogout(wxCommandEvent &event)
+{
+    Update();
+
+    wxLogStatus("Logout succeeded!");
 }
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
@@ -94,7 +104,11 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
         {
             Api::Logout();
 
-            wxLogStatus("Logout succeeded!");
+            wxCommandEvent* event = new wxCommandEvent(EVT_LOGOUT);
+
+            event->SetEventObject(this);
+
+            QueueEvent(event);
         }
         catch (std::logic_error &e)
         {
@@ -109,8 +123,6 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
 
             wxLogStatus("Logout failed!");
         }
-
-        Update();
     }
 }
 

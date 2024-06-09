@@ -5,6 +5,7 @@
 #include "ui/LoginPanel.h"
 #include "ui/MainFrame.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,7 @@ void LoginPanel::Setup()
     txtEmail = new wxTextCtrl(this, wxID_ANY);
     txtPassword = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
 
-    wxButton* btnLogin = new wxButton(this, ID_Login, "Login");
+    wxButton* btnLogin = new wxButton(this, wxID_ANY, "Login");
     btnLogin->Bind(wxEVT_BUTTON, &LoginPanel::OnLoginButtonClicked, this);
 
     wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
@@ -52,10 +53,11 @@ void LoginPanel::OnLoginButtonClicked(wxCommandEvent &event)
     {
         Api::Login(txtEmail->GetValue().ToStdString(), txtPassword->GetValue().ToStdString());
 
-        wxLogStatus("Login succeeded!");
+        wxCommandEvent* event = new wxCommandEvent(EVT_LOGIN);
 
-        // allow MainFrame to detect login status change
-        event.Skip();
+        event->SetEventObject(this);
+
+        QueueEvent(event);
     }
     catch (std::invalid_argument &e)
     {
