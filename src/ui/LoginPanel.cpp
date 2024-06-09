@@ -49,33 +49,24 @@ void LoginPanel::Setup()
 
 void LoginPanel::OnLoginButtonClicked(wxCommandEvent &event)
 {
+    wxCommandEvent* loginEvent = nullptr;
+
     try
     {
         Api::Login(txtEmail->GetValue().ToStdString(), txtPassword->GetValue().ToStdString());
 
-        wxCommandEvent* event = new wxCommandEvent(EVT_LOGIN);
-
-        event->SetEventObject(this);
-
-        QueueEvent(event);
+        loginEvent = new wxCommandEvent(EVT_LOGIN);
+        loginEvent->SetString("Login succeeded!");
     }
-    catch (std::invalid_argument &e)
+    catch (std::exception &e)
     {
-        wxLogError(e.what());
+        std::cerr << e.what() << std::endl;
 
-        wxLogStatus("Login failed!");
+        loginEvent = new wxCommandEvent(EVT_API_ERROR);
+        loginEvent->SetString("Login failed!");
     }
-    catch (std::logic_error &e)
-    {
-        wxLogError(e.what());
 
-        wxLogStatus("Login failed!");
-    }
-    catch (std::runtime_error &e)
-    {
-        wxLogError("Unknown error.");
-        wxLogDebug(e.what());
+    loginEvent->SetEventObject(this);
 
-        wxLogStatus("Login failed!");
-    }
+    QueueEvent(loginEvent);
 }

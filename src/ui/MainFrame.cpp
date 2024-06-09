@@ -18,6 +18,7 @@ MainFrame::MainFrame()
 
     Bind(EVT_LOGIN, &MainFrame::OnLogin, this);
     Bind(EVT_LOGOUT, &MainFrame::OnLogout, this);
+    Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -53,6 +54,7 @@ void MainFrame::Setup()
 
 void MainFrame::Update()
 {
+    //TODO is this removing the status bar?
     DestroyChildren();
 
     if (Api::IsLoggedIn())
@@ -84,14 +86,22 @@ void MainFrame::OnLogin(wxCommandEvent &event)
 {
     Update();
 
-    wxLogStatus("Login succeeded!");
+    wxLogStatus(event.GetString());
 }
 
 void MainFrame::OnLogout(wxCommandEvent &event)
 {
     Update();
 
-    wxLogStatus("Logout succeeded!");
+    wxLogStatus(event.GetString());
+}
+
+void MainFrame::OnApiError(wxCommandEvent &event)
+{
+    //TODO this is a temporary workaround for missing status bar; remove when fixed
+    wxLogError(event.GetString());
+
+    wxLogStatus(event.GetString());
 }
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
@@ -100,29 +110,26 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
 
     if (answer == wxYES)
     {
+        wxCommandEvent* logoutEvent = nullptr;
+
         try
         {
             Api::Logout();
 
-            wxCommandEvent* event = new wxCommandEvent(EVT_LOGOUT);
-
-            event->SetEventObject(this);
-
-            QueueEvent(event);
+            logoutEvent = new wxCommandEvent(EVT_LOGOUT);
+            logoutEvent->SetString("Logout succeeded!");
         }
-        catch (std::logic_error &e)
+        catch (std::exception &e)
         {
-            wxLogError(e.what());
+            std::cerr << e.what() << std::endl;
 
-            wxLogStatus("Logout failed!");
+            logoutEvent = new wxCommandEvent(EVT_API_ERROR);
+            logoutEvent->SetString("Logout failed!");
         }
-        catch (std::runtime_error &e)
-        {
-            wxLogError("Unknown error.");
-            wxLogDebug(e.what());
 
-            wxLogStatus("Logout failed!");
-        }
+        logoutEvent->SetEventObject(this);
+
+        QueueEvent(logoutEvent);
     }
 }
 
@@ -148,25 +155,9 @@ void MainFrame::OnClose(wxCloseEvent &event)
             {
                 Api::Logout();
             }
-            catch (std::logic_error &e)
-            {
-                wxLogError(e.what());
-
-                wxLogStatus("Logout failed!");
-            }
-            catch (std::runtime_error &e)
-            {
-                wxLogError("Unknown error.");
-                wxLogDebug(e.what());
-
-                wxLogStatus("Logout failed!");
-            }
             catch (std::exception &e)
             {
-                wxLogError("Unknown error.");
-                wxLogDebug(e.what());
-
-                wxLogStatus("Logout failed!");
+                std::cerr << e.what() << std::endl;
             }
 
             Destroy();
