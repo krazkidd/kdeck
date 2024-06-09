@@ -12,7 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
-    : wxPanel(parent, winid)
+    : wxScrolledWindow(parent, winid)
 {
     Setup();
     Update();
@@ -35,6 +35,7 @@ void PortfolioPanel::Setup()
     boxSizer->Add(pnlPositions, flagsPnl);
 
     SetSizer(boxSizer);
+    SetScrollRate(10, 10);
 }
 
 void PortfolioPanel::Update()
