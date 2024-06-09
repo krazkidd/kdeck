@@ -63,8 +63,6 @@ void PortfolioPanel::UpdateStuff()
         }
 
         pnlPositions->SetSizer(boxSizer);
-
-        wxLogStatus("Portfolio update succeeded!");
     }
     catch (std::exception &e)
     {
