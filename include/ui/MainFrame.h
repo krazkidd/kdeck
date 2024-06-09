@@ -13,7 +13,7 @@ enum
 class MainFrame : public wxFrame
 {
 public:
-    MainFrame();
+    MainFrame(wxWindow* parent = nullptr, wxWindowID winid = wxID_ANY, const wxString &title = "kdeck");
 
 private:
     // handles global cURLpp::initialize()/terminate()

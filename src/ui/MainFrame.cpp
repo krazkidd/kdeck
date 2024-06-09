@@ -10,8 +10,8 @@
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-MainFrame::MainFrame()
-    : wxFrame(nullptr, wxID_ANY, "kdeck")
+MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
+    : wxFrame(parent, winid, title)
 {
     Setup();
     UpdateStuff();
