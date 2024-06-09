@@ -15,7 +15,7 @@ BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
     : wxPanel(parent, winid)
 {
     Setup();
-    Update();
+    UpdateStuff();
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ void BalancePanel::Setup()
     SetSizer(boxSizer);
 }
 
-void BalancePanel::Update()
+void BalancePanel::UpdateStuff()
 {
     try
     {

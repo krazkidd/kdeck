@@ -14,7 +14,7 @@ MainFrame::MainFrame()
     : wxFrame(nullptr, wxID_ANY, "kdeck")
 {
     Setup();
-    Update();
+    UpdateStuff();
 
     Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
     Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
@@ -52,7 +52,7 @@ void MainFrame::Setup()
     SetStatusText("Welcome to kdeck!");
 }
 
-void MainFrame::Update()
+void MainFrame::UpdateStuff()
 {
     //TODO is this removing the status bar?
     DestroyChildren();
@@ -84,7 +84,7 @@ void MainFrame::Update()
 
 void MainFrame::OnLoginOrLogout(wxCommandEvent &event)
 {
-    Update();
+    UpdateStuff();
 
     wxLogStatus(event.GetString());
 }
