@@ -5,6 +5,7 @@
 #include "ui/BalancePanel.h"
 #include "ui/EventPositionPanel.h"
 #include "ui/MarketPositionPanel.h"
+#include "ui/StaticCurrency.h"
 #include "api/Api.h"
 #include "util/event.h"
 
@@ -24,7 +25,7 @@ BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
 void BalancePanel::Setup()
 {
     wxStaticText* lblBalance = new wxStaticText(this, wxID_ANY, "Balance:");
-    lblBalanceAmount = new wxStaticText(this, wxID_ANY, "");
+    lblBalanceAmount = new StaticCurrency(this);
 
     wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -41,7 +42,7 @@ void BalancePanel::UpdateStuff()
 {
     try
     {
-        lblBalanceAmount->SetLabelText(std::to_string(Api::GetBalance()));
+        lblBalanceAmount->SetAmount(Api::GetBalance());
     }
     catch (std::exception &e)
     {

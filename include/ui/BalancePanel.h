@@ -3,6 +3,8 @@
 
 #include <wx/wx.h>
 
+#include "ui/StaticCurrency.h"
+
 class BalancePanel : public wxPanel
 {
 public:
@@ -11,7 +13,7 @@ public:
     void UpdateStuff();
 
 private:
-    wxStaticText* lblBalanceAmount;
+    StaticCurrency* lblBalanceAmount;
 
     // init
     void Setup();
