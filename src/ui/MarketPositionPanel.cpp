@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 
 #include "ui/MarketPositionPanel.h"
+#include "ui/StaticCurrency.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,9 +22,9 @@ void MarketPositionPanel::Setup()
 {
     wxStaticText* lblTicker = new wxStaticText(this, wxID_ANY, market->ticker);
     wxStaticText* lblPosition = new wxStaticText(this, wxID_ANY, std::to_string(market->position));
-    wxStaticText* lblExposure = new wxStaticText(this, wxID_ANY, std::to_string(market->market_exposure));
-    wxStaticText* lblRealizedPnL = new wxStaticText(this, wxID_ANY, std::to_string(market->realized_pnl));
-    wxStaticText* lblTotalTraded = new wxStaticText(this, wxID_ANY, std::to_string(market->total_traded));
+    StaticCurrency* lblExposure = new StaticCurrency(this, wxID_ANY, market->market_exposure);
+    StaticCurrency* lblRealizedPnL = new StaticCurrency(this, wxID_ANY, market->realized_pnl);
+    StaticCurrency* lblTotalTraded = new StaticCurrency(this, wxID_ANY, market->total_traded);
     wxStaticText* lblRestingOrders = new wxStaticText(this, wxID_ANY, std::to_string(market->resting_orders_count));
 
     wxGridSizer* gridSizer = new wxGridSizer(6, wxSize{10, 0});
