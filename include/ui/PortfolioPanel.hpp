@@ -3,7 +3,7 @@
 
 #include <wx/wx.h>
 
-#include "ui/BalancePanel.h"
+#include "ui/BalancePanel.hpp"
 
 class PortfolioPanel : public wxScrolledWindow
 {

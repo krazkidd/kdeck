@@ -2,11 +2,11 @@
 
 #include <wx/wx.h>
 
-#include "ui/PortfolioPanel.h"
-#include "ui/EventPositionPanel.h"
-#include "ui/MarketPositionPanel.h"
-#include "api/Api.h"
-#include "util/event.h"
+#include "ui/PortfolioPanel.hpp"
+#include "ui/EventPositionPanel.hpp"
+#include "ui/MarketPositionPanel.hpp"
+#include "api/Api.hpp"
+#include "util/event.hpp"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

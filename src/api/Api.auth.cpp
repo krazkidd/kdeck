@@ -4,9 +4,9 @@
 
 #include <boost/json.hpp>
 
-#include "api/Api.h"
-#include "api/types.h"
-#include "api/converters.h"
+#include "api/Api.hpp"
+#include "api/types.hpp"
+#include "api/converters.hpp"
 
 void Api::Login(std::string_view email, std::string_view password)
 {

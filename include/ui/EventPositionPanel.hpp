@@ -3,7 +3,7 @@
 
 #include <wx/wx.h>
 
-#include "api/types.h"
+#include "api/types.hpp"
 
 class EventPositionPanel : public wxPanel
 {

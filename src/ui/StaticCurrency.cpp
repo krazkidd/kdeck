@@ -1,4 +1,4 @@
-#include "ui/StaticCurrency.h"
+#include "ui/StaticCurrency.hpp"
 
 StaticCurrency::StaticCurrency(wxWindow* parent, wxWindowID id, double amount)
     : wxStaticText(parent, id, "")
