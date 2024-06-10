@@ -21,7 +21,17 @@ MarketPositionPanel::MarketPositionPanel(wxWindow* parent, wxWindowID winid, Por
 void MarketPositionPanel::Setup()
 {
     wxStaticText* lblTicker = new wxStaticText(this, wxID_ANY, market->ticker);
-    wxStaticText* lblPosition = new wxStaticText(this, wxID_ANY, std::to_string(market->position));
+
+    wxStaticText* lblPosition;
+    if (market->position > 0)
+    {
+        lblPosition = new wxStaticText(this, wxID_ANY, wxString::Format("Yes %ld", std::abs(market->position)));
+    }
+    else
+    {
+        lblPosition = new wxStaticText(this, wxID_ANY, wxString::Format("No %ld", std::abs(market->position)));
+    }
+
     StaticCurrency* lblExposure = new StaticCurrency(this, wxID_ANY, market->market_exposure);
     StaticCurrency* lblRealizedPnL = new StaticCurrency(this, wxID_ANY, market->realized_pnl);
     StaticCurrency* lblTotalTraded = new StaticCurrency(this, wxID_ANY, market->total_traded);
