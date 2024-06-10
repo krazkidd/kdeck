@@ -2,11 +2,11 @@
 
 #include <wx/wx.h>
 
+#include "api/Api.hpp"
 #include "ui/BalancePanel.hpp"
 #include "ui/EventPositionPanel.hpp"
 #include "ui/MarketPositionPanel.hpp"
 #include "ui/StaticCurrency.hpp"
-#include "api/Api.hpp"
 #include "util/event.hpp"
 
 // constructor ////////////////////////////////////////////////////////////////

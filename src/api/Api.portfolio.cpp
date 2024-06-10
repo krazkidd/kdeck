@@ -6,8 +6,8 @@
 #include <boost/json.hpp>
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 #include "api/converters.hpp"
+#include "api/types.hpp"
 
 double Api::GetBalance()
 {

@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <wx/wx.h>
 
+#include "api/Api.hpp"
 #include "ui/MainFrame.hpp"
 #include "ui/LoginPanel.hpp"
 #include "ui/PortfolioPanel.hpp"
-#include "api/Api.hpp"
 #include "util/event.hpp"
 
 // constructor ////////////////////////////////////////////////////////////////
