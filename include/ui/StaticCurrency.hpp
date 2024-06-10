@@ -1,5 +1,5 @@
-#ifndef STATICCURRENCY_H
-#define STATICCURRENCY_H
+#ifndef STATICCURRENCY_HPP
+#define STATICCURRENCY_HPP
 
 #include <wx/stattext.h>
 

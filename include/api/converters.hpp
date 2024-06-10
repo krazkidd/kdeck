@@ -1,5 +1,5 @@
-#ifndef CONVERTERS_H
-#define CONVERTERS_H
+#ifndef CONVERTERS_HPP
+#define CONVERTERS_HPP
 
 #include "api/converters.hxx"
 

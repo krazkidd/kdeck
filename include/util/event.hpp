@@ -1,5 +1,5 @@
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef EVENT_HPP
+#define EVENT_HPP
 
 #include <wx/wx.h>
 

@@ -1,5 +1,5 @@
-#ifndef BALANCEPANEL_H
-#define BALANCEPANEL_H
+#ifndef BALANCEPANEL_HPP
+#define BALANCEPANEL_HPP
 
 #include <wx/wx.h>
 

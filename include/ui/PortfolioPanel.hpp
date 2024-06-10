@@ -1,5 +1,5 @@
-#ifndef PORTFOLIOPANEL_H
-#define PORTFOLIOPANEL_H
+#ifndef PORTFOLIOPANEL_HPP
+#define PORTFOLIOPANEL_HPP
 
 #include <wx/wx.h>
 
