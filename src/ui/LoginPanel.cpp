@@ -5,6 +5,7 @@
 #include "ui/LoginPanel.h"
 #include "ui/MainFrame.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,7 @@ void LoginPanel::Setup()
     txtEmail = new wxTextCtrl(this, wxID_ANY);
     txtPassword = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
 
-    wxButton* btnLogin = new wxButton(this, ID_Login, "Login");
+    wxButton* btnLogin = new wxButton(this, wxID_ANY, "Login");
     btnLogin->Bind(wxEVT_BUTTON, &LoginPanel::OnLoginButtonClicked, this);
 
     wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
@@ -48,32 +49,24 @@ void LoginPanel::Setup()
 
 void LoginPanel::OnLoginButtonClicked(wxCommandEvent &event)
 {
+    wxCommandEvent* loginEvent = nullptr;
+
     try
     {
         Api::Login(txtEmail->GetValue().ToStdString(), txtPassword->GetValue().ToStdString());
 
-        wxLogStatus("Login succeeded!");
-
-        // allow MainFrame to detect login status change
-        event.Skip();
+        loginEvent = new wxCommandEvent(EVT_LOGIN);
+        loginEvent->SetString("Login succeeded!");
     }
-    catch (std::invalid_argument &e)
+    catch (std::exception &e)
     {
-        wxLogError(e.what());
+        std::cerr << e.what() << std::endl;
 
-        wxLogStatus("Login failed!");
+        loginEvent = new wxCommandEvent(EVT_API_ERROR);
+        loginEvent->SetString("Login failed!");
     }
-    catch (std::logic_error &e)
-    {
-        wxLogError(e.what());
 
-        wxLogStatus("Login failed!");
-    }
-    catch (std::runtime_error &e)
-    {
-        wxLogError("Unknown error.");
-        wxLogDebug(e.what());
+    loginEvent->SetEventObject(this);
 
-        wxLogStatus("Login failed!");
-    }
+    QueueEvent(loginEvent);
 }

@@ -91,3 +91,13 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
     //TODO do we want to throw an exception here? (note that /logout returns 204, not 200)
     return boost::json::value();
 }
+
+void Api::GetRequest(std::string_view endpoint)
+{
+    MakeRequest(endpoint);
+}
+
+void Api::PostRequest(std::string_view endpoint)
+{
+    MakeRequest(endpoint, true);
+}

@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 
 #include "ui/EventPositionPanel.h"
+#include "ui/StaticCurrency.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,9 +22,9 @@ void EventPositionPanel::Setup()
 {
     wxStaticText* lblTicker = new wxStaticText(this, wxID_ANY, event->event_ticker);
     wxStaticText* lblBlank = new wxStaticText(this, wxID_ANY, "");
-    wxStaticText* lblExposure = new wxStaticText(this, wxID_ANY, std::to_string(event->event_exposure));
-    wxStaticText* lblRealizedPnL = new wxStaticText(this, wxID_ANY, std::to_string(event->realized_pnl));
-    wxStaticText* lblTotalTraded = new wxStaticText(this, wxID_ANY, std::to_string(event->total_cost));
+    StaticCurrency* lblExposure = new StaticCurrency(this, wxID_ANY, event->event_exposure);
+    StaticCurrency* lblRealizedPnL = new StaticCurrency(this, wxID_ANY, event->realized_pnl);
+    StaticCurrency* lblTotalTraded = new StaticCurrency(this, wxID_ANY, event->total_cost);
     wxStaticText* lblRestingOrders = new wxStaticText(this, wxID_ANY, std::to_string(event->resting_order_count));
 
     wxGridSizer* gridSizer = new wxGridSizer(6, wxSize{10, 0});

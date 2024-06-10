@@ -5,7 +5,7 @@
 
 #include "ui/BalancePanel.h"
 
-class PortfolioPanel : public wxPanel
+class PortfolioPanel : public wxScrolledWindow
 {
 public:
     PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
@@ -16,7 +16,7 @@ private:
 
     // init
     void Setup();
-    void Update();
+    void UpdateStuff();
 };
 
 #endif

@@ -5,17 +5,20 @@
 #include "ui/LoginPanel.h"
 #include "ui/PortfolioPanel.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-MainFrame::MainFrame()
-    : wxFrame(nullptr, wxID_ANY, "kdeck")
+MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
+    : wxFrame(parent, winid, title)
 {
     Setup();
-    Update();
+    UpdateStuff();
 
-    Bind(wxEVT_BUTTON, &MainFrame::OnLoginButtonClicked, this, ID_Login);
+    Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
@@ -49,8 +52,9 @@ void MainFrame::Setup()
     SetStatusText("Welcome to kdeck!");
 }
 
-void MainFrame::Update()
+void MainFrame::UpdateStuff()
 {
+    //TODO is this removing the status bar?
     DestroyChildren();
 
     if (Api::IsLoggedIn())
@@ -78,10 +82,19 @@ void MainFrame::Update()
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-//TODO this should be implemented as a custom event
-void MainFrame::OnLoginButtonClicked(wxCommandEvent &event)
+void MainFrame::OnLoginOrLogout(wxCommandEvent &event)
 {
-    Update();
+    UpdateStuff();
+
+    wxLogStatus(event.GetString());
+}
+
+void MainFrame::OnApiError(wxCommandEvent &event)
+{
+    //TODO this is a temporary workaround for missing status bar; remove when fixed
+    wxLogError(event.GetString());
+
+    wxLogStatus(event.GetString());
 }
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
@@ -90,27 +103,26 @@ void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
 
     if (answer == wxYES)
     {
+        wxCommandEvent* logoutEvent = nullptr;
+
         try
         {
             Api::Logout();
 
-            wxLogStatus("Logout succeeded!");
+            logoutEvent = new wxCommandEvent(EVT_LOGOUT);
+            logoutEvent->SetString("Logout succeeded!");
         }
-        catch (std::logic_error &e)
+        catch (std::exception &e)
         {
-            wxLogError(e.what());
+            std::cerr << e.what() << std::endl;
 
-            wxLogStatus("Logout failed!");
-        }
-        catch (std::runtime_error &e)
-        {
-            wxLogError("Unknown error.");
-            wxLogDebug(e.what());
-
-            wxLogStatus("Logout failed!");
+            logoutEvent = new wxCommandEvent(EVT_API_ERROR);
+            logoutEvent->SetString("Logout failed!");
         }
 
-        Update();
+        logoutEvent->SetEventObject(this);
+
+        QueueEvent(logoutEvent);
     }
 }
 
@@ -136,25 +148,9 @@ void MainFrame::OnClose(wxCloseEvent &event)
             {
                 Api::Logout();
             }
-            catch (std::logic_error &e)
-            {
-                wxLogError(e.what());
-
-                wxLogStatus("Logout failed!");
-            }
-            catch (std::runtime_error &e)
-            {
-                wxLogError("Unknown error.");
-                wxLogDebug(e.what());
-
-                wxLogStatus("Logout failed!");
-            }
             catch (std::exception &e)
             {
-                wxLogError("Unknown error.");
-                wxLogDebug(e.what());
-
-                wxLogStatus("Logout failed!");
+                std::cerr << e.what() << std::endl;
             }
 
             Destroy();

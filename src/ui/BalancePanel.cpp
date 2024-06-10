@@ -5,7 +5,9 @@
 #include "ui/BalancePanel.h"
 #include "ui/EventPositionPanel.h"
 #include "ui/MarketPositionPanel.h"
+#include "ui/StaticCurrency.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,7 +16,7 @@ BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
     : wxPanel(parent, winid)
 {
     Setup();
-    Update();
+    UpdateStuff();
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -23,7 +25,7 @@ BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
 void BalancePanel::Setup()
 {
     wxStaticText* lblBalance = new wxStaticText(this, wxID_ANY, "Balance:");
-    lblBalanceAmount = new wxStaticText(this, wxID_ANY, "");
+    lblBalanceAmount = new StaticCurrency(this);
 
     wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -36,19 +38,21 @@ void BalancePanel::Setup()
     SetSizer(boxSizer);
 }
 
-void BalancePanel::Update()
+void BalancePanel::UpdateStuff()
 {
     try
     {
-        lblBalanceAmount->SetLabelText(std::to_string(Api::GetBalance()));
+        lblBalanceAmount->SetAmount(Api::GetBalance());
     }
-    catch (std::logic_error &e)
+    catch (std::exception &e)
     {
-        wxLogError(e.what());
-    }
-    catch (std::runtime_error &e)
-    {
-        wxLogError("Unknown error.");
-        wxLogDebug(e.what());
+        std::cerr << e.what() << std::endl;
+
+        wxCommandEvent* event = new wxCommandEvent(EVT_API_ERROR);
+        event->SetString("Balance update failed!");
+
+        event->SetEventObject(this);
+
+        QueueEvent(event);
     }
 }

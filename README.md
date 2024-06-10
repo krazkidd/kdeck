@@ -28,9 +28,11 @@ Don't forget to install development headers if they are distributed separately o
 
 ### Build Steps
 
-I haven't added a conventional build configuration (make/cmake) yet. I am currently relying on Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension for Visual Studio Code. If you are using VS Code, open a `*.cpp` file and click the 'Run or Debug...' button that appears in the tab bar to compile and start the program.
+Currently, this project does not rely on a conventional build system (make/cmake) but instead makes use of Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension for Visual Studio Code.
 
-Note that this extension integrates with the system `g++` install, and the config for the command can be found in `.vscode/tasks.json`, if you wish to run the command directly.
+If you are using VS Code, open a `*.cpp` file and click the 'Run or Debug...' button that appears in the tab bar to compile and start the program. You can choose a release or debug build.
+
+If you are _not_ using VS Code, you can review the config for the `g++` build command found in `.vscode/tasks.json`. Simply extract all the compiler and linker flags to build the project manually.
 
 ### Design Tools
 

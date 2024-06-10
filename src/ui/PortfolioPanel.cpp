@@ -6,15 +6,16 @@
 #include "ui/EventPositionPanel.h"
 #include "ui/MarketPositionPanel.h"
 #include "api/Api.h"
+#include "util/event.h"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
-    : wxPanel(parent, winid)
+    : wxScrolledWindow(parent, winid)
 {
     Setup();
-    Update();
+    UpdateStuff();
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -34,13 +35,14 @@ void PortfolioPanel::Setup()
     boxSizer->Add(pnlPositions, flagsPnl);
 
     SetSizer(boxSizer);
+    SetScrollRate(10, 10);
 }
 
-void PortfolioPanel::Update()
+void PortfolioPanel::UpdateStuff()
 {
     try
     {
-        pnlBalance->Update();
+        pnlBalance->UpdateStuff();
 
         Api::GetPositions();
 
@@ -61,20 +63,16 @@ void PortfolioPanel::Update()
         }
 
         pnlPositions->SetSizer(boxSizer);
-
-        wxLogStatus("Portfolio update succeeded!");
     }
-    catch (std::logic_error &e)
+    catch (std::exception &e)
     {
-        wxLogError(e.what());
+        std::cerr << e.what() << std::endl;
 
-        wxLogStatus("Portfolio update failed!");
-    }
-    catch (std::runtime_error &e)
-    {
-        wxLogError("Unknown error.");
-        wxLogDebug(e.what());
+        wxCommandEvent* event = new wxCommandEvent(EVT_API_ERROR);
+        event->SetString("Portfolio update failed!");
 
-        wxLogStatus("Portfolio update failed!");
+        event->SetEventObject(this);
+
+        QueueEvent(event);
     }
 }
