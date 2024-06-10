@@ -2,7 +2,6 @@
 #define API_H
 
 #include <string>
-#include <utility>
 #include <vector>
 
 #include <boost/json.hpp>
@@ -40,45 +39,23 @@ private:
     static boost::json::value MakeRequest(std::string_view endpoint, bool doPostMethod = false);
     static boost::json::value MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod = false);
 
-    static void GetRequest(std::string_view endpoint)
-    {
-        MakeRequest(endpoint);
-    }
+    static void GetRequest(std::string_view endpoint);
 
     template <typename TResponse>
-    static TResponse GetRequest(std::string_view endpoint)
-    {
-        return boost::json::value_to<TResponse>(MakeRequest(endpoint));
-    }
+    static TResponse GetRequest(std::string_view endpoint);
 
     template <typename TResponse, typename TRequest>
-    static TResponse GetRequest(std::string_view endpoint, TRequest&& req)
-    {
-        boost::json::value jv;
-        boost::json::value_from<TRequest>(std::forward<TRequest>(req), jv);
+    static TResponse GetRequest(std::string_view endpoint, TRequest&& req);
 
-        return boost::json::value_to<TResponse>(MakeRequest(endpoint, jv));
-    }
-
-    static void PostRequest(std::string_view endpoint)
-    {
-        MakeRequest(endpoint, true);
-    }
+    static void PostRequest(std::string_view endpoint);
 
     template <typename TResponse>
-    static TResponse PostRequest(std::string_view endpoint)
-    {
-        return boost::json::value_to<TResponse>(MakeRequest(endpoint, true));
-    }
+    static TResponse PostRequest(std::string_view endpoint);
 
     template <typename TResponse, typename TRequest>
-    static TResponse PostRequest(std::string_view endpoint, TRequest&& req)
-    {
-        boost::json::value jv;
-        boost::json::value_from<TRequest>(std::forward<TRequest>(req), jv);
-
-        return boost::json::value_to<TResponse>(MakeRequest(endpoint, jv, true));
-    }
+    static TResponse PostRequest(std::string_view endpoint, TRequest&& req);
 };
+
+#include "api/Api.hxx"
 
 #endif
