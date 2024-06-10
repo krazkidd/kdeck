@@ -1,7 +1,7 @@
 #ifndef API_HPP
 #define API_HPP
 
-#include <string>
+#include <string_view>
 #include <vector>
 
 #include <boost/json.hpp>

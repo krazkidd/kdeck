@@ -1,10 +1,7 @@
-#include <string>
-
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
 #include "ui/LoginPanel.hpp"
-#include "ui/MainFrame.hpp"
 #include "util/event.hpp"
 
 // constructor ////////////////////////////////////////////////////////////////

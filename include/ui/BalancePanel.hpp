@@ -3,7 +3,7 @@
 
 #include <wx/wx.h>
 
-#include "ui/StaticCurrency.hpp"
+class StaticCurrency;
 
 class BalancePanel : public wxPanel
 {

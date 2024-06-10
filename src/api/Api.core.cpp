@@ -1,7 +1,6 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <stdexcept>
 
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>

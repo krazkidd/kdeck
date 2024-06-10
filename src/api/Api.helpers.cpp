@@ -1,4 +1,7 @@
+#include <vector>
+
 #include "api/Api.hpp"
+#include "api/types.hpp"
 
 bool Api::IsLoggedIn()
 {

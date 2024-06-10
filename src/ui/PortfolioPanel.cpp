@@ -1,8 +1,7 @@
-#include <string>
-
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
+#include "ui/BalancePanel.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/EventPositionPanel.hpp"
 #include "ui/MarketPositionPanel.hpp"
