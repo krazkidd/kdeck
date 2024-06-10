@@ -1,11 +1,8 @@
-#include <string>
-
 #include <wx/wx.h>
 
-#include "ui/LoginPanel.h"
-#include "ui/MainFrame.h"
-#include "api/Api.h"
-#include "util/event.h"
+#include "api/Api.hpp"
+#include "ui/LoginPanel.hpp"
+#include "util/event.hpp"
 
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

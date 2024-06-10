@@ -1,9 +1,9 @@
-#ifndef PORTFOLIOPANEL_H
-#define PORTFOLIOPANEL_H
+#ifndef PORTFOLIOPANEL_HPP
+#define PORTFOLIOPANEL_HPP
 
 #include <wx/wx.h>
 
-#include "ui/BalancePanel.h"
+class BalancePanel;
 
 class PortfolioPanel : public wxScrolledWindow
 {

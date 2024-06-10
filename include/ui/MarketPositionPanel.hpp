@@ -1,9 +1,9 @@
-#ifndef MARKETPOSITIONPANEL_H
-#define MARKETPOSITIONPANEL_H
+#ifndef MARKETPOSITIONPANEL_HPP
+#define MARKETPOSITIONPANEL_HPP
 
 #include <wx/wx.h>
 
-#include "api/types.h"
+#include "api/types.hpp"
 
 class MarketPositionPanel : public wxPanel
 {

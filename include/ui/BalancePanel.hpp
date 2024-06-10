@@ -1,9 +1,9 @@
-#ifndef BALANCEPANEL_H
-#define BALANCEPANEL_H
+#ifndef BALANCEPANEL_HPP
+#define BALANCEPANEL_HPP
 
 #include <wx/wx.h>
 
-#include "ui/StaticCurrency.h"
+class StaticCurrency;
 
 class BalancePanel : public wxPanel
 {

@@ -1,9 +1,9 @@
-#ifndef EVENTTPOSITIONPANEL_H
-#define EVENTTPOSITIONPANEL_H
+#ifndef EVENTTPOSITIONPANEL_HPP
+#define EVENTTPOSITIONPANEL_HPP
 
 #include <wx/wx.h>
 
-#include "api/types.h"
+#include "api/types.hpp"
 
 class EventPositionPanel : public wxPanel
 {

@@ -1,6 +1,6 @@
 #include <boost/json.hpp>
 
-#include "api/types.h"
+#include "api/types.hpp"
 
 inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &jv, const LoginRequest &req)
 {

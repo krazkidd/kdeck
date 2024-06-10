@@ -1,5 +1,5 @@
-#ifndef MAINFRAME_H
-#define MAINFRAME_H
+#ifndef MAINFRAME_HPP
+#define MAINFRAME_HPP
 
 #include <wx/wx.h>
 #include <curlpp/cURLpp.hpp>

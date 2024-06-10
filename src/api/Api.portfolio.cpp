@@ -1,13 +1,9 @@
-#include <string>
-#include <string_view>
 #include <stdexcept>
 #include <vector>
 
-#include <boost/json.hpp>
-
-#include "api/Api.h"
-#include "api/types.h"
-#include "api/converters.h"
+#include "api/Api.hpp"
+#include "api/converters.hpp"
+#include "api/types.hpp"
 
 double Api::GetBalance()
 {

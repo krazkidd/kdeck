@@ -1,7 +1,6 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <stdexcept>
 
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
@@ -10,7 +9,7 @@
 #include <curlpp/Infos.hpp>
 #include <boost/json.hpp>
 
-#include "api/Api.h"
+#include "api/Api.hpp"
 
 boost::json::value Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
 {
