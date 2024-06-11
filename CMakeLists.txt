@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(kdeck VERSION 0.1.0 LANGUAGES C CXX)
+project(kdeck VERSION 0.1.0 LANGUAGES CXX)
 
-add_executable(kdeck main.cpp)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set_property(TARGET kdeck PROPERTY CXX_STANDARD 17)
+add_subdirectory(src)
