@@ -1,4 +1,4 @@
-#include "util/event.hpp"
+#include "ui/event.hpp"
 
 wxDEFINE_EVENT(EVT_LOGIN, wxCommandEvent);
 wxDEFINE_EVENT(EVT_LOGOUT, wxCommandEvent);
