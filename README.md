@@ -8,7 +8,7 @@ License: GPLv3 (see LICENSE.md file)
 
 ## Getting Started
 
-To get started with the kdeck project, you will need to install a few dependencies. These should be available through your system package manager. 
+To get started with the kdeck project, you will need to install a few dependencies. These should be available through your system package manager.
 
 > [!NOTE]  
 > The names and versions below come from Debian 12 (Bookworm) and may vary on your system.
