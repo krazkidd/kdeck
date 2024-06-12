@@ -5,15 +5,24 @@ add_executable(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME}
-    PRIVATE ${CMAKE_SOURCE_DIR}/include
+    PRIVATE
+        "${CMAKE_SOURCE_DIR}/include"
+)
+
+# see https://cmake.org/cmake/help/latest/module/FindwxWidgets.html
+find_package(wxWidgets REQUIRED gl core base)
+include(${wxWidgets_USE_FILE})
+
+#TODO requires cmake 3.27
+# target_link_libraries(${PROJECT_NAME}
+#    PUBLIC
+#         wxWidgets::wxWidgets
+# )
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        ui
+        ${wxWidgets_LIBRARIES}
 )
 
 add_subdirectory(api)
 add_subdirectory(ui)
-add_subdirectory(util)
-
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE api
-    PRIVATE ui
-    PRIVATE util
-)
