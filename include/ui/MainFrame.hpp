@@ -4,6 +4,8 @@
 #include <wx/wx.h>
 #include <curlpp/cURLpp.hpp>
 
+class PortfolioPanel;
+
 enum
 {
     ID_Login = wxID_HIGHEST + 1,
@@ -21,22 +23,23 @@ private:
     // handles global cURLpp::initialize()/terminate()
     cURLpp::Cleanup cURLpp();
 
-    //TODO rename mnuLogout
-    wxMenuItem *loginMenuItem;
-    wxMenuItem *logoutMenuItem;
-    wxPanel* pnlPortfolio;
+    wxMenuItem *mnuLogin;
+    wxMenuItem *mnuLogout;
+
+    PortfolioPanel* pnlPortfolio;
 
     // init
     void Setup();
 
+    // helpers
+    void DoLogin();
+    void DoLogout();
+
     // event handlers
     void OnLoginOrLogout(wxCommandEvent& event);
     void OnApiError(wxCommandEvent& event);
-    void OnIdle(wxIdleEvent& event);
-    void OnLoginMenuItemSelected(wxCommandEvent& event);
-    void OnLogoutMenuItemSelected(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
-    void OnExit(wxCommandEvent& event);
+    void OnIdleRunOnce(wxIdleEvent& event);
+    void OnMenuItemSelected(wxCommandEvent& event);
     void OnClose(wxCloseEvent& event);
 };
 

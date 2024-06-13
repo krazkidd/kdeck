@@ -14,17 +14,6 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
     : wxFrame(parent, winid, title)
 {
     Setup();
-
-    Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
-    Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
-    Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
-    Bind(wxEVT_MENU, &MainFrame::OnLoginMenuItemSelected, this, ID_Login);
-    Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
-    Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
-    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
-
-    Bind(wxEVT_IDLE, &MainFrame::OnIdle, this);
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -32,14 +21,16 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
 
 void MainFrame::Setup()
 {
-    // NOTE: It seems to be important that we add the status bar (and possibly
+    // NOTE: It appears to be important that we add the status bar (and possibly
     //       the menu bar) before we add a panel/sizer. It seems to change the
     //       dimensions of the panel/frame and messes with sizer logic.
 
     wxMenu *menuFile = new wxMenu;
 
-    loginMenuItem = menuFile->Append(ID_Login, "Login...", "Login");
-    logoutMenuItem = menuFile->Append(ID_Logout, "Logout...", "Logout");
+    mnuLogin = menuFile->Append(ID_Login, "Login...", "Login");
+    mnuLogout = menuFile->Append(ID_Logout, "Logout...", "Logout");
+
+    mnuLogout->Enable(false);
 
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
@@ -55,48 +46,82 @@ void MainFrame::Setup()
 
     CreateStatusBar();
     SetStatusText("Welcome to kdeck!");
+
+    pnlPortfolio = new PortfolioPanel(this);
+    pnlPortfolio->GetSizer()->SetSizeHints(this);
+
+    SetMinSize(wxSize{400, 400});
+
+    Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
+    Bind(wxEVT_IDLE, &MainFrame::OnIdleRunOnce, this);
+    Bind(wxEVT_MENU, &MainFrame::OnMenuItemSelected, this);
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 void MainFrame::UpdateStuff()
 {
-    if (Api::IsLoggedIn())
+    pnlPortfolio->UpdateStuff();
+
+    mnuLogin->Enable(!Api::IsLoggedIn());
+    mnuLogout->Enable(Api::IsLoggedIn());
+}
+
+// helpers ////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+void MainFrame::DoLogin()
+{
+    LoginDialog dlgLogin = LoginDialog(this);
+    int answer = dlgLogin.ShowModal();
+
+    if (answer == wxID_OK)
     {
-        wxPanel* panel = new PortfolioPanel(this);
-        panel->GetSizer()->SetSizeHints(this);
-
-        SetMinSize(wxSize{400, 400});
-
-        loginMenuItem->Enable(false);
-        logoutMenuItem->Enable(true);
-    }
-    else
-    {
-        loginMenuItem->Enable(true);
-        logoutMenuItem->Enable(false);
-
-        LoginDialog dlgLogin = LoginDialog(this);
-        if (dlgLogin.ShowModal() == wxID_OK)
+        try
         {
-            wxCommandEvent* loginEvent = nullptr;
+            Api::Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
 
-            try
-            {
-                Api::Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
+            wxCommandEvent* evt = new wxCommandEvent(EVT_LOGIN);
+            evt->SetEventObject(this);
+            evt->SetString("Login succeeded!");
+            QueueEvent(evt);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << e.what() << std::endl;
 
-                loginEvent = new wxCommandEvent(EVT_LOGIN);
-                loginEvent->SetString("Login succeeded!");
-            }
-            catch (std::exception &e)
-            {
-                std::cerr << e.what() << std::endl;
+            wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
+            evt->SetEventObject(this);
+            evt->SetString("Login failed!");
+            QueueEvent(evt);
+        }
+    }
+}
 
-                loginEvent = new wxCommandEvent(EVT_API_ERROR);
-                loginEvent->SetString("Login failed!");
-            }
+void MainFrame::DoLogout()
+{
+    int answer = wxMessageBox("Logout?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
 
-            loginEvent->SetEventObject(this);
+    if (answer == wxYES)
+    {
+        try
+        {
+            Api::Logout();
 
-            QueueEvent(loginEvent);
+            wxCommandEvent* evt = new wxCommandEvent(EVT_LOGOUT);
+            evt->SetEventObject(this);
+            evt->SetString("Logout succeeded!");
+            QueueEvent(evt);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << e.what() << std::endl;
+
+            wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
+            evt->SetEventObject(this);
+            evt->SetString("Logout failed!");
+            QueueEvent(evt);
         }
     }
 }
@@ -116,55 +141,35 @@ void MainFrame::OnApiError(wxCommandEvent &event)
     wxLogStatus(event.GetString());
 }
 
-void MainFrame::OnIdle(wxIdleEvent &event)
+void MainFrame::OnIdleRunOnce(wxIdleEvent &event)
 {
-    Unbind(wxEVT_IDLE, &MainFrame::OnIdle, this);
+    // unbind this event handler so it only runs once
+    Unbind(wxEVT_IDLE, &MainFrame::OnIdleRunOnce, this);
 
-    UpdateStuff();
+    DoLogin();
 }
 
-void MainFrame::OnLoginMenuItemSelected(wxCommandEvent &event)
+void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
 {
-    UpdateStuff();
-}
-
-void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
-{
-    int answer = wxMessageBox("Logout?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
-
-    if (answer == wxYES)
+    switch (event.GetId())
     {
-        wxCommandEvent* logoutEvent = nullptr;
+        case ID_Login:
+            DoLogin();
 
-        try
-        {
-            Api::Logout();
+            break;
+        case ID_Logout:
+            DoLogout();
 
-            logoutEvent = new wxCommandEvent(EVT_LOGOUT);
-            logoutEvent->SetString("Logout succeeded!");
-        }
-        catch (std::exception &e)
-        {
-            std::cerr << e.what() << std::endl;
+            break;
+        case wxID_ABOUT:
+            wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
 
-            logoutEvent = new wxCommandEvent(EVT_API_ERROR);
-            logoutEvent->SetString("Logout failed!");
-        }
+            break;
+        case wxID_EXIT:
+            Close();
 
-        logoutEvent->SetEventObject(this);
-
-        QueueEvent(logoutEvent);
+            break;
     }
-}
-
-void MainFrame::OnAbout(wxCommandEvent &event)
-{
-    wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
-}
-
-void MainFrame::OnExit(wxCommandEvent &event)
-{
-    Close();
 }
 
 void MainFrame::OnClose(wxCloseEvent &event)

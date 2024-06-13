@@ -12,7 +12,6 @@ BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
     : wxPanel(parent, winid)
 {
     Setup();
-    UpdateStuff();
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -36,19 +35,24 @@ void BalancePanel::Setup()
 
 void BalancePanel::UpdateStuff()
 {
-    try
+    if (Api::IsLoggedIn())
     {
-        lblBalanceAmount->SetAmount(Api::GetBalance());
+        try
+        {
+            lblBalanceAmount->SetAmount(Api::GetBalance());
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << e.what() << std::endl;
+
+            wxCommandEvent* event = new wxCommandEvent(EVT_API_ERROR);
+            event->SetEventObject(this);
+            event->SetString("Balance update failed!");
+            QueueEvent(event);
+        }
     }
-    catch (std::exception &e)
+    else
     {
-        std::cerr << e.what() << std::endl;
-
-        wxCommandEvent* event = new wxCommandEvent(EVT_API_ERROR);
-        event->SetString("Balance update failed!");
-
-        event->SetEventObject(this);
-
-        QueueEvent(event);
+        lblBalanceAmount->SetAmount(0);
     }
 }
