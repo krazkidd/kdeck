@@ -44,8 +44,8 @@ void MainFrame::Setup()
 
     SetMenuBar(menuBar);
 
-    CreateStatusBar();
-    SetStatusText("Welcome to kdeck!");
+    CreateStatusBar(3);
+    ShowStatus("Welcome to kdeck!");
 
     pnlPortfolio = new PortfolioPanel(this);
     pnlPortfolio->GetSizer()->SetSizeHints(this);
@@ -126,6 +126,20 @@ void MainFrame::DoLogout()
     }
 }
 
+void MainFrame::ShowStatus(const wxString &msg)
+{
+    SetStatusText(msg, 0);
+
+    if (Api::IsLoggedIn())
+    {
+        SetStatusText(L"🟢 Logged in", 2);
+    }
+    else
+    {
+        SetStatusText(L"🔴 Logged out", 2);
+    }
+}
+
 // event handlers /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -133,12 +147,12 @@ void MainFrame::OnLoginOrLogout(wxCommandEvent &event)
 {
     UpdateStuff();
 
-    wxLogStatus(event.GetString());
+    ShowStatus(event.GetString());
 }
 
 void MainFrame::OnApiError(wxCommandEvent &event)
 {
-    wxLogStatus(event.GetString());
+    ShowStatus(event.GetString());
 }
 
 void MainFrame::OnIdleRunOnce(wxIdleEvent &event)

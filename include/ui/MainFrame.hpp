@@ -34,6 +34,7 @@ private:
     // helpers
     void DoLogin();
     void DoLogout();
+    void ShowStatus(const wxString &msg);
 
     // event handlers
     void OnLoginOrLogout(wxCommandEvent& event);
