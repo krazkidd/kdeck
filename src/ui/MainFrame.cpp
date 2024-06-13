@@ -3,7 +3,7 @@
 
 #include "api/Api.hpp"
 #include "ui/MainFrame.hpp"
-#include "ui/LoginPanel.hpp"
+#include "ui/LoginDialog.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/event.hpp"
 
@@ -14,15 +14,17 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
     : wxFrame(parent, winid, title)
 {
     Setup();
-    UpdateStuff();
 
     Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
     Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
     Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
+    Bind(wxEVT_MENU, &MainFrame::OnLoginMenuItemSelected, this, ID_Login);
     Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
+
+    Bind(wxEVT_IDLE, &MainFrame::OnIdle, this);
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -35,7 +37,10 @@ void MainFrame::Setup()
     //       dimensions of the panel/frame and messes with sizer logic.
 
     wxMenu *menuFile = new wxMenu;
-    logoutMenuItem = menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
+
+    loginMenuItem = menuFile->Append(ID_Login, "Login...", "Login");
+    logoutMenuItem = menuFile->Append(ID_Logout, "Logout...", "Logout");
+
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
@@ -54,9 +59,6 @@ void MainFrame::Setup()
 
 void MainFrame::UpdateStuff()
 {
-    //TODO is this removing the status bar?
-    DestroyChildren();
-
     if (Api::IsLoggedIn())
     {
         wxPanel* panel = new PortfolioPanel(this);
@@ -64,18 +66,38 @@ void MainFrame::UpdateStuff()
 
         SetMinSize(wxSize{400, 400});
 
+        loginMenuItem->Enable(false);
         logoutMenuItem->Enable(true);
     }
     else
     {
-        wxPanel* panel = new LoginPanel(this);
-        panel->GetSizer()->SetSizeHints(this);
-
-        wxSize minSize = GetMinSize();
-
-        SetMinSize(wxSize{std::max(400, minSize.GetX()), std::max(400, minSize.GetY())});
-
+        loginMenuItem->Enable(true);
         logoutMenuItem->Enable(false);
+
+        LoginDialog dlgLogin = LoginDialog(this);
+        if (dlgLogin.ShowModal() == wxID_OK)
+        {
+            wxCommandEvent* loginEvent = nullptr;
+
+            try
+            {
+                Api::Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
+
+                loginEvent = new wxCommandEvent(EVT_LOGIN);
+                loginEvent->SetString("Login succeeded!");
+            }
+            catch (std::exception &e)
+            {
+                std::cerr << e.what() << std::endl;
+
+                loginEvent = new wxCommandEvent(EVT_API_ERROR);
+                loginEvent->SetString("Login failed!");
+            }
+
+            loginEvent->SetEventObject(this);
+
+            QueueEvent(loginEvent);
+        }
     }
 }
 
@@ -91,10 +113,19 @@ void MainFrame::OnLoginOrLogout(wxCommandEvent &event)
 
 void MainFrame::OnApiError(wxCommandEvent &event)
 {
-    //TODO this is a temporary workaround for missing status bar; remove when fixed
-    wxLogError(event.GetString());
-
     wxLogStatus(event.GetString());
+}
+
+void MainFrame::OnIdle(wxIdleEvent &event)
+{
+    Unbind(wxEVT_IDLE, &MainFrame::OnIdle, this);
+
+    UpdateStuff();
+}
+
+void MainFrame::OnLoginMenuItemSelected(wxCommandEvent &event)
+{
+    UpdateStuff();
 }
 
 void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
