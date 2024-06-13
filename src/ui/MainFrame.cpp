@@ -3,7 +3,7 @@
 
 #include "api/Api.hpp"
 #include "ui/MainFrame.hpp"
-#include "ui/LoginPanel.hpp"
+#include "ui/LoginDialog.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/event.hpp"
 
@@ -14,15 +14,6 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
     : wxFrame(parent, winid, title)
 {
     Setup();
-    UpdateStuff();
-
-    Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
-    Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
-    Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
-    Bind(wxEVT_MENU, &MainFrame::OnLogoutMenuItemSelected, this, ID_Logout);
-    Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
-    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 // init ///////////////////////////////////////////////////////////////////////
@@ -30,12 +21,17 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
 
 void MainFrame::Setup()
 {
-    // NOTE: It seems to be important that we add the status bar (and possibly
+    // NOTE: It appears to be important that we add the status bar (and possibly
     //       the menu bar) before we add a panel/sizer. It seems to change the
     //       dimensions of the panel/frame and messes with sizer logic.
 
     wxMenu *menuFile = new wxMenu;
-    logoutMenuItem = menuFile->Append(ID_Logout, "&Logout...\tCtrl+L", "Logout");
+
+    mnuLogin = menuFile->Append(ID_Login, "Login...", "Login");
+    mnuLogout = menuFile->Append(ID_Logout, "Logout...", "Logout");
+
+    mnuLogout->Enable(false);
+
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
@@ -50,32 +46,83 @@ void MainFrame::Setup()
 
     CreateStatusBar();
     SetStatusText("Welcome to kdeck!");
+
+    pnlPortfolio = new PortfolioPanel(this);
+    pnlPortfolio->GetSizer()->SetSizeHints(this);
+
+    SetMinSize(wxSize{400, 400});
+
+    Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
+    Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
+    Bind(wxEVT_IDLE, &MainFrame::OnIdleRunOnce, this);
+    Bind(wxEVT_MENU, &MainFrame::OnMenuItemSelected, this);
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 void MainFrame::UpdateStuff()
 {
-    //TODO is this removing the status bar?
-    DestroyChildren();
+    pnlPortfolio->UpdateStuff();
 
-    if (Api::IsLoggedIn())
+    mnuLogin->Enable(!Api::IsLoggedIn());
+    mnuLogout->Enable(Api::IsLoggedIn());
+}
+
+// helpers ////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+void MainFrame::DoLogin()
+{
+    LoginDialog dlgLogin = LoginDialog(this);
+    int answer = dlgLogin.ShowModal();
+
+    if (answer == wxID_OK)
     {
-        wxPanel* panel = new PortfolioPanel(this);
-        panel->GetSizer()->SetSizeHints(this);
+        try
+        {
+            Api::Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
 
-        SetMinSize(wxSize{400, 400});
+            wxCommandEvent* evt = new wxCommandEvent(EVT_LOGIN);
+            evt->SetEventObject(this);
+            evt->SetString("Login succeeded!");
+            QueueEvent(evt);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << e.what() << std::endl;
 
-        logoutMenuItem->Enable(true);
+            wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
+            evt->SetEventObject(this);
+            evt->SetString("Login failed!");
+            QueueEvent(evt);
+        }
     }
-    else
+}
+
+void MainFrame::DoLogout()
+{
+    int answer = wxMessageBox("Logout?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
+
+    if (answer == wxYES)
     {
-        wxPanel* panel = new LoginPanel(this);
-        panel->GetSizer()->SetSizeHints(this);
+        try
+        {
+            Api::Logout();
 
-        wxSize minSize = GetMinSize();
+            wxCommandEvent* evt = new wxCommandEvent(EVT_LOGOUT);
+            evt->SetEventObject(this);
+            evt->SetString("Logout succeeded!");
+            QueueEvent(evt);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << e.what() << std::endl;
 
-        SetMinSize(wxSize{std::max(400, minSize.GetX()), std::max(400, minSize.GetY())});
-
-        logoutMenuItem->Enable(false);
+            wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
+            evt->SetEventObject(this);
+            evt->SetString("Logout failed!");
+            QueueEvent(evt);
+        }
     }
 }
 
@@ -91,49 +138,38 @@ void MainFrame::OnLoginOrLogout(wxCommandEvent &event)
 
 void MainFrame::OnApiError(wxCommandEvent &event)
 {
-    //TODO this is a temporary workaround for missing status bar; remove when fixed
-    wxLogError(event.GetString());
-
     wxLogStatus(event.GetString());
 }
 
-void MainFrame::OnLogoutMenuItemSelected(wxCommandEvent &event)
+void MainFrame::OnIdleRunOnce(wxIdleEvent &event)
 {
-    int answer = wxMessageBox("Logout?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
+    // unbind this event handler so it only runs once
+    Unbind(wxEVT_IDLE, &MainFrame::OnIdleRunOnce, this);
 
-    if (answer == wxYES)
+    DoLogin();
+}
+
+void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
+{
+    switch (event.GetId())
     {
-        wxCommandEvent* logoutEvent = nullptr;
+        case ID_Login:
+            DoLogin();
 
-        try
-        {
-            Api::Logout();
+            break;
+        case ID_Logout:
+            DoLogout();
 
-            logoutEvent = new wxCommandEvent(EVT_LOGOUT);
-            logoutEvent->SetString("Logout succeeded!");
-        }
-        catch (std::exception &e)
-        {
-            std::cerr << e.what() << std::endl;
+            break;
+        case wxID_ABOUT:
+            wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
 
-            logoutEvent = new wxCommandEvent(EVT_API_ERROR);
-            logoutEvent->SetString("Logout failed!");
-        }
+            break;
+        case wxID_EXIT:
+            Close();
 
-        logoutEvent->SetEventObject(this);
-
-        QueueEvent(logoutEvent);
+            break;
     }
-}
-
-void MainFrame::OnAbout(wxCommandEvent &event)
-{
-    wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
-}
-
-void MainFrame::OnExit(wxCommandEvent &event)
-{
-    Close();
 }
 
 void MainFrame::OnClose(wxCloseEvent &event)

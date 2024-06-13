@@ -17,7 +17,7 @@ double Api::GetBalance()
     return balance.balance;
 }
 
-std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetPositions()
+PortfolioPositionsResponse Api::GetPositions()
 {
     if (!IsLoggedIn())
     {
@@ -26,5 +26,5 @@ std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetPositions()
 
     positions = GetRequest<PortfolioPositionsResponse>("/portfolio/positions");
 
-    return positions.market_positions;
+    return positions;
 }

@@ -4,7 +4,7 @@ add_library(${PROJECT_NAME} STATIC
     App.cpp
     BalancePanel.cpp
     EventPositionPanel.cpp
-    LoginPanel.cpp
+    LoginDialog.cpp
     MainFrame.cpp
     MarketPositionPanel.cpp
     PortfolioPanel.cpp

@@ -20,7 +20,7 @@ public:
 
     // portfolio
     static double GetBalance();
-    static std::vector<PortfolioPositionsResponse::MarketPosition> GetPositions();
+    static PortfolioPositionsResponse GetPositions();
 
     // helpers
     static bool IsLoggedIn();
