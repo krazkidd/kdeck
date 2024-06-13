@@ -15,6 +15,8 @@ class MainFrame : public wxFrame
 public:
     MainFrame(wxWindow* parent = nullptr, wxWindowID winid = wxID_ANY, const wxString &title = "kdeck");
 
+    void UpdateStuff();
+
 private:
     // handles global cURLpp::initialize()/terminate()
     cURLpp::Cleanup cURLpp();
@@ -26,7 +28,6 @@ private:
 
     // init
     void Setup();
-    void UpdateStuff();
 
     // event handlers
     void OnLoginOrLogout(wxCommandEvent& event);
