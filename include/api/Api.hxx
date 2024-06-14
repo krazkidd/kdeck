@@ -17,7 +17,7 @@
 template <typename TResponse>
 ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
 {
-    static boost::json::value nullValueSentinel;
+    static const boost::json::value nullValueSentinel;
 
     return MakeRequest<TResponse>(endpoint, nullValueSentinel, doPostMethod);
 }
@@ -34,7 +34,7 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
         req.setOpt(new cURLpp::Options::Url(std::string{kKalshiApiUrl}.append(endpoint)));
         //req.setOpt(new cURLpp::Options::Port(80));
 
-		headers.push_back("Accept: application/json");
+		headers.push_back(std::string{"Accept: application/json"});
 
         if (IsLoggedIn())
         {
@@ -57,7 +57,7 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
             }
             else
             {
-                headers.push_back("Content-Type: application/json");
+                headers.push_back(std::string{"Content-Type: application/json"});
 
                 req.setOpt(new cURLpp::Options::PostFields(boost::json::serialize(json)));
             }
