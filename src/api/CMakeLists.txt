@@ -2,8 +2,6 @@ project(api)
 
 add_library(${PROJECT_NAME} STATIC
     Api.auth.cpp
-    Api.core.cpp
-    Api.helpers.cpp
     Api.portfolio.cpp
 )
 

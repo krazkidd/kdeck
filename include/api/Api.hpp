@@ -11,6 +11,9 @@
 //constexpr std::string_view kKalshiApiUrl{"https://trading-api.kalshi.com/trade-api/v2"};
 constexpr std::string_view kKalshiApiUrl{"https://demo-api.kalshi.co/trade-api/v2"};
 
+template <typename TResponse>
+using ApiResult = std::variant<TResponse, ErrorResponse>;
+
 class Api
 {
 public:
@@ -36,24 +39,23 @@ private:
     static inline PortfolioPositionsResponse positions;
 
     // core
-    static boost::json::value MakeRequest(std::string_view endpoint, bool doPostMethod = false);
-    static boost::json::value MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod = false);
-
-    static void GetRequest(std::string_view endpoint);
+    template <typename TResponse>
+    static ApiResult<TResponse> MakeRequest(std::string_view endpoint, bool doPostMethod = false);
 
     template <typename TResponse>
-    static TResponse GetRequest(std::string_view endpoint);
-
-    template <typename TResponse, typename TRequest>
-    static TResponse GetRequest(std::string_view endpoint, TRequest&& req);
-
-    static void PostRequest(std::string_view endpoint);
+    static ApiResult<TResponse> MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod = false);
 
     template <typename TResponse>
-    static TResponse PostRequest(std::string_view endpoint);
+    static ApiResult<TResponse> GetRequest(std::string_view endpoint);
 
     template <typename TResponse, typename TRequest>
-    static TResponse PostRequest(std::string_view endpoint, TRequest&& req);
+    static ApiResult<TResponse> GetRequest(std::string_view endpoint, TRequest&& req);
+
+    template <typename TResponse>
+    static ApiResult<TResponse> PostRequest(std::string_view endpoint);
+
+    template <typename TResponse, typename TRequest>
+    static ApiResult<TResponse> PostRequest(std::string_view endpoint, TRequest&& req);
 };
 
 #include "api/Api.hxx"

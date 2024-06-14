@@ -5,6 +5,19 @@
 #include <string_view>
 #include <vector>
 
+struct VoidResponse
+{
+
+};
+
+struct ErrorResponse
+{
+    std::string code{};
+    //TODO try using std::optional and null coalescence
+    std::string details{};
+    std::string message{};
+};
+
 struct LoginRequest
 {
     std::string_view email{};
