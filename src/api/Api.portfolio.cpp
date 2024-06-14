@@ -28,3 +28,15 @@ PortfolioPositionsResponse Api::GetPositions()
 
     return positions;
 }
+
+// helpers /////////////////////////////////////////////////////////////////////
+
+std::vector<PortfolioPositionsResponse::EventPosition> Api::GetEventPositions()
+{
+    return positions.event_positions;
+}
+
+std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetMarketPositions()
+{
+    return positions.market_positions;
+}

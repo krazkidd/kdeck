@@ -34,3 +34,10 @@ void Api::Logout()
 
     login = LoginResponse{};
 }
+
+// helpers /////////////////////////////////////////////////////////////////////
+
+bool Api::IsLoggedIn()
+{
+    return !login.member_id.empty();
+}
