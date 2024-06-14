@@ -1,8 +1,8 @@
 #include <stdexcept>
+#include <variant>
 #include <vector>
 
 #include "api/Api.hpp"
-#include "api/converters.hpp"
 #include "api/types.hpp"
 
 double Api::GetBalance()
@@ -12,7 +12,16 @@ double Api::GetBalance()
         throw std::logic_error("Not logged in.");
     }
 
-    balance = GetRequest<PortfolioBalanceResponse>("/portfolio/balance");
+    ApiResult<PortfolioBalanceResponse> res = GetRequest<PortfolioBalanceResponse>("/portfolio/balance");
+
+    if (std::holds_alternative<PortfolioBalanceResponse>(res))
+    {
+        balance = std::get<PortfolioBalanceResponse>(res);
+    }
+    else
+    {
+        throw std::runtime_error(std::get<ErrorResponse>(res).message);
+    }
 
     return balance.balance;
 }
@@ -24,7 +33,16 @@ PortfolioPositionsResponse Api::GetPositions()
         throw std::logic_error("Not logged in.");
     }
 
-    positions = GetRequest<PortfolioPositionsResponse>("/portfolio/positions");
+    ApiResult<PortfolioPositionsResponse> res = GetRequest<PortfolioPositionsResponse>("/portfolio/positions");
+
+    if (std::holds_alternative<PortfolioPositionsResponse>(res))
+    {
+        positions = std::get<PortfolioPositionsResponse>(res);
+    }
+    else
+    {
+        throw std::runtime_error(std::get<ErrorResponse>(res).message);
+    }
 
     return positions;
 }

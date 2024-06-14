@@ -1,8 +1,8 @@
 #include <string_view>
 #include <stdexcept>
+#include <variant>
 
 #include "api/Api.hpp"
-#include "api/converters.hpp"
 #include "api/types.hpp"
 
 void Api::Login(std::string_view email, std::string_view password)
@@ -20,7 +20,16 @@ void Api::Login(std::string_view email, std::string_view password)
         throw std::invalid_argument("Password not provided.");
     }
 
-    login = PostRequest<LoginResponse, LoginRequest>("/login", LoginRequest{email, password});
+    ApiResult<LoginResponse> res = PostRequest<LoginResponse, LoginRequest>("/login", LoginRequest{email, password});
+
+    if (std::holds_alternative<LoginResponse>(res))
+    {
+        login = std::get<LoginResponse>(res);
+    }
+    else
+    {
+        throw std::runtime_error(std::get<ErrorResponse>(res).message);
+    }
 }
 
 void Api::Logout()
@@ -30,9 +39,16 @@ void Api::Logout()
         throw std::logic_error("Already logged out.");
     }
 
-    PostRequest("/logout");
+    ApiResult<VoidResponse> res = PostRequest<VoidResponse>("/logout");
 
-    login = LoginResponse{};
+    if (std::holds_alternative<VoidResponse>(res))
+    {
+        login = LoginResponse{};
+    }
+    else
+    {
+        throw std::runtime_error(std::get<ErrorResponse>(res).message);
+    }
 }
 
 // helpers /////////////////////////////////////////////////////////////////////

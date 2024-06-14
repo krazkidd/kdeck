@@ -1,16 +1,29 @@
+#include <sstream>
+#include <string>
 #include <string_view>
 #include <utility>
+#include <variant>
 
+#include <curlpp/cURLpp.hpp>
+#include <curlpp/Easy.hpp>
+#include <curlpp/Options.hpp>
+#include <curlpp/Exception.hpp>
+#include <curlpp/Infos.hpp>
 #include <boost/json.hpp>
 
-boost::json::value Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
+#include "api/converters.hpp"
+#include "api/types.hpp"
+
+template <typename TResponse>
+ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
 {
     static boost::json::value nullValueSentinel;
 
-    return MakeRequest(endpoint, nullValueSentinel, doPostMethod);
+    return MakeRequest<TResponse>(endpoint, nullValueSentinel, doPostMethod);
 }
 
-boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod)
+template <typename TResponse>
+ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod)
 {
     try
     {
@@ -55,17 +68,25 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
         req.setOpt(cURLpp::Options::WriteStream(&res));
         req.perform();
 
-        if (cURLpp::infos::ResponseCode::get(req) == 200)
+        switch (cURLpp::infos::ResponseCode::get(req))
         {
-            // success
+            case 200:
+            case 201:
+                // success
+                return boost::json::value_to<TResponse>(boost::json::parse(res.str()));
 
-            return boost::json::parse(res.str());
-        }
-        else if (cURLpp::infos::ResponseCode::get(req) == 204)
-        {
-            // success (no response body)
+            case 204:
+                // success (no response body)
+                return TResponse{};
 
-            return boost::json::value();
+            case 400:
+            case 401:
+            case 403:
+            case 404:
+            case 500:
+            case 503:
+                // error
+                return boost::json::value_to<ErrorResponse>(boost::json::parse(res.str()));
         }
     }
     catch (cURLpp::RuntimeError &e)
@@ -79,42 +100,35 @@ boost::json::value Api::MakeRequest(std::string_view endpoint, const boost::json
         throw;
     }
 
-}
-
-void Api::GetRequest(std::string_view endpoint)
-{
-    MakeRequest(endpoint);
+    throw std::runtime_error("Unknown error.");
 }
 
 template <typename TResponse>
-TResponse Api::GetRequest(std::string_view endpoint)
+ApiResult<TResponse> Api::GetRequest(std::string_view endpoint)
 {
-    return boost::json::value_to<TResponse>(MakeRequest(endpoint));
+    return MakeRequest<TResponse>(endpoint);
 }
 
 template <typename TResponse, typename TRequest>
-TResponse Api::GetRequest(std::string_view endpoint, TRequest&& req)
+ApiResult<TResponse> Api::GetRequest(std::string_view endpoint, TRequest&& req)
 {
     boost::json::value jv;
     boost::json::value_from<TRequest>(std::forward<TRequest>(req), jv);
 
-
-void Api::PostRequest(std::string_view endpoint)
-{
-    MakeRequest(endpoint, true);
+    return MakeRequest<TResponse>(endpoint, jv);
 }
 
 template <typename TResponse>
-TResponse Api::PostRequest(std::string_view endpoint)
+ApiResult<TResponse> Api::PostRequest(std::string_view endpoint)
 {
-    return boost::json::value_to<TResponse>(MakeRequest(endpoint, true));
+    return MakeRequest<TResponse>(endpoint, true);
 }
 
 template <typename TResponse, typename TRequest>
-TResponse Api::PostRequest(std::string_view endpoint, TRequest&& req)
+ApiResult<TResponse> Api::PostRequest(std::string_view endpoint, TRequest&& req)
 {
     boost::json::value jv;
     boost::json::value_from<TRequest>(std::forward<TRequest>(req), jv);
 
-    return boost::json::value_to<TResponse>(MakeRequest(endpoint, jv, true));
+    return MakeRequest<TResponse>(endpoint, jv, true);
 }

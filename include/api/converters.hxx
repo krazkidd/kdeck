@@ -2,6 +2,35 @@
 
 #include "api/types.hpp"
 
+inline VoidResponse tag_invoke(const boost::json::value_to_tag<VoidResponse> &, const boost::json::value &jv)
+{
+    if (auto jo = jv.is_null())
+    {
+        return VoidResponse{};
+    }
+    else
+    {
+        throw std::runtime_error("Invalid JSON response.");
+    }
+}
+
+inline ErrorResponse tag_invoke(const boost::json::value_to_tag<ErrorResponse> &, const boost::json::value &jv)
+{
+    if (auto jo = jv.if_object())
+    {
+        return ErrorResponse{
+            jo->at("code").as_string().c_str(),
+            //TODO try using std::optional and null coalescence
+            //jo->at("details").as_string().c_str(),
+            jo->at("message").as_string().c_str()
+        };
+    }
+    else
+    {
+        throw std::runtime_error("Invalid JSON response.");
+    }
+}
+
 inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &jv, const LoginRequest &req)
 {
     jv = {
