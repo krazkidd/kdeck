@@ -31,6 +31,9 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
         std::stringstream res;
         std::list<std::string> headers;
 
+        // uncomment to print requests and responses
+        //req.setOpt(new cURLpp::Options::Verbose(true));
+
         req.setOpt(new cURLpp::Options::Url(std::string{kKalshiApiUrl}.append(endpoint)));
         //req.setOpt(new cURLpp::Options::Port(80));
 
