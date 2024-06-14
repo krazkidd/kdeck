@@ -45,6 +45,12 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
         {
             req.setOpt(new cURLpp::Options::Post(true));
 
+            // NOTE: We are using the POST method, so we have to be explicit about the content type.
+            //       By default, libcurl will use application/x-www-form-urlencoded, but the Kalshi API
+            //       expects application/json and will return a 400 Bad Request if it doesn't get it.
+
+            headers.push_back(std::string{"Content-Type: application/json"});
+
             if (json.is_null())
             {
                 // NOTE: Because we are using the POST method, we have to be explicit about what to
@@ -57,8 +63,6 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
             }
             else
             {
-                headers.push_back(std::string{"Content-Type: application/json"});
-
                 req.setOpt(new cURLpp::Options::PostFields(boost::json::serialize(json)));
             }
         }
