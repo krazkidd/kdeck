@@ -125,29 +125,10 @@ inline PortfolioPositionsResponse tag_invoke(const boost::json::value_to_tag<Por
 {
     if (auto jo = jv.if_object())
     {
-        boost::json::array event_positions = jo->at("event_positions").as_array();
-        boost::json::array market_positions = jo->at("market_positions").as_array();
-
-        std::vector<PortfolioPositionsResponse::EventPosition> eventPositions;
-        std::vector<PortfolioPositionsResponse::MarketPosition> marketPositions;
-
-        eventPositions.reserve(event_positions.size());
-        marketPositions.reserve(market_positions.size());
-
-        for (boost::json::value val : event_positions)
-        {
-            eventPositions.push_back(boost::json::value_to<PortfolioPositionsResponse::EventPosition>(val));
-        }
-
-        for (boost::json::value val : market_positions)
-        {
-            marketPositions.push_back(boost::json::value_to<PortfolioPositionsResponse::MarketPosition>(val));
-        }
-
         return PortfolioPositionsResponse{
             jo->at("cursor").as_string().c_str(),
-            eventPositions,
-            marketPositions
+            boost::json::value_to<std::vector<PortfolioPositionsResponse::EventPosition>>(jo->at("event_positions")),
+            boost::json::value_to<std::vector<PortfolioPositionsResponse::MarketPosition>>(jo->at("market_positions"))
         };
     }
     else
