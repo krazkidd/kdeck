@@ -35,8 +35,12 @@ void MainFrame::Setup()
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
+    ///////////////////////////////////////////////////////////////////////////
+
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
+
+    ///////////////////////////////////////////////////////////////////////////
 
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
@@ -44,8 +48,12 @@ void MainFrame::Setup()
 
     SetMenuBar(menuBar);
 
+    ///////////////////////////////////////////////////////////////////////////
+
     CreateStatusBar(3);
     ShowStatus("Welcome to kdeck!");
+
+    ///////////////////////////////////////////////////////////////////////////
 
     pnlPortfolio = new PortfolioPanel(this);
     pnlPortfolio->GetSizer()->SetSizeHints(this);
