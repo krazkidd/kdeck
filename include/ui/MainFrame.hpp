@@ -10,6 +10,9 @@ enum
 {
     ID_Login = wxID_HIGHEST + 1,
     ID_Logout = wxID_HIGHEST + 2,
+    ID_Exchange_Announcements = wxID_HIGHEST + 3,
+    ID_Exchange_Schedule = wxID_HIGHEST + 4,
+    ID_Exchange_Status = wxID_HIGHEST + 5
 };
 
 class MainFrame : public wxFrame
@@ -34,6 +37,10 @@ private:
     // helpers
     void DoLogin();
     void DoLogout();
+    void DoShowExchangeAnnouncements();
+    void DoShowExchangeSchedule();
+    void DoShowExchangeStatus();
+
     void ShowStatus(const wxString &msg);
 
     // event handlers

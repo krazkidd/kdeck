@@ -2,6 +2,9 @@
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
+#include "ui/ExchangeAnnouncementsDialog.hpp"
+#include "ui/ExchangeScheduleDialog.hpp"
+#include "ui/ExchangeStatusDialog.hpp"
 #include "ui/MainFrame.hpp"
 #include "ui/LoginDialog.hpp"
 #include "ui/PortfolioPanel.hpp"
@@ -35,11 +38,18 @@ void MainFrame::Setup()
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
+    wxMenu *menuExchange = new wxMenu;
+
+    menuExchange->Append(ID_Exchange_Announcements, "Announcements", "Announcements");
+    menuExchange->Append(ID_Exchange_Schedule, "Schedule", "Schedule");
+    menuExchange->Append(ID_Exchange_Status, "Status", "Status");
+
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
 
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuExchange, "&Exchange");
     menuBar->Append(menuHelp, "&Help");
 
     SetMenuBar(menuBar);
@@ -126,6 +136,24 @@ void MainFrame::DoLogout()
     }
 }
 
+void MainFrame::DoShowExchangeAnnouncements()
+{
+    ExchangeAnnouncementsDialog dlgAnnouncements = ExchangeAnnouncementsDialog(this);
+    dlgAnnouncements.ShowModal();
+}
+
+void MainFrame::DoShowExchangeSchedule()
+{
+    ExchangeScheduleDialog dlgSchedule = ExchangeScheduleDialog(this);
+    dlgSchedule.ShowModal();
+}
+
+void MainFrame::DoShowExchangeStatus()
+{
+    ExchangeStatusDialog dlgStatus = ExchangeStatusDialog(this);
+    dlgStatus.ShowModal();
+}
+
 void MainFrame::ShowStatus(const wxString &msg)
 {
     SetStatusText(msg, 0);
@@ -173,6 +201,18 @@ void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
             break;
         case ID_Logout:
             DoLogout();
+
+            break;
+        case ID_Exchange_Announcements:
+            DoShowExchangeAnnouncements();
+
+            break;
+        case ID_Exchange_Schedule:
+            DoShowExchangeSchedule();
+
+            break;
+        case ID_Exchange_Status:
+            DoShowExchangeStatus();
 
             break;
         case wxID_ABOUT:
