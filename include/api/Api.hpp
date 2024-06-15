@@ -21,6 +21,11 @@ public:
     static void Login(std::string_view email, std::string_view password);
     static void Logout();
 
+    // exchange
+    static ExchangeAnnouncementsResponse GetExchangeAnnouncements();
+    static ExchangeScheduleResponse GetExchangeSchedule();
+    static ExchangeStatusResponse GetExchangeStatus();
+
     // portfolio
     static double GetBalance();
     static PortfolioPositionsResponse GetPositions();
@@ -34,6 +39,11 @@ public:
 private:
     // auth
     static inline LoginResponse login;
+
+    // exchange
+    static inline ExchangeAnnouncementsResponse announcements;
+    static inline ExchangeScheduleResponse schedule;
+    static inline ExchangeStatusResponse status;
 
     // portfolio
     static inline PortfolioBalanceResponse balance;
