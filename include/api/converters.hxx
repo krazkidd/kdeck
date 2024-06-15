@@ -2,33 +2,20 @@
 
 #include "api/types.hpp"
 
+// we don't use this but it's required to compile
 inline VoidResponse tag_invoke(const boost::json::value_to_tag<VoidResponse> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.is_null())
-    {
-        return VoidResponse{};
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return VoidResponse{};
 }
 
 inline ErrorResponse tag_invoke(const boost::json::value_to_tag<ErrorResponse> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.if_object())
-    {
-        return ErrorResponse{
-            jo->at("code").as_string().c_str(),
-            //TODO try using std::optional and null coalescence
-            //jo->at("details").as_string().c_str(),
-            jo->at("message").as_string().c_str()
-        };
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return ErrorResponse{
+        jv.at("code").as_string().c_str(),
+        //TODO try using std::optional and null coalescence
+        //jo->at("details").as_string().c_str(),
+        jv.at("message").as_string().c_str()
+    };
 }
 
 inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &jv, const LoginRequest &req)
@@ -41,17 +28,10 @@ inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &
 
 inline LoginResponse tag_invoke(const boost::json::value_to_tag<LoginResponse> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.if_object())
-    {
-        return LoginResponse{
-            jo->at("member_id").as_string().c_str(),
-            jo->at("token").as_string().c_str()
-        };
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return LoginResponse{
+        jv.at("member_id").as_string().c_str(),
+        jv.at("token").as_string().c_str()
+    };
 }
 
 inline PortfolioBalanceResponse tag_invoke(const boost::json::value_to_tag<PortfolioBalanceResponse> &, const boost::json::value &jv)
@@ -84,55 +64,34 @@ inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &
 
 inline PortfolioPositionsResponse::EventPosition tag_invoke(const boost::json::value_to_tag<PortfolioPositionsResponse::EventPosition> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.if_object())
-    {
-        return PortfolioPositionsResponse::EventPosition{
-            jo->at("event_exposure").as_int64() / 100.0,
-            jo->at("event_ticker").as_string().c_str(),
-            jo->at("fees_paid").as_int64() / 100.0,
-            jo->at("realized_pnl").as_int64() / 100.0,
-            jo->at("resting_order_count").as_int64(),
-            jo->at("total_cost").as_int64() / 100.0
-        };
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return PortfolioPositionsResponse::EventPosition{
+        jv.at("event_exposure").as_int64() / 100.0,
+        jv.at("event_ticker").as_string().c_str(),
+        jv.at("fees_paid").as_int64() / 100.0,
+        jv.at("realized_pnl").as_int64() / 100.0,
+        jv.at("resting_order_count").as_int64(),
+        jv.at("total_cost").as_int64() / 100.0
+    };
 }
 
 inline PortfolioPositionsResponse::MarketPosition tag_invoke(const boost::json::value_to_tag<PortfolioPositionsResponse::MarketPosition> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.if_object())
-    {
-        return PortfolioPositionsResponse::MarketPosition{
-            jo->at("fees_paid").as_int64() / 100.0,
-            jo->at("market_exposure").as_int64() / 100.0,
-            jo->at("position").as_int64(),
-            jo->at("realized_pnl").as_int64() / 100.0,
-            jo->at("resting_orders_count").as_int64(),
-            jo->at("ticker").as_string().c_str(),
-            jo->at("total_traded").as_int64() / 100.0
-        };
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return PortfolioPositionsResponse::MarketPosition{
+        jv.at("fees_paid").as_int64() / 100.0,
+        jv.at("market_exposure").as_int64() / 100.0,
+        jv.at("position").as_int64(),
+        jv.at("realized_pnl").as_int64() / 100.0,
+        jv.at("resting_orders_count").as_int64(),
+        jv.at("ticker").as_string().c_str(),
+        jv.at("total_traded").as_int64() / 100.0
+    };
 }
 
 inline PortfolioPositionsResponse tag_invoke(const boost::json::value_to_tag<PortfolioPositionsResponse> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.if_object())
-    {
-        return PortfolioPositionsResponse{
-            jo->at("cursor").as_string().c_str(),
-            boost::json::value_to<std::vector<PortfolioPositionsResponse::EventPosition>>(jo->at("event_positions")),
-            boost::json::value_to<std::vector<PortfolioPositionsResponse::MarketPosition>>(jo->at("market_positions"))
-        };
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return PortfolioPositionsResponse{
+        jv.at("cursor").as_string().c_str(),
+        boost::json::value_to<std::vector<PortfolioPositionsResponse::EventPosition>>(jv.at("event_positions")),
+        boost::json::value_to<std::vector<PortfolioPositionsResponse::MarketPosition>>(jv.at("market_positions"))
+    };
 }

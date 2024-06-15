@@ -41,6 +41,9 @@ private:
 
     // core
     template <typename TResponse>
+    static ApiResult<TResponse> HandleResponse(int responseCode, const std::stringstream &responseBody);
+
+    template <typename TResponse>
     static ApiResult<TResponse> MakeRequest(std::string_view endpoint, bool doPostMethod = false);
 
     template <typename TResponse>

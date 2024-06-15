@@ -15,6 +15,38 @@
 #include "api/types.hpp"
 
 template <typename TResponse>
+ApiResult<TResponse> Api::HandleResponse(int responseCode, const std::stringstream &responseBody)
+{
+    switch (responseCode)
+    {
+        // success
+        case 200:
+        case 201:
+            return boost::json::value_to<TResponse>(boost::json::parse(responseBody.str()));
+
+        // success (no response body)
+        case 204:
+            // NOTE: If we try to parse an empty body (not valid JSON),
+            //       boost::json::parse() will throw. So we just return
+            //       the expected type (should be VoidResponse).
+
+            //return boost::json::value_to<TResponse>(boost::json::parse(responseBody.str()));
+            return TResponse{};
+
+        // error
+        case 400:
+        case 401:
+        case 403:
+        case 404:
+        case 500:
+        case 503:
+            return boost::json::value_to<ErrorResponse>(boost::json::parse(responseBody.str()));
+    }
+
+    throw std::runtime_error("Unknown JSON error.");
+}
+
+template <typename TResponse>
 ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, bool doPostMethod)
 {
     static const boost::json::value nullValueSentinel;
@@ -75,26 +107,7 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
         req.setOpt(cURLpp::Options::WriteStream(&res));
         req.perform();
 
-        switch (cURLpp::infos::ResponseCode::get(req))
-        {
-            case 200:
-            case 201:
-                // success
-                return boost::json::value_to<TResponse>(boost::json::parse(res.str()));
-
-            case 204:
-                // success (no response body)
-                return TResponse{};
-
-            case 400:
-            case 401:
-            case 403:
-            case 404:
-            case 500:
-            case 503:
-                // error
-                return boost::json::value_to<ErrorResponse>(boost::json::parse(res.str()));
-        }
+        return HandleResponse<TResponse>(cURLpp::infos::ResponseCode::get(req), res);
     }
     catch (cURLpp::RuntimeError &e)
     {
@@ -107,7 +120,7 @@ ApiResult<TResponse> Api::MakeRequest(std::string_view endpoint, const boost::js
         throw;
     }
 
-    throw std::runtime_error("Unknown error.");
+    throw std::runtime_error("Unknown cURL error.");
 }
 
 template <typename TResponse>
