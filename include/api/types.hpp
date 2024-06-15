@@ -13,7 +13,7 @@ struct VoidResponse
 struct ErrorResponse
 {
     std::string code{};
-    //TODO try using std::optional and null coalescence
+    //TODO try using std::optional
     std::string details{};
     std::string message{};
 };
@@ -39,7 +39,7 @@ struct LoginResponse
 struct PortfolioBalanceResponse
 {
     double balance{};
-    //TODO try using std::optional and null coalescence
+    //TODO try using std::optional
     double payout{};
 };
 
