@@ -36,18 +36,11 @@ inline LoginResponse tag_invoke(const boost::json::value_to_tag<LoginResponse> &
 
 inline PortfolioBalanceResponse tag_invoke(const boost::json::value_to_tag<PortfolioBalanceResponse> &, const boost::json::value &jv)
 {
-    if (auto jo = jv.if_object())
-    {
-        return PortfolioBalanceResponse{
-            jo->at("balance").as_int64() / 100.0,
-            //TODO try using std::optional and null coalescence
-            //jo->at("payout").as_int64() / 100.0
-        };
-    }
-    else
-    {
-        throw std::runtime_error("Invalid JSON response.");
-    }
+    return PortfolioBalanceResponse{
+        jv.at("balance").as_int64() / 100.0,
+        //TODO try using std::optional
+        //jv.at("payout").as_int64() / 100.0
+    };
 }
 
 inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &jv, const PortfolioPositionsRequest &req)
