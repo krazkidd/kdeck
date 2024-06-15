@@ -82,6 +82,45 @@ inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &
     };
 }
 
+inline PortfolioPositionsResponse::EventPosition tag_invoke(const boost::json::value_to_tag<PortfolioPositionsResponse::EventPosition> &, const boost::json::value &jv)
+{
+    if (auto jo = jv.if_object())
+    {
+        return PortfolioPositionsResponse::EventPosition{
+            jo->at("event_exposure").as_int64() / 100.0,
+            jo->at("event_ticker").as_string().c_str(),
+            jo->at("fees_paid").as_int64() / 100.0,
+            jo->at("realized_pnl").as_int64() / 100.0,
+            jo->at("resting_order_count").as_int64(),
+            jo->at("total_cost").as_int64() / 100.0
+        };
+    }
+    else
+    {
+        throw std::runtime_error("Invalid JSON response.");
+    }
+}
+
+inline PortfolioPositionsResponse::MarketPosition tag_invoke(const boost::json::value_to_tag<PortfolioPositionsResponse::MarketPosition> &, const boost::json::value &jv)
+{
+    if (auto jo = jv.if_object())
+    {
+        return PortfolioPositionsResponse::MarketPosition{
+            jo->at("fees_paid").as_int64() / 100.0,
+            jo->at("market_exposure").as_int64() / 100.0,
+            jo->at("position").as_int64(),
+            jo->at("realized_pnl").as_int64() / 100.0,
+            jo->at("resting_orders_count").as_int64(),
+            jo->at("ticker").as_string().c_str(),
+            jo->at("total_traded").as_int64() / 100.0
+        };
+    }
+    else
+    {
+        throw std::runtime_error("Invalid JSON response.");
+    }
+}
+
 inline PortfolioPositionsResponse tag_invoke(const boost::json::value_to_tag<PortfolioPositionsResponse> &, const boost::json::value &jv)
 {
     if (auto jo = jv.if_object())
@@ -97,31 +136,12 @@ inline PortfolioPositionsResponse tag_invoke(const boost::json::value_to_tag<Por
 
         for (boost::json::value val : event_positions)
         {
-            boost::json::object obj = val.as_object();
-
-            eventPositions.push_back(PortfolioPositionsResponse::EventPosition{
-                obj.at("event_exposure").as_int64() / 100.0,
-                obj.at("event_ticker").as_string().c_str(),
-                obj.at("fees_paid").as_int64() / 100.0,
-                obj.at("realized_pnl").as_int64() / 100.0,
-                obj.at("resting_order_count").as_int64(),
-                obj.at("total_cost").as_int64() / 100.0
-            });
+            eventPositions.push_back(boost::json::value_to<PortfolioPositionsResponse::EventPosition>(val));
         }
 
         for (boost::json::value val : market_positions)
         {
-            boost::json::object obj = val.as_object();
-
-            marketPositions.push_back(PortfolioPositionsResponse::MarketPosition{
-                obj.at("fees_paid").as_int64() / 100.0,
-                obj.at("market_exposure").as_int64() / 100.0,
-                obj.at("position").as_int64(),
-                obj.at("realized_pnl").as_int64() / 100.0,
-                obj.at("resting_orders_count").as_int64(),
-                obj.at("ticker").as_string().c_str(),
-                obj.at("total_traded").as_int64() / 100.0
-            });
+            marketPositions.push_back(boost::json::value_to<PortfolioPositionsResponse::MarketPosition>(val));
         }
 
         return PortfolioPositionsResponse{
