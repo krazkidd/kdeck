@@ -1,3 +1,6 @@
 {
-    "C_Cpp.debugShortcut": false
+    "C_Cpp.debugShortcut": false,
+    "files.associations": {
+        "*.hpp.in": "cpp"
+    },
 }
