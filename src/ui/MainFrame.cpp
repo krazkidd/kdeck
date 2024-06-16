@@ -49,6 +49,8 @@ void MainFrame::Setup()
     menuExchange->Append(ID_Exchange_Schedule, "Schedule", "Schedule");
     menuExchange->Append(ID_Exchange_Status, "Status", "Status");
 
+    ///////////////////////////////////////////////////////////////////////////
+
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
 
