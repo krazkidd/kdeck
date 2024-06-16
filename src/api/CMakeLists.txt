@@ -21,13 +21,15 @@ set_target_properties(curlpp PROPERTIES
     #INTERFACE_INCLUDE_DIRECTORIES "/usr/include/curlpp"
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    Boost::json
-    CURL::libcurl
-    curlpp
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        Boost::json
+        CURL::libcurl
+        curlpp
 )
 
-target_compile_options(${PROJECT_NAME} PUBLIC
-    "-Wl,-z,relro"
-    "-Wl,-z,now"
+target_compile_options(${PROJECT_NAME}
+    PUBLIC
+        "-Wl,-z,relro"
+        "-Wl,-z,now"
 )

@@ -21,13 +21,10 @@ target_include_directories(${PROJECT_NAME}
 find_package(wxWidgets REQUIRED gl core base)
 include(${wxWidgets_USE_FILE})
 
-#TODO requires cmake 3.27
-# target_link_libraries(${PROJECT_NAME}
-#    PUBLIC
-#         wxWidgets::wxWidgets
-# )
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         api
+        #TODO requires cmake 3.27
+        #wxWidgets::wxWidgets
         ${wxWidgets_LIBRARIES}
 )
