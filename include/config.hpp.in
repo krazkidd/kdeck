@@ -1,0 +1,8 @@
+#ifndef CONFIG_HPP
+#define CONFIG_HPP
+
+// NOTE: These are set in CMakePresets.json
+
+constexpr std::string_view kKalshiApiUrl{"@KALSHI_API_URL@"};
+
+#endif

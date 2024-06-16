@@ -24,4 +24,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${FullOutputDir}")
 #         "-fdiagnostics-color=always"
 # )
 
+configure_file(
+    "${CMAKE_SOURCE_DIR}/include/config.hpp.in"
+    "${CMAKE_BINARY_DIR}/include/config.hpp"
+)
+
 add_subdirectory(src)
