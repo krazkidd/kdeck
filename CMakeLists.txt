@@ -14,8 +14,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${FullOutputDir}/static_libs")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${FullOutputDir}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${FullOutputDir}")
 
-#TODO move installDir from CMakePresets.json to here?
-
 #TODO it is recommended to use CI tools to enforce warnings limits
 # target_compile_options(${PROJECT_NAME}
 #     PUBLIC
@@ -23,5 +21,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${FullOutputDir}")
 #         "-Werror"
 #         "-fdiagnostics-color=always"
 # )
+
+configure_file(
+    "${CMAKE_SOURCE_DIR}/include/config.hpp.in"
+    "${CMAKE_BINARY_DIR}/include/config.hpp"
+)
+
+#TODO GitHub Copilot suggested this to combine source and generated headers
+# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 add_subdirectory(src)

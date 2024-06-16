@@ -5,8 +5,9 @@ add_executable(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME}
-    PRIVATE
-        "${CMAKE_SOURCE_DIR}/include"
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
 # see https://cmake.org/cmake/help/latest/module/FindwxWidgets.html
