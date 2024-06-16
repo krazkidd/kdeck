@@ -1,6 +1,9 @@
 #include <algorithm>
+
+#include <boost/format.hpp>
 #include <wx/wx.h>
 
+#include "config.hpp"
 #include "api/Api.hpp"
 #include "ui/ExchangeAnnouncementsDialog.hpp"
 #include "ui/ExchangeScheduleDialog.hpp"
@@ -38,6 +41,8 @@ void MainFrame::Setup()
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
+    ///////////////////////////////////////////////////////////////////////////
+
     wxMenu *menuExchange = new wxMenu;
 
     menuExchange->Append(ID_Exchange_Announcements, "Announcements", "Announcements");
@@ -47,6 +52,8 @@ void MainFrame::Setup()
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
 
+    ///////////////////////////////////////////////////////////////////////////
+
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
     menuBar->Append(menuExchange, "&Exchange");
@@ -54,8 +61,12 @@ void MainFrame::Setup()
 
     SetMenuBar(menuBar);
 
+    ///////////////////////////////////////////////////////////////////////////
+
     CreateStatusBar(3);
-    ShowStatus("Welcome to kdeck!");
+    ShowStatus((boost::format("Welcome to %1%!") % kProjectName).str());
+
+    ///////////////////////////////////////////////////////////////////////////
 
     pnlPortfolio = new PortfolioPanel(this);
     pnlPortfolio->GetSizer()->SetSizeHints(this);
@@ -216,7 +227,7 @@ void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
 
             break;
         case wxID_ABOUT:
-            wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
+            wxMessageBox((boost::format("%1% v%2%") % kProjectName % kProjectVersion).str(), (boost::format("About %1%") % kProjectName).str(), wxOK | wxICON_INFORMATION);
 
             break;
         case wxID_EXIT:

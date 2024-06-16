@@ -6,8 +6,9 @@ add_library(${PROJECT_NAME} STATIC
 )
 
 target_include_directories(${PROJECT_NAME}
-    PRIVATE
-        "${CMAKE_SOURCE_DIR}/include"
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
 # see https://cmake.org/cmake/help/latest/module/FindBoost.html
@@ -21,13 +22,15 @@ set_target_properties(curlpp PROPERTIES
     #INTERFACE_INCLUDE_DIRECTORIES "/usr/include/curlpp"
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    Boost::json
-    CURL::libcurl
-    curlpp
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC
+        Boost::json
+        CURL::libcurl
+        curlpp
 )
 
-target_compile_options(${PROJECT_NAME} PUBLIC
-    "-Wl,-z,relro"
-    "-Wl,-z,now"
+target_compile_options(${PROJECT_NAME}
+    PUBLIC
+        "-Wl,-z,relro"
+        "-Wl,-z,now"
 )

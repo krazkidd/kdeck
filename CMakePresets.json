@@ -1,10 +1,10 @@
 {
-    "version": 8,
+    "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 0,
+        "minor": 25,
         "patch": 0
-      },
+    },
     "configurePresets": [
         {
             "name": "default",
@@ -24,7 +24,11 @@
             "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
             "inherits": "default",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "KALSHI_API_URL": {
+                    "type": "string",
+                    "value": "https://demo-api.kalshi.co/trade-api/v2"
+                }
             }
         },
         {
@@ -33,7 +37,11 @@
             "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
             "inherits": "default",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "KALSHI_API_URL": {
+                    "type": "string",
+                    "value": "https://trading-api.kalshi.com/trade-api/v2"
+                }
             }
         }
     ]

@@ -6,10 +6,8 @@
 
 #include <boost/json.hpp>
 
+#include "config.hpp"
 #include "api/types.hpp"
-
-//constexpr std::string_view kKalshiApiUrl{"https://trading-api.kalshi.com/trade-api/v2"};
-constexpr std::string_view kKalshiApiUrl{"https://demo-api.kalshi.co/trade-api/v2"};
 
 template <typename TResponse>
 using ApiResult = std::variant<TResponse, ErrorResponse>;
