@@ -1,6 +1,9 @@
 #include <algorithm>
+
+#include <boost/format.hpp>
 #include <wx/wx.h>
 
+#include "config.hpp"
 #include "api/Api.hpp"
 #include "ui/MainFrame.hpp"
 #include "ui/LoginDialog.hpp"
@@ -51,7 +54,7 @@ void MainFrame::Setup()
     ///////////////////////////////////////////////////////////////////////////
 
     CreateStatusBar(3);
-    ShowStatus("Welcome to kdeck!");
+    ShowStatus((boost::format("Welcome to %1%!") % kProjectName).str());
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -184,7 +187,7 @@ void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
 
             break;
         case wxID_ABOUT:
-            wxMessageBox("This is kdeck", "About kdeck", wxOK | wxICON_INFORMATION);
+            wxMessageBox((boost::format("%1% v%2%") % kProjectName % kProjectVersion).str(), (boost::format("About %1%") % kProjectName).str(), wxOK | wxICON_INFORMATION);
 
             break;
         case wxID_EXIT:

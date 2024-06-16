@@ -4,6 +4,8 @@
 #include <wx/wx.h>
 #include <curlpp/cURLpp.hpp>
 
+#include "config.hpp"
+
 class PortfolioPanel;
 
 enum
@@ -15,7 +17,7 @@ enum
 class MainFrame : public wxFrame
 {
 public:
-    MainFrame(wxWindow* parent = nullptr, wxWindowID winid = wxID_ANY, const wxString &title = "kdeck");
+    MainFrame(wxWindow* parent = nullptr, wxWindowID winid = wxID_ANY, const wxString &title = std::string{kProjectName});
 
     void UpdateStuff();
 
