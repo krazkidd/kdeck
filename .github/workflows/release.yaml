@@ -22,14 +22,17 @@ jobs:
         run: docker build -t kdeck-build .
 
       - name: Run build in Docker container
-        #run: docker run -v "$(pwd):/src" kdeck-build
-        run: docker run -v "build:/src/build" kdeck-build
+        run: docker run -v "kdeck-build-volume:/src/build" kdeck-build
+
+      - name: Store build output location
+        id: vars
+        run: echo "volume_path=$(docker volume inspect --format '{{ .Mountpoint }}' kdeck-build-volume)" >> $GITHUB_OUTPUT
 
       # - name: Create tarball
       #   run: tar -czvf release.tar.gz build/bin/Linux64/Release/kdeck
 
       - name: List build output
-        run: ls -R .
+        run: ls -R "{{ steps.vars.outputs.volume_path }}"
 
       # - name: Upload artifact
       #   uses: actions/upload-artifact@v4
