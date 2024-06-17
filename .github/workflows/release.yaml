@@ -31,6 +31,18 @@ jobs:
       # - name: Create tarball
       #   run: tar -czvf release.tar.gz build/bin/Linux64/Release/kdeck
 
+      - name: whoami
+        run: whoami
+
+      - name: id
+        run: id
+
+      - name: ls
+        run: ls -lhs /var/lib/docker/
+
+      - name: ls
+        run: ls -lhsd /var/lib/docker/volumes/
+
       - name: List build output
         run: ls -R "${{ steps.vars.outputs.volume_path }}"
 
