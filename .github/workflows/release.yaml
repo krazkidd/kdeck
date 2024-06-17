@@ -29,7 +29,7 @@ jobs:
       #   run: tar -czvf release.tar.gz build/bin/Linux64/Release/kdeck
 
       - name: List build output
-        run: ls -R build
+        run: ls -R .
 
       # - name: Upload artifact
       #   uses: actions/upload-artifact@v4
