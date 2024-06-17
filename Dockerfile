@@ -12,8 +12,4 @@ RUN apt-get update && apt-get -y --no-install-recommends --no-install-suggests i
 WORKDIR /src
 COPY . /src
 
-RUN mkdir /src/build
-
-RUN cmake --preset release
-
-ENTRYPOINT ["cmake", "--build", "--preset", "release", "--"]
+CMD cmake --preset release && cmake --build --preset release
