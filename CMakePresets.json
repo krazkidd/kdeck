@@ -44,5 +44,25 @@
                 }
             }
         }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "",
+            "configurePreset": "debug",
+            "targets": [
+                "kdeck"
+            ]
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "",
+            "configurePreset": "release",
+            "targets": [
+                "kdeck"
+            ]
+        }
     ]
 }
