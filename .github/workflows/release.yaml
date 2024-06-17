@@ -32,7 +32,7 @@ jobs:
       #   run: tar -czvf release.tar.gz build/bin/Linux64/Release/kdeck
 
       - name: List build output
-        run: ls -R "{{ steps.vars.outputs.volume_path }}"
+        run: ls -R "${{ steps.vars.outputs.volume_path }}"
 
       # - name: Upload artifact
       #   uses: actions/upload-artifact@v4
