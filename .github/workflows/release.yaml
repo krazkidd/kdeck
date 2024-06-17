@@ -25,11 +25,14 @@ jobs:
         #run: docker run -v "$(pwd):/src" kdeck-build
         run: docker run -v "build:/src/build" kdeck-build
 
-      - name: Create tarball
-        run: tar -czvf release.tar.gz build/bin/Linux64/Release/kdeck
+      # - name: Create tarball
+      #   run: tar -czvf release.tar.gz build/bin/Linux64/Release/kdeck
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release.tar.gz
-          path: release.tar.gz
+      - name: List build output
+        run: ls -R build
+
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: release.tar.gz
+      #     path: release.tar.gz
