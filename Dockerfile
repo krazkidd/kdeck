@@ -9,7 +9,11 @@ RUN apt-get update && apt-get -y --no-install-recommends --no-install-suggests i
     && apt-get clean \
     && rm -r /var/lib/apt/lists /var/cache/apt
 
-WORKDIR /src/build
+WORKDIR /src
 COPY . /src
 
-CMD ["cmake", "--preset", "release" "..", "&&", "make"]
+RUN mkdir /src/build
+
+RUN cmake --preset release
+
+ENTRYPOINT ["cmake", "--build", "--preset", "release", "--"]
