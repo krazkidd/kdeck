@@ -21,6 +21,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t kdeck-build .
 
+      # NOTE: We use a bind-mount instead of a volume because the runner user
+      #       does not have permission to access a created volume.
+
       - name: Run build in Docker container
         run: docker run -v "$GITHUB_WORKSPACE/build:/src/build" kdeck-build
 
