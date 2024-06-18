@@ -38,10 +38,11 @@ jobs:
       - name: Create tarball
         run: |
           tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
-          --directory="${{ github.workspace }}" \
-          "build/bin/Linux64/Release/kdeck" \
-          release.txt \
-          LICENSE.md
+            --directory="${{ github.workspace }}" \
+              release.txt \
+              LICENSE.md \
+            --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
+              "kdeck"
 
       - name: Release
         uses: softprops/action-gh-release@v2
