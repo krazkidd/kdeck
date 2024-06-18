@@ -49,4 +49,4 @@ jobs:
           prerelease: true
           fail_on_unmatched_files: true
           files: |
-            "kdeck-Linux64-${{ github.ref_name }}.tar.gz"
+            kdeck-Linux64-${{ github.ref_name }}.tar.gz
