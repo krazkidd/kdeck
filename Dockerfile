@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get -y --no-install-recommends --no-install-suggests install \
     build-essential \
