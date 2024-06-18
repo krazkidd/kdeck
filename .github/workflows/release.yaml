@@ -1,0 +1,53 @@
+name: Debian Bookworm Release
+
+on:
+  push:
+    # branches:
+    #   - main
+    tags:
+      - "v*.*.*"
+
+  workflow_dispatch:
+    # allows manual execution of the workflow
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t kdeck-build .
+
+      # NOTE: We use a bind-mount instead of a volume because the runner user
+      #       does not have permission to access a created volume.
+
+      - name: Run build in Docker container
+        run: docker run -v "${{ github.workspace }}/build:/src/build" kdeck-build
+
+      - name: Record hash
+        run: echo ${{ github.sha }} > release.txt
+
+      - name: Create tarball
+        run: |
+          tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
+            --directory="${{ github.workspace }}" \
+              release.txt \
+              LICENSE.md \
+            --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
+              kdeck
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: |
+            kdeck-Linux64-${{ github.ref_name }}.tar.gz
