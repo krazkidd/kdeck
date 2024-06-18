@@ -42,7 +42,7 @@ jobs:
               release.txt \
               LICENSE.md \
             --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
-              "kdeck"
+              kdeck
 
       - name: Release
         uses: softprops/action-gh-release@v2
