@@ -37,10 +37,10 @@ jobs:
 
       - name: Create tarball
         run: |
-          tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz"
-          --directory="${{ github.workspace }}"
-          "build/bin/Linux64/Release/kdeck"
-          release.txt
+          tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
+          --directory="${{ github.workspace }}" \
+          "build/bin/Linux64/Release/kdeck" \
+          release.txt \
           LICENSE.md
 
       - name: Release
