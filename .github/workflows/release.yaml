@@ -30,13 +30,18 @@ jobs:
       #       does not have permission to access a created volume.
 
       - name: Run build in Docker container
-        run: docker run -v "$GITHUB_WORKSPACE/build:/src/build" kdeck-build
-
-      - name: Create tarball
-        run: tar -czvf release.tar.gz "$GITHUB_WORKSPACE/build/bin/Linux64/Release/kdeck"
+        run: docker run -v "${{ github.workspace }}/build:/src/build" kdeck-build
 
       - name: Record hash
-        run: echo ${{ github.sha }} > Release.txt
+        run: echo ${{ github.sha }} > release.txt
+
+      - name: Create tarball
+        run: |
+          tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz"
+          --directory="${{ github.workspace }}"
+          "build/bin/Linux64/Release/kdeck"
+          release.txt
+          LICENSE.md
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -44,6 +49,4 @@ jobs:
           prerelease: true
           fail_on_unmatched_files: true
           files: |
-            release.tar.gz
-            Release.txt
-            LICENSE.md
+            "kdeck-Linux64-${{ github.ref_name }}.tar.gz"
