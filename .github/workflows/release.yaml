@@ -30,8 +30,11 @@ jobs:
       - name: Create tarball
         run: tar -czvf release.tar.gz "$GITHUB_WORKSPACE/build/bin/Linux64/Release/kdeck"
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: release.tar.gz
-          path: release.tar.gz
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: |
+            release.tar.gz
+            LICENSE.md
