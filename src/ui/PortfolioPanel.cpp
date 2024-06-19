@@ -32,7 +32,7 @@ void PortfolioPanel::Setup()
     boxSizer->Add(pnlBalance, flagsPnl);
     boxSizer->Add(pnlPositions, flagsPnl);
 
-    SetSizer(boxSizer);
+    SetSizerAndFit(boxSizer);
     SetScrollRate(10, 10);
 }
 
