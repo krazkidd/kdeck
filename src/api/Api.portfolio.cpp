@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -38,6 +39,26 @@ PortfolioPositionsResponse Api::GetPositions()
     if (std::holds_alternative<PortfolioPositionsResponse>(res))
     {
         positions = std::get<PortfolioPositionsResponse>(res);
+
+        eventsMap.clear();
+        marketsMap.clear();
+
+        for (const auto &event : positions.event_positions)
+        {
+            eventsMap[event.event_ticker] = event;
+        }
+
+        for (const auto &market : positions.market_positions)
+        {
+            std::string eventTicker = market.ticker.substr(0, market.ticker.find("-"));
+
+            if (marketsMap.find(eventTicker) == marketsMap.end())
+            {
+                marketsMap[eventTicker] = {};
+            }
+
+            marketsMap[eventTicker][market.ticker] = market;
+        }
     }
     else
     {
@@ -54,7 +75,25 @@ std::vector<PortfolioPositionsResponse::EventPosition> Api::GetEventPositions()
     return positions.event_positions;
 }
 
-std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetMarketPositions()
+std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetMarketPositions(std::string_view eventTicker)
 {
-    return positions.market_positions;
+    if (eventTicker.empty())
+    {
+        return positions.market_positions;
+    }
+
+    //TODO we should probably check if the eventTicker is in the map
+    const auto map = marketsMap[std::string{eventTicker}];
+
+    //TODO creating a vector is not very efficient--can we just return an iterator (using a lambda)?
+    std::vector<PortfolioPositionsResponse::MarketPosition> vec;
+    vec.reserve(map.size());
+
+    for (const auto &pair : map)
+    {
+        //TODO this is dangerous because we are not making a copy
+        vec.push_back(pair.second);
+    }
+
+    return vec;
 }

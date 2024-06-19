@@ -55,11 +55,11 @@ void PortfolioPanel::UpdateStuff()
             for (PortfolioPositionsResponse::EventPosition event : Api::GetEventPositions())
             {
                 boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, &event), flagsPnl);
-            }
 
-            for (PortfolioPositionsResponse::MarketPosition market : Api::GetMarketPositions())
-            {
-                boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
+                for (PortfolioPositionsResponse::MarketPosition market : Api::GetMarketPositions(event.event_ticker))
+                {
+                    boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
+                }
             }
 
             pnlPositions->SetSizerAndFit(boxSizer);
