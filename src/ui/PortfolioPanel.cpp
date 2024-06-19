@@ -32,7 +32,7 @@ void PortfolioPanel::Setup()
     boxSizer->Add(pnlBalance, flagsPnl);
     boxSizer->Add(pnlPositions, flagsPnl);
 
-    SetSizer(boxSizer);
+    SetSizerAndFit(boxSizer);
     SetScrollRate(10, 10);
 }
 
@@ -62,7 +62,7 @@ void PortfolioPanel::UpdateStuff()
                 boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
             }
 
-            pnlPositions->SetSizer(boxSizer);
+            pnlPositions->SetSizerAndFit(boxSizer);
         }
         catch (std::exception &e)
         {

@@ -49,5 +49,5 @@ void MarketPositionPanel::Setup()
     gridSizer->Add(lblTotalTraded, flagsLblRight);
     gridSizer->Add(lblRestingOrders, flagsLblRight);
 
-    SetSizer(gridSizer);
+    SetSizerAndFit(gridSizer);
 }
