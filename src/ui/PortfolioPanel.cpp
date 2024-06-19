@@ -62,7 +62,7 @@ void PortfolioPanel::UpdateStuff()
                 boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
             }
 
-            pnlPositions->SetSizer(boxSizer);
+            pnlPositions->SetSizerAndFit(boxSizer);
         }
         catch (std::exception &e)
         {
