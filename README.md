@@ -6,6 +6,8 @@ Project hosted at: https://github.com/krazkidd/kdeck
 
 License: GPLv3 (see LICENSE.md file)
 
+![image](https://github.com/krazkidd/kdeck/assets/6730333/f0864196-c12e-457a-a95f-cb7205836598)
+
 ## Getting Started
 
 To get started with the kdeck project, you will need to install a few dependencies. These should be available through your system package manager.
