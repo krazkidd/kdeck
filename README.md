@@ -17,41 +17,73 @@ To get started with the kdeck project, you will need to install a few dependenci
 
 Make sure you have the following dependencies installed on your system. The version numbers are not strict requirements but the ones shown were available during development.
 
-* libcurlpp (version 0 or higher)
-* libboost-json (version 1.81.0 or higher)
-* libwxgtk (version 3.2 or higher)
+* **libcurl4** (version 7.88 or higher)
+* **libcurlpp** (version 0.8 or higher)
+* **libboost-json** (version 1.81 or higher)
+* **libwxgtk** (version 3.2 or higher)
 
 ### Build Requirements
 
 At a minimum, you will need these build tools:
 
-* gcc
-* cmake
+* **gcc**
+* **cmake**
 
 Don't forget to install development headers for system dependencies if they are distributed separately on your system:
 
-* libcurlpp-dev
-* libboost-json1.81-dev
-* libwxgtk3.2-dev
+* **libcurl4-openssl-dev**
+* **libcurlpp-dev**
+* **libboost-json1.81-dev**
+* **libwxgtk3.2-dev**
 
 ### Build Steps
 
-This project uses [CMake](https://cmake.org/) for builds. Out-of-source builds are expected. To build on the command line, simply perform these steps from the root source directory:
+This project uses [CMake](https://cmake.org/) for builds. Out-of-source builds are expected.
+
+> [!NOTE]
+> Builds used to rely on Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension for Visual Studio Code. If you're curious, you will find the old config [here](https://github.com/krazkidd/kdeck/blob/c8c90c0709d981d3f6170763a70ff6e239ec2001/.vscode/tasks.json).
+
+#### Debug Builds
+
+To build on the command line, simply perform these steps from the root source directory:
 
 ```bash
 mkdir build
 cd build
-cmake ..
+cmake -DCMAKE_BUILD_TYPE="Debug" ..
 make
 ```
 
-You will find the build output under `build/bin`.
+Or, alternatively:
+
+```bash
+cmake --preset debug
+cmake --build --preset debug
+```
+
+You will find the final build output under `build/bin`.
+
+> [!TIP]
+> Your IDE may provide a CMake integration for building and attaching a debugger.
+
+#### Release Builds
+
+> [!CAUTION]
+> **Release builds will target the live Kalshi trading platform. You are responsible for any activity made through the API.**
+
+One way to create a release build is to invoke CMake directly, like a debug build.
+
+For official releases, a Docker container is provided. If you have Docker installed, you may run from the root source directory:
+
+```bash
+docker build -t kdeck-build .
+docker run -v "<MOUNT_PATH>:/src/build" kdeck-build
+```
+
+where `<MOUNT_PATH>` is a named volume (e.g. `kdeck-build-volume`) or a bind-mounted directory (e.g. `$(pwd)/build`).
 
 > [!NOTE]
-> Your IDE may provide a CMake integration for building and running the program.
-
-> [!NOTE]
-> Builds used to rely on Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension for Visual Studio Code. You can find the old config [here](https://github.com/krazkidd/kdeck/blob/c8c90c0709d981d3f6170763a70ff6e239ec2001/.vscode/tasks.json).
+> Currently, only Debian 12 (Bookworm) releases are produced via the Docker method. Shared libraries are required to run.
 
 ### Design Tools
 
