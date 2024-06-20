@@ -1,6 +1,7 @@
 #ifndef API_HPP
 #define API_HPP
 
+#include <map>
 #include <string_view>
 #include <vector>
 
@@ -32,7 +33,7 @@ public:
     static bool IsLoggedIn();
 
     static std::vector<PortfolioPositionsResponse::EventPosition> GetEventPositions();
-    static std::vector<PortfolioPositionsResponse::MarketPosition> GetMarketPositions();
+    static std::vector<PortfolioPositionsResponse::MarketPosition> GetMarketPositions(std::string_view eventTicker = "");
 
 private:
     // auth
@@ -46,6 +47,9 @@ private:
     // portfolio
     static inline PortfolioBalanceResponse balance;
     static inline PortfolioPositionsResponse positions;
+
+    static inline std::map<std::string, PortfolioPositionsResponse::EventPosition> eventsMap;
+    static inline std::map<std::string, std::map<std::string, PortfolioPositionsResponse::MarketPosition>> marketsMap;
 
     // core
     template <typename TResponse>

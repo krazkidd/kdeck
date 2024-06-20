@@ -30,7 +30,7 @@ void BalancePanel::Setup()
     boxSizer->Add(lblBalance, flagsLbl);
     boxSizer->Add(lblBalanceAmount, flagsLbl);
 
-    SetSizer(boxSizer);
+    SetSizerAndFit(boxSizer);
 }
 
 void BalancePanel::UpdateStuff()

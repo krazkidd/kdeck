@@ -32,7 +32,7 @@ void PortfolioPanel::Setup()
     boxSizer->Add(pnlBalance, flagsPnl);
     boxSizer->Add(pnlPositions, flagsPnl);
 
-    SetSizer(boxSizer);
+    SetSizerAndFit(boxSizer);
     SetScrollRate(10, 10);
 }
 
@@ -55,14 +55,14 @@ void PortfolioPanel::UpdateStuff()
             for (PortfolioPositionsResponse::EventPosition event : Api::GetEventPositions())
             {
                 boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, &event), flagsPnl);
+
+                for (PortfolioPositionsResponse::MarketPosition market : Api::GetMarketPositions(event.event_ticker))
+                {
+                    boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
+                }
             }
 
-            for (PortfolioPositionsResponse::MarketPosition market : Api::GetMarketPositions())
-            {
-                boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
-            }
-
-            pnlPositions->SetSizer(boxSizer);
+            pnlPositions->SetSizerAndFit(boxSizer);
         }
         catch (std::exception &e)
         {
