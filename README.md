@@ -38,14 +38,14 @@ Don't forget to install development headers for system dependencies if they are 
 * **libboost-json1.81-dev**
 * **libwxgtk3.2-dev**
 
-### Build Steps
+## Build Steps
 
 This project uses [CMake](https://cmake.org/) for builds. Out-of-source builds are expected.
 
 > [!NOTE]
 > Builds used to rely on Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension for Visual Studio Code. If you're curious, you will find the old config [here](https://github.com/krazkidd/kdeck/blob/c8c90c0709d981d3f6170763a70ff6e239ec2001/.vscode/tasks.json).
 
-#### Debug Builds
+### Debug Builds
 
 To build on the command line, simply perform these steps from the root source directory:
 
@@ -68,7 +68,7 @@ You will find the final build output under `build/bin`.
 > [!TIP]
 > Your IDE may provide a CMake integration for building and attaching a debugger.
 
-#### Release Builds
+### Release Builds
 
 > [!CAUTION]
 > **Release builds will target the live Kalshi trading platform. You are responsible for any activity made through the API.**
@@ -87,7 +87,7 @@ where `<MOUNT_PATH>` is a named volume (e.g. `kdeck-build-volume`) or a bind-mou
 > [!NOTE]
 > Currently, only Debian 12 (Bookworm) releases are produced via the Docker method. Shared libraries are required to run.
 
-### Design Tools
+## Design Tools
 
 This project is **not yet** making use of wxWidgets' XRC support. In the future, one of the following design tools will be recommended for work on the kdeck project:
 
