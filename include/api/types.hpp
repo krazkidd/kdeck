@@ -1,6 +1,7 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+#include <chrono>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -31,6 +32,62 @@ struct LoginResponse
 {
     std::string member_id{};
     std::string token{};
+};
+
+// exchange /////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+
+struct ExchangeAnnouncementsResponse
+{
+    struct Announcement
+    {
+        std::chrono::time_point<std::chrono::system_clock> delivery_time{};
+        std::string message{};
+        std::string status{};
+        std::string type{};
+    };
+
+    std::vector<Announcement> announcements{};
+};
+
+struct ExchangeScheduleResponse
+{
+    struct MaintenanceWindow
+    {
+        std::chrono::time_point<std::chrono::system_clock> start_datetime{};
+        std::chrono::time_point<std::chrono::system_clock> end_datetime{};
+    };
+
+    struct DailyHours
+    {
+        std::string open_time{};
+        std::string close_time{};
+    };
+
+    struct StandardHours
+    {
+        DailyHours sunday{};
+        DailyHours monday{};
+        DailyHours tuesday{};
+        DailyHours wednesday{};
+        DailyHours thursday{};
+        DailyHours friday{};
+        DailyHours saturday{};
+    };
+
+    struct Schedule
+    {
+        std::vector<MaintenanceWindow> maintenance_windows{};
+        StandardHours standard_hours{};
+    };
+
+    Schedule schedule{};
+};
+
+struct ExchangeStatusResponse
+{
+    bool exchange_active{};
+    bool trading_active{};
 };
 
 // portfolio ////////////////////////////////////////////////////////////////////
