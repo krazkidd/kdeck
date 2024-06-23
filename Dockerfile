@@ -5,6 +5,7 @@ RUN apt-get update && apt-get -y --no-install-recommends --no-install-suggests i
     cmake \
     make \
     libcurlpp-dev \
+    libcurl4-openssl-dev \
     libboost-json1.81-dev \
     libwxgtk3.2-dev \
     && apt-get clean \
