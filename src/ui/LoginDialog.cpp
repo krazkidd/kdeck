@@ -37,6 +37,15 @@ void LoginDialog::Setup()
         boxSizer->Add(szrButton);
     }
 
+    if (txtEmail->IsEmpty())
+    {
+        txtEmail->SetFocus();
+    }
+    else
+    {
+        txtPassword->SetFocus();
+    }
+
     SetSizerAndFit(boxSizer);
 }
 
