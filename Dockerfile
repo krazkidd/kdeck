@@ -1,8 +1,9 @@
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get -y --no-install-recommends --no-install-suggests install \
-    build-essential \
+    g++ \
     cmake \
+    make \
     libcurlpp-dev \
     libboost-json1.81-dev \
     libwxgtk3.2-dev \
