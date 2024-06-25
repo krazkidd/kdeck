@@ -10,15 +10,11 @@ namespace kdeck
     class ExchangeStatusDialog : public wxDialog
     {
     public:
-        ExchangeStatusDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
+        ExchangeStatusDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
 
-        void UpdateStuff();
-
-        virtual bool Show(bool show = true) override;
+        void UpdateStuff(Api* api);
 
     private:
-        Api* api;
-
         wxStaticText* lblExchangeStatus;
         wxStaticText* lblTradingStatus;
 

@@ -12,9 +12,8 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    BalancePanel::BalancePanel(Api* api, wxWindow* parent, wxWindowID winid)
+    BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid, double balance)
         : wxPanel(parent, winid)
-        , api{api}
     {
         Setup();
     }
@@ -38,7 +37,7 @@ namespace kdeck
         SetSizerAndFit(boxSizer);
     }
 
-    void BalancePanel::UpdateStuff()
+    void BalancePanel::UpdateStuff(Api* api)
     {
         if (api->IsLoggedIn())
         {

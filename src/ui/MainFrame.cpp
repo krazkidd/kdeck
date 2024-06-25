@@ -72,9 +72,7 @@ namespace kdeck
 
         ///////////////////////////////////////////////////////////////////////////
 
-        pnlPortfolio = new PortfolioPanel(&api, this);
-        pnlPortfolio->GetSizer()->SetSizeHints(this);
-
+        pnlPortfolio = new PortfolioPanel(this);
         SetMinSize(wxSize{400, 400});
 
         Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
@@ -87,7 +85,8 @@ namespace kdeck
 
     void MainFrame::UpdateStuff()
     {
-        pnlPortfolio->UpdateStuff();
+        pnlBalance->UpdateStuff(&api);
+        pnlPortfolio->UpdateStuff(&api);
 
         mnuLogin->Enable(!api.IsLoggedIn());
         mnuLogout->Enable(api.IsLoggedIn());
@@ -153,19 +152,22 @@ namespace kdeck
 
     void MainFrame::DoShowExchangeAnnouncements()
     {
-        ExchangeAnnouncementsDialog dlgAnnouncements = ExchangeAnnouncementsDialog(&api, this);
+        ExchangeAnnouncementsDialog dlgAnnouncements = ExchangeAnnouncementsDialog(this);
+        dlgAnnouncements.UpdateStuff(&api);
         dlgAnnouncements.ShowModal();
     }
 
     void MainFrame::DoShowExchangeSchedule()
     {
-        ExchangeScheduleDialog dlgSchedule = ExchangeScheduleDialog(&api, this);
+        ExchangeScheduleDialog dlgSchedule = ExchangeScheduleDialog(this);
+        dlgSchedule.UpdateStuff(&api);
         dlgSchedule.ShowModal();
     }
 
     void MainFrame::DoShowExchangeStatus()
     {
-        ExchangeStatusDialog dlgStatus = ExchangeStatusDialog(&api, this);
+        ExchangeStatusDialog dlgStatus = ExchangeStatusDialog(this);
+        dlgStatus.UpdateStuff(&api);
         dlgStatus.ShowModal();
     }
 

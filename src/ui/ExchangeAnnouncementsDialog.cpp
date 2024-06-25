@@ -6,12 +6,13 @@
 
 namespace kdeck
 {
+    class Api;
+
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog(Api* api, wxWindow* parent, wxWindowID winid, const wxString &title)
+    ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
         : wxDialog(parent, winid, title)
-        , api{api}
     {
         Setup();
     }
@@ -36,7 +37,7 @@ namespace kdeck
         SetSizerAndFit(szr);
     }
 
-    void ExchangeAnnouncementsDialog::UpdateStuff()
+    void ExchangeAnnouncementsDialog::UpdateStuff(Api* api)
     {
         boxSizer->Clear();
 
@@ -73,12 +74,5 @@ namespace kdeck
             evt->SetString("Exchange announcements failed!");
             QueueEvent(evt);
         }
-    }
-
-    bool ExchangeAnnouncementsDialog::Show(bool show)
-    {
-        UpdateStuff();
-
-        return wxDialog::Show(show);
     }
 }

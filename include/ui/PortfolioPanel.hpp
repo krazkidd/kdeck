@@ -11,13 +11,11 @@ namespace kdeck
     class PortfolioPanel : public wxScrolledWindow
     {
     public:
-        PortfolioPanel(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY);
+        PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
-        void UpdateStuff();
+        void UpdateStuff(Api* api);
 
     private:
-        Api* api;
-
         BalancePanel* pnlBalance;
         wxPanel* pnlPositions;
 

@@ -10,9 +10,8 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    ExchangeScheduleDialog::ExchangeScheduleDialog(Api* api, wxWindow* parent, wxWindowID winid, const wxString &title)
+    ExchangeScheduleDialog::ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
         : wxDialog(parent, winid, title)
-        , api{api}
     {
         Setup();
     }
@@ -86,7 +85,7 @@ namespace kdeck
         SetSizerAndFit(boxSizer);
     }
 
-    void ExchangeScheduleDialog::UpdateStuff()
+    void ExchangeScheduleDialog::UpdateStuff(Api* api)
     {
         try
         {
@@ -109,12 +108,5 @@ namespace kdeck
             evt->SetString("Exchange schedule failed!");
             QueueEvent(evt);
         }
-    }
-
-    bool ExchangeScheduleDialog::Show(bool show)
-    {
-        UpdateStuff();
-
-        return wxDialog::Show(show);
     }
 }

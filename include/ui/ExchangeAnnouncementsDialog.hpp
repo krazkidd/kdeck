@@ -10,15 +10,11 @@ namespace kdeck
     class ExchangeAnnouncementsDialog : public wxDialog
     {
     public:
-        ExchangeAnnouncementsDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Announcements");
+        ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Announcements");
 
-        void UpdateStuff();
-
-        virtual bool Show(bool show = true) override;
+        void UpdateStuff(Api* api);
 
     private:
-        Api* api;
-
         wxBoxSizer* boxSizer;
 
         // init

@@ -10,15 +10,11 @@ namespace kdeck
     class ExchangeScheduleDialog : public wxDialog
     {
     public:
-        ExchangeScheduleDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
+        ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
 
-        void UpdateStuff();
-
-        virtual bool Show(bool show = true) override;
+        void UpdateStuff(Api* api);
 
     private:
-        Api* api;
-
         wxStaticText* lblSundaySchedule;
         wxStaticText* lblMondaySchedule;
         wxStaticText* lblTuesdaySchedule;

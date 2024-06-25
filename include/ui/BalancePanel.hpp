@@ -11,13 +11,11 @@ namespace kdeck
     class BalancePanel : public wxPanel
     {
     public:
-        BalancePanel(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY);
+        BalancePanel(wxWindow* parent, wxWindowID winid = wxID_ANY, double balance = 0.0);
 
-        void UpdateStuff();
+        void UpdateStuff(Api* api);
 
     private:
-        Api* api;
-
         StaticCurrency* lblBalanceAmount;
 
         // init

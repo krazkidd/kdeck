@@ -14,9 +14,8 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    PortfolioPanel::PortfolioPanel(Api* api, wxWindow* parent, wxWindowID winid)
+    PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
         : wxScrolledWindow(parent, winid)
-        , api{api}
     {
         Setup();
     }
@@ -41,7 +40,7 @@ namespace kdeck
         SetScrollRate(10, 10);
     }
 
-    void PortfolioPanel::UpdateStuff()
+    void PortfolioPanel::UpdateStuff(Api* api)
     {
         pnlBalance->UpdateStuff();
 

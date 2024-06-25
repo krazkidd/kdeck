@@ -9,9 +9,8 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    ExchangeStatusDialog::ExchangeStatusDialog(Api* api, wxWindow* parent, wxWindowID winid, const wxString &title)
+    ExchangeStatusDialog::ExchangeStatusDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
         : wxDialog(parent, winid, title)
-        , api{api}
     {
         Setup();
     }
@@ -55,7 +54,7 @@ namespace kdeck
         SetSizerAndFit(boxSizer);
     }
 
-    void ExchangeStatusDialog::UpdateStuff()
+    void ExchangeStatusDialog::UpdateStuff(Api* api)
     {
         try
         {
@@ -88,12 +87,5 @@ namespace kdeck
             evt->SetString("Exchange status failed!");
             QueueEvent(evt);
         }
-    }
-
-    bool ExchangeStatusDialog::Show(bool show)
-    {
-        UpdateStuff();
-
-        return wxDialog::Show(show);
     }
 }
