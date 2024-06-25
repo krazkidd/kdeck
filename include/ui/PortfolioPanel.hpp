@@ -3,21 +3,25 @@
 
 #include <wx/wx.h>
 
-class BalancePanel;
-
-class PortfolioPanel : public wxScrolledWindow
+namespace kdeck
 {
-public:
-    PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
+    class Api;
+    class BalancePanel;
 
-    void UpdateStuff();
+    class PortfolioPanel : public wxScrolledWindow
+    {
+    public:
+        PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
-private:
-    BalancePanel* pnlBalance;
-    wxPanel* pnlPositions;
+        void UpdateStuff(Api* api);
 
-    // init
-    void Setup();
-};
+    private:
+        BalancePanel* pnlBalance;
+        wxPanel* pnlPositions;
+
+        // init
+        void Setup();
+    };
+}
 
 #endif

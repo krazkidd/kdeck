@@ -3,10 +3,13 @@
 
 #include <wx/wx.h>
 
-class App : public wxApp
+namespace kdeck
 {
-public:
-    bool OnInit() override;
-};
+    class App : public wxApp
+    {
+    public:
+        bool OnInit() override;
+    };
+}
 
 #endif

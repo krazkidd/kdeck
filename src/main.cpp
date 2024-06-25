@@ -3,4 +3,4 @@
 #include "ui/App.hpp"
 
 // This defines the equivalent of main() for the current platform.
-wxIMPLEMENT_APP(App);
+wxIMPLEMENT_APP(kdeck::App);

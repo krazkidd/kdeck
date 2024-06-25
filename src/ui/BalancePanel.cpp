@@ -5,54 +5,57 @@
 #include "ui/StaticCurrency.hpp"
 #include "ui/event.hpp"
 
-// constructor ////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
-    : wxPanel(parent, winid)
+namespace kdeck
 {
-    Setup();
-}
+    // constructor ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
 
-// init ///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-void BalancePanel::Setup()
-{
-    wxStaticText* lblBalance = new wxStaticText(this, wxID_ANY, "Balance:");
-    lblBalanceAmount = new StaticCurrency(this);
-
-    wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
-
-    wxSizerFlags flagsLbl = wxSizerFlags().Border(wxLEFT, 10).CenterVertical();
-
-    boxSizer->AddStretchSpacer();
-    boxSizer->Add(lblBalance, flagsLbl);
-    boxSizer->Add(lblBalanceAmount, flagsLbl);
-
-    SetSizerAndFit(boxSizer);
-}
-
-void BalancePanel::UpdateStuff()
-{
-    if (Api::IsLoggedIn())
+    BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid, double balance)
+        : wxPanel(parent, winid)
     {
-        try
-        {
-            lblBalanceAmount->SetAmount(Api::GetBalance());
-        }
-        catch (std::exception &e)
-        {
-            std::cerr << e.what() << std::endl;
-
-            wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
-            evt->SetEventObject(this);
-            evt->SetString("Balance update failed!");
-            QueueEvent(evt);
-        }
+        Setup();
     }
-    else
+
+    // init ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
+    void BalancePanel::Setup()
     {
-        lblBalanceAmount->SetAmount(0);
+        wxStaticText* lblBalance = new wxStaticText(this, wxID_ANY, "Balance:");
+        lblBalanceAmount = new StaticCurrency(this);
+
+        wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
+
+        wxSizerFlags flagsLbl = wxSizerFlags().Border(wxLEFT, 10).CenterVertical();
+
+        boxSizer->AddStretchSpacer();
+        boxSizer->Add(lblBalance, flagsLbl);
+        boxSizer->Add(lblBalanceAmount, flagsLbl);
+
+        SetSizerAndFit(boxSizer);
+    }
+
+    void BalancePanel::UpdateStuff(Api* api)
+    {
+        if (api->IsLoggedIn())
+        {
+            try
+            {
+                lblBalanceAmount->SetAmount(api->GetBalance());
+            }
+            catch (std::exception &e)
+            {
+                std::cerr << e.what() << std::endl;
+
+                wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
+                evt->SetEventObject(this);
+                evt->SetString("Balance update failed!");
+                QueueEvent(evt);
+            }
+        }
+        else
+        {
+            lblBalanceAmount->SetAmount(0);
+        }
     }
 }

@@ -3,20 +3,24 @@
 
 #include <wx/wx.h>
 
-class StaticCurrency;
-
-class BalancePanel : public wxPanel
+namespace kdeck
 {
-public:
-    BalancePanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
+    class Api;
+    class StaticCurrency;
 
-    void UpdateStuff();
+    class BalancePanel : public wxPanel
+    {
+    public:
+        BalancePanel(wxWindow* parent, wxWindowID winid = wxID_ANY, double balance = 0.0);
 
-private:
-    StaticCurrency* lblBalanceAmount;
+        void UpdateStuff(Api* api);
 
-    // init
-    void Setup();
-};
+    private:
+        StaticCurrency* lblBalanceAmount;
+
+        // init
+        void Setup();
+    };
+}
 
 #endif

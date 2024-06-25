@@ -3,26 +3,29 @@
 
 #include <wx/wx.h>
 
-class ExchangeScheduleDialog : public wxDialog
+namespace kdeck
 {
-public:
-    ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
+    class Api;
 
-    void UpdateStuff();
+    class ExchangeScheduleDialog : public wxDialog
+    {
+    public:
+        ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
 
-    virtual bool Show(bool show = true) override;
+        void UpdateStuff(Api* api);
 
-private:
-    wxStaticText* lblSundaySchedule;
-    wxStaticText* lblMondaySchedule;
-    wxStaticText* lblTuesdaySchedule;
-    wxStaticText* lblWednesdaySchedule;
-    wxStaticText* lblThursdaySchedule;
-    wxStaticText* lblFridaySchedule;
-    wxStaticText* lblSaturdaySchedule;
+    private:
+        wxStaticText* lblSundaySchedule;
+        wxStaticText* lblMondaySchedule;
+        wxStaticText* lblTuesdaySchedule;
+        wxStaticText* lblWednesdaySchedule;
+        wxStaticText* lblThursdaySchedule;
+        wxStaticText* lblFridaySchedule;
+        wxStaticText* lblSaturdaySchedule;
 
-    // init
-    void Setup();
-};
+        // init
+        void Setup();
+    };
+}
 
 #endif
