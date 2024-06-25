@@ -7,8 +7,9 @@
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-ExchangeStatusDialog::ExchangeStatusDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
+ExchangeStatusDialog::ExchangeStatusDialog(Api* api, wxWindow* parent, wxWindowID winid, const wxString &title)
     : wxDialog(parent, winid, title)
+    , api{api}
 {
     Setup();
 }
@@ -56,7 +57,7 @@ void ExchangeStatusDialog::UpdateStuff()
 {
     try
     {
-        ExchangeStatusResponse status = Api::GetExchangeStatus();
+        ExchangeStatusResponse status = api->GetExchangeStatus();
 
         if (status.exchange_active)
         {

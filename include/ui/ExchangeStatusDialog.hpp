@@ -3,16 +3,20 @@
 
 #include <wx/wx.h>
 
+class Api;
+
 class ExchangeStatusDialog : public wxDialog
 {
 public:
-    ExchangeStatusDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
+    ExchangeStatusDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
 
     void UpdateStuff();
 
     virtual bool Show(bool show = true) override;
 
 private:
+    Api* api;
+
     wxStaticText* lblExchangeStatus;
     wxStaticText* lblTradingStatus;
 

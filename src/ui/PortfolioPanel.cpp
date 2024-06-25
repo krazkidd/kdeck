@@ -7,11 +7,14 @@
 #include "ui/MarketPositionPanel.hpp"
 #include "ui/event.hpp"
 
+class Api;
+
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
+PortfolioPanel::PortfolioPanel(Api* api, wxWindow* parent, wxWindowID winid)
     : wxScrolledWindow(parent, winid)
+    , api{api}
 {
     Setup();
 }
@@ -21,7 +24,7 @@ PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
 
 void PortfolioPanel::Setup()
 {
-    pnlBalance = new BalancePanel(this);
+    pnlBalance = new BalancePanel(api, this);
 
     pnlPositions = new wxPanel(this);
 
@@ -42,21 +45,21 @@ void PortfolioPanel::UpdateStuff()
 
     pnlPositions->DestroyChildren();
 
-    if (Api::IsLoggedIn())
+    if (api->IsLoggedIn())
     {
         try
         {
-            Api::GetPositions();
+            api->GetPositions();
 
             wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
             wxSizerFlags flagsPnl = wxSizerFlags().Border(wxUP | wxDOWN, 5).Expand();
 
-            for (PortfolioPositionsResponse::EventPosition event : Api::GetEventPositions())
+            for (PortfolioPositionsResponse::EventPosition event : api->GetEventPositions())
             {
                 boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, &event), flagsPnl);
 
-                for (PortfolioPositionsResponse::MarketPosition market : Api::GetMarketPositions(event.event_ticker))
+                for (PortfolioPositionsResponse::MarketPosition market : api->GetMarketPositions(event.event_ticker))
                 {
                     boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
                 }

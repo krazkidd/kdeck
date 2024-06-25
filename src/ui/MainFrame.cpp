@@ -70,7 +70,7 @@ void MainFrame::Setup()
 
     ///////////////////////////////////////////////////////////////////////////
 
-    pnlPortfolio = new PortfolioPanel(this);
+    pnlPortfolio = new PortfolioPanel(&api, this);
     pnlPortfolio->GetSizer()->SetSizeHints(this);
 
     SetMinSize(wxSize{400, 400});
@@ -87,8 +87,8 @@ void MainFrame::UpdateStuff()
 {
     pnlPortfolio->UpdateStuff();
 
-    mnuLogin->Enable(!Api::IsLoggedIn());
-    mnuLogout->Enable(Api::IsLoggedIn());
+    mnuLogin->Enable(!api.IsLoggedIn());
+    mnuLogout->Enable(api.IsLoggedIn());
 }
 
 // helpers ////////////////////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ void MainFrame::DoLogin()
     {
         try
         {
-            Api::Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
+            api.Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
 
             wxCommandEvent* evt = new wxCommandEvent(EVT_LOGIN);
             evt->SetEventObject(this);
@@ -130,7 +130,7 @@ void MainFrame::DoLogout()
     {
         try
         {
-            Api::Logout();
+            api.Logout();
 
             wxCommandEvent* evt = new wxCommandEvent(EVT_LOGOUT);
             evt->SetEventObject(this);
@@ -151,19 +151,19 @@ void MainFrame::DoLogout()
 
 void MainFrame::DoShowExchangeAnnouncements()
 {
-    ExchangeAnnouncementsDialog dlgAnnouncements = ExchangeAnnouncementsDialog(this);
+    ExchangeAnnouncementsDialog dlgAnnouncements = ExchangeAnnouncementsDialog(&api, this);
     dlgAnnouncements.ShowModal();
 }
 
 void MainFrame::DoShowExchangeSchedule()
 {
-    ExchangeScheduleDialog dlgSchedule = ExchangeScheduleDialog(this);
+    ExchangeScheduleDialog dlgSchedule = ExchangeScheduleDialog(&api, this);
     dlgSchedule.ShowModal();
 }
 
 void MainFrame::DoShowExchangeStatus()
 {
-    ExchangeStatusDialog dlgStatus = ExchangeStatusDialog(this);
+    ExchangeStatusDialog dlgStatus = ExchangeStatusDialog(&api, this);
     dlgStatus.ShowModal();
 }
 
@@ -171,7 +171,7 @@ void MainFrame::ShowStatus(const wxString &msg)
 {
     SetStatusText(msg, 0);
 
-    if (Api::IsLoggedIn())
+    if (api.IsLoggedIn())
     {
         SetStatusText(L"🟢 Logged in", 2);
     }
@@ -241,7 +241,7 @@ void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
 
 void MainFrame::OnClose(wxCloseEvent &event)
 {
-    if (event.CanVeto() && Api::IsLoggedIn())
+    if (event.CanVeto() && api.IsLoggedIn())
     {
         int answer = wxMessageBox("Quit?", "Confirm", wxYES_NO | wxICON_QUESTION, this);
 
@@ -249,7 +249,7 @@ void MainFrame::OnClose(wxCloseEvent &event)
         {
             try
             {
-                Api::Logout();
+                api.Logout();
             }
             catch (std::exception &e)
             {

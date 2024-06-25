@@ -3,16 +3,19 @@
 
 #include <wx/wx.h>
 
+class Api;
 class BalancePanel;
 
 class PortfolioPanel : public wxScrolledWindow
 {
 public:
-    PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
+    PortfolioPanel(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY);
 
     void UpdateStuff();
 
 private:
+    Api* api;
+
     BalancePanel* pnlBalance;
     wxPanel* pnlPositions;
 

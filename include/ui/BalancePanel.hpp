@@ -3,16 +3,19 @@
 
 #include <wx/wx.h>
 
+class Api;
 class StaticCurrency;
 
 class BalancePanel : public wxPanel
 {
 public:
-    BalancePanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
+    BalancePanel(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY);
 
     void UpdateStuff();
 
 private:
+    Api* api;
+
     StaticCurrency* lblBalanceAmount;
 
     // init

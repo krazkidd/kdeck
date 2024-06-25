@@ -3,16 +3,20 @@
 
 #include <wx/wx.h>
 
+class Api;
+
 class ExchangeScheduleDialog : public wxDialog
 {
 public:
-    ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
+    ExchangeScheduleDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
 
     void UpdateStuff();
 
     virtual bool Show(bool show = true) override;
 
 private:
+    Api* api;
+
     wxStaticText* lblSundaySchedule;
     wxStaticText* lblMondaySchedule;
     wxStaticText* lblTuesdaySchedule;

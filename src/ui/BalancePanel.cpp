@@ -5,11 +5,14 @@
 #include "ui/StaticCurrency.hpp"
 #include "ui/event.hpp"
 
+class Api;
+
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-BalancePanel::BalancePanel(wxWindow* parent, wxWindowID winid)
+BalancePanel::BalancePanel(Api* api, wxWindow* parent, wxWindowID winid)
     : wxPanel(parent, winid)
+    , api{api}
 {
     Setup();
 }
@@ -35,11 +38,11 @@ void BalancePanel::Setup()
 
 void BalancePanel::UpdateStuff()
 {
-    if (Api::IsLoggedIn())
+    if (api->IsLoggedIn())
     {
         try
         {
-            lblBalanceAmount->SetAmount(Api::GetBalance());
+            lblBalanceAmount->SetAmount(api->GetBalance());
         }
         catch (std::exception &e)
         {

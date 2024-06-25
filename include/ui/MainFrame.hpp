@@ -5,6 +5,7 @@
 #include <curlpp/cURLpp.hpp>
 
 #include "config.hpp"
+#include "api/Api.hpp"
 
 class PortfolioPanel;
 
@@ -27,6 +28,8 @@ public:
 private:
     // handles global cURLpp::initialize()/terminate()
     cURLpp::Cleanup cURLpp();
+
+    Api api;
 
     wxMenuItem *mnuLogin;
     wxMenuItem *mnuLogout;

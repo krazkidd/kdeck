@@ -7,8 +7,9 @@
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
+ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog(Api* api, wxWindow* parent, wxWindowID winid, const wxString &title)
     : wxDialog(parent, winid, title)
+    , api{api}
 {
     Setup();
 }
@@ -39,7 +40,7 @@ void ExchangeAnnouncementsDialog::UpdateStuff()
 
     try
     {
-        ExchangeAnnouncementsResponse announcements = Api::GetExchangeAnnouncements();
+        ExchangeAnnouncementsResponse announcements = api->GetExchangeAnnouncements();
 
         wxSizerFlags flags = wxSizerFlags().Border(wxALL, 10); //.Expand();
 

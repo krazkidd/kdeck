@@ -8,8 +8,9 @@
 // constructor ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-ExchangeScheduleDialog::ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
+ExchangeScheduleDialog::ExchangeScheduleDialog(Api* api, wxWindow* parent, wxWindowID winid, const wxString &title)
     : wxDialog(parent, winid, title)
+    , api{api}
 {
     Setup();
 }
@@ -87,7 +88,7 @@ void ExchangeScheduleDialog::UpdateStuff()
 {
     try
     {
-        ExchangeScheduleResponse status = Api::GetExchangeSchedule();
+        ExchangeScheduleResponse status = api->GetExchangeSchedule();
 
         lblSundaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.sunday.open_time, status.schedule.standard_hours.sunday.close_time));
         lblMondaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.monday.open_time, status.schedule.standard_hours.monday.close_time));
