@@ -1,13 +1,12 @@
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
+#include "api/types.hpp"
 #include "ui/ExchangeAnnouncementsDialog.hpp"
 #include "ui/event.hpp"
 
 namespace kdeck
 {
-    class Api;
-
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 

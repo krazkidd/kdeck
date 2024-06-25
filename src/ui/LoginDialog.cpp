@@ -1,6 +1,5 @@
 #include <wx/wx.h>
 
-#include "api/Api.hpp"
 #include "ui/LoginDialog.hpp"
 #include "ui/event.hpp"
 

@@ -1,7 +1,7 @@
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
-#include "ui/BalancePanel.hpp"
+#include "api/types.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/EventPositionPanel.hpp"
 #include "ui/MarketPositionPanel.hpp"
@@ -9,8 +9,6 @@
 
 namespace kdeck
 {
-    class Api;
-
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
