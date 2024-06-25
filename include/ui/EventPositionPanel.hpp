@@ -5,17 +5,20 @@
 
 #include "api/types.hpp"
 
-class EventPositionPanel : public wxPanel
+namespace kdeck
 {
-public:
-    EventPositionPanel(wxWindow* parent, wxWindowID winid, PortfolioPositionsResponse::EventPosition* event);
+    class EventPositionPanel : public wxPanel
+    {
+    public:
+        EventPositionPanel(wxWindow* parent, wxWindowID winid, PortfolioPositionsResponse::EventPosition* event);
 
-private:
-    //TODO these are pointers, should be references?
-    PortfolioPositionsResponse::EventPosition* event;
+    private:
+        //TODO these are pointers, should be references?
+        PortfolioPositionsResponse::EventPosition* event;
 
-    // init
-    void Setup();
-};
+        // init
+        void Setup();
+    };
+}
 
 #endif

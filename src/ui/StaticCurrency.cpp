@@ -1,12 +1,15 @@
 #include "ui/StaticCurrency.hpp"
 
-StaticCurrency::StaticCurrency(wxWindow* parent, wxWindowID id, double amount)
-    : wxStaticText(parent, id, "")
+namespace kdeck
 {
-    SetAmount(amount);
-}
+    StaticCurrency::StaticCurrency(wxWindow* parent, wxWindowID id, double amount)
+        : wxStaticText(parent, id, "")
+    {
+        SetAmount(amount);
+    }
 
-void StaticCurrency::SetAmount(double amount)
-{
-	SetLabel(wxString::Format("$%.2f", amount));
+    void StaticCurrency::SetAmount(double amount)
+    {
+        SetLabel(wxString::Format("$%.2f", amount));
+    }
 }

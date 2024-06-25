@@ -5,17 +5,20 @@
 
 #include "api/types.hpp"
 
-class MarketPositionPanel : public wxPanel
+namespace kdeck
 {
-public:
-    MarketPositionPanel(wxWindow* parent, wxWindowID winid, PortfolioPositionsResponse::MarketPosition* market);
+    class MarketPositionPanel : public wxPanel
+    {
+    public:
+        MarketPositionPanel(wxWindow* parent, wxWindowID winid, PortfolioPositionsResponse::MarketPosition* market);
 
-private:
-    //TODO this is a pointer, should be a reference?
-    PortfolioPositionsResponse::MarketPosition* market;
+    private:
+        //TODO this is a pointer, should be a reference?
+        PortfolioPositionsResponse::MarketPosition* market;
 
-    // init
-    void Setup();
-};
+        // init
+        void Setup();
+    };
+}
 
 #endif

@@ -5,55 +5,58 @@
 #include "api/Api.hpp"
 #include "api/types.hpp"
 
-void Api::Login(std::string_view email, std::string_view password)
+namespace kdeck
 {
-    if (IsLoggedIn())
+    void Api::Login(std::string_view email, std::string_view password)
     {
-        throw std::logic_error("Already logged in.");
-    }
-    else if (email.empty())
-    {
-        throw std::invalid_argument("Email not provided.");
-    }
-    else if (password.empty())
-    {
-        throw std::invalid_argument("Password not provided.");
+        if (IsLoggedIn())
+        {
+            throw std::logic_error("Already logged in.");
+        }
+        else if (email.empty())
+        {
+            throw std::invalid_argument("Email not provided.");
+        }
+        else if (password.empty())
+        {
+            throw std::invalid_argument("Password not provided.");
+        }
+
+        ApiResult<LoginResponse> res = PostRequest<LoginResponse, LoginRequest>("/login", LoginRequest{email, password});
+
+        if (std::holds_alternative<LoginResponse>(res))
+        {
+            login = std::get<LoginResponse>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+        }
     }
 
-    ApiResult<LoginResponse> res = PostRequest<LoginResponse, LoginRequest>("/login", LoginRequest{email, password});
-
-    if (std::holds_alternative<LoginResponse>(res))
+    void Api::Logout()
     {
-        login = std::get<LoginResponse>(res);
+        if (!IsLoggedIn())
+        {
+            throw std::logic_error("Already logged out.");
+        }
+
+        ApiResult<VoidResponse> res = PostRequest<VoidResponse>("/logout");
+
+        if (std::holds_alternative<VoidResponse>(res))
+        {
+            login = LoginResponse{};
+        }
+        else
+        {
+            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+        }
     }
-    else
+
+    // helpers /////////////////////////////////////////////////////////////////////
+
+    bool Api::IsLoggedIn()
     {
-        throw std::runtime_error(std::get<ErrorResponse>(res).message);
+        return !login.member_id.empty();
     }
-}
-
-void Api::Logout()
-{
-    if (!IsLoggedIn())
-    {
-        throw std::logic_error("Already logged out.");
-    }
-
-    ApiResult<VoidResponse> res = PostRequest<VoidResponse>("/logout");
-
-    if (std::holds_alternative<VoidResponse>(res))
-    {
-        login = LoginResponse{};
-    }
-    else
-    {
-        throw std::runtime_error(std::get<ErrorResponse>(res).message);
-    }
-}
-
-// helpers /////////////////////////////////////////////////////////////////////
-
-bool Api::IsLoggedIn()
-{
-    return !login.member_id.empty();
 }

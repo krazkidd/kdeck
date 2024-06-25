@@ -3,25 +3,28 @@
 
 #include <wx/wx.h>
 
-class Api;
-
-class ExchangeStatusDialog : public wxDialog
+namespace kdeck
 {
-public:
-    ExchangeStatusDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
+    class Api;
 
-    void UpdateStuff();
+    class ExchangeStatusDialog : public wxDialog
+    {
+    public:
+        ExchangeStatusDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
 
-    virtual bool Show(bool show = true) override;
+        void UpdateStuff();
 
-private:
-    Api* api;
+        virtual bool Show(bool show = true) override;
 
-    wxStaticText* lblExchangeStatus;
-    wxStaticText* lblTradingStatus;
+    private:
+        Api* api;
 
-    // init
-    void Setup();
-};
+        wxStaticText* lblExchangeStatus;
+        wxStaticText* lblTradingStatus;
+
+        // init
+        void Setup();
+    };
+}
 
 #endif

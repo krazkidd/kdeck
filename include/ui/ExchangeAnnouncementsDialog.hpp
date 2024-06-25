@@ -3,24 +3,27 @@
 
 #include <wx/wx.h>
 
-class Api;
-
-class ExchangeAnnouncementsDialog : public wxDialog
+namespace kdeck
 {
-public:
-    ExchangeAnnouncementsDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Announcements");
+    class Api;
 
-    void UpdateStuff();
+    class ExchangeAnnouncementsDialog : public wxDialog
+    {
+    public:
+        ExchangeAnnouncementsDialog(Api* api, wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Announcements");
 
-    virtual bool Show(bool show = true) override;
+        void UpdateStuff();
 
-private:
-    Api* api;
+        virtual bool Show(bool show = true) override;
 
-    wxBoxSizer* boxSizer;
+    private:
+        Api* api;
 
-    // init
-    void Setup();
-};
+        wxBoxSizer* boxSizer;
+
+        // init
+        void Setup();
+    };
+}
 
 #endif

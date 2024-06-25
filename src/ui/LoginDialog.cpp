@@ -4,57 +4,60 @@
 #include "ui/LoginDialog.hpp"
 #include "ui/event.hpp"
 
-// constructor ////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-LoginDialog::LoginDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
-    : wxDialog(parent, winid, title)
+namespace kdeck
 {
-    Setup();
-}
+    // constructor ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
 
-// init ///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-void LoginDialog::Setup()
-{
-    txtEmail = new wxTextCtrl(this, wxID_ANY);
-    txtEmail->SetHint("Email");
-
-    txtPassword = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
-    txtPassword->SetHint("Password");
-
-    wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
-
-    wxSizerFlags flagsInput = wxSizerFlags().Border(wxALL, 10).Expand();
-
-    boxSizer->Add(txtEmail, flagsInput);
-    boxSizer->Add(txtPassword, flagsInput);
-
-    wxSizer* szrButton = CreateButtonSizer(wxOK | wxCANCEL);
-    if (szrButton)
+    LoginDialog::LoginDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
+        : wxDialog(parent, winid, title)
     {
-        boxSizer->Add(szrButton);
+        Setup();
     }
 
-    if (txtEmail->IsEmpty())
+    // init ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
+    void LoginDialog::Setup()
     {
-        txtEmail->SetFocus();
+        txtEmail = new wxTextCtrl(this, wxID_ANY);
+        txtEmail->SetHint("Email");
+
+        txtPassword = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD);
+        txtPassword->SetHint("Password");
+
+        wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
+
+        wxSizerFlags flagsInput = wxSizerFlags().Border(wxALL, 10).Expand();
+
+        boxSizer->Add(txtEmail, flagsInput);
+        boxSizer->Add(txtPassword, flagsInput);
+
+        wxSizer* szrButton = CreateButtonSizer(wxOK | wxCANCEL);
+        if (szrButton)
+        {
+            boxSizer->Add(szrButton);
+        }
+
+        if (txtEmail->IsEmpty())
+        {
+            txtEmail->SetFocus();
+        }
+        else
+        {
+            txtPassword->SetFocus();
+        }
+
+        SetSizerAndFit(boxSizer);
     }
-    else
+
+    std::string LoginDialog::GetEmail() const
     {
-        txtPassword->SetFocus();
+        return txtEmail->GetValue().ToStdString();
     }
 
-    SetSizerAndFit(boxSizer);
-}
-
-std::string LoginDialog::GetEmail() const
-{
-    return txtEmail->GetValue().ToStdString();
-}
-
-std::string LoginDialog::GetPassword() const
-{
-    return txtPassword->GetValue().ToStdString();
+    std::string LoginDialog::GetPassword() const
+    {
+        return txtPassword->GetValue().ToStdString();
+    }
 }
