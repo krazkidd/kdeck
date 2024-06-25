@@ -2,6 +2,7 @@
 
 #include "api/Api.hpp"
 #include "api/types.hpp"
+#include "ui/BalancePanel.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/EventPositionPanel.hpp"
 #include "ui/MarketPositionPanel.hpp"
@@ -23,7 +24,7 @@ namespace kdeck
 
     void PortfolioPanel::Setup()
     {
-        pnlBalance = new BalancePanel(api, this);
+        pnlBalance = new BalancePanel(this);
 
         pnlPositions = new wxPanel(this);
 
@@ -40,7 +41,7 @@ namespace kdeck
 
     void PortfolioPanel::UpdateStuff(Api* api)
     {
-        pnlBalance->UpdateStuff();
+        pnlBalance->UpdateStuff(api);
 
         pnlPositions->DestroyChildren();
 

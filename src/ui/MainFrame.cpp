@@ -85,7 +85,6 @@ namespace kdeck
 
     void MainFrame::UpdateStuff()
     {
-        pnlBalance->UpdateStuff(&api);
         pnlPortfolio->UpdateStuff(&api);
 
         mnuLogin->Enable(!api.IsLoggedIn());
