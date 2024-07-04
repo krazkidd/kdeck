@@ -36,7 +36,7 @@
             "type": "cppdbg",
             "request": "attach",
             "processId": "${command:pickProcess}",
-            "program": "$HOME/.vscode/extensions/ms-vscode.cpptools-1.20.5/bin/cpptools",
+            "program": "${env:HOME}/.vscode/extensions/ms-vscode.cpptools-1.20.5-linux-x64/bin/cpptools",
             "MIMode": "gdb",
             "setupCommands": [
                 {
