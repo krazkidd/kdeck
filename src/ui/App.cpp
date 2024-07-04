@@ -12,8 +12,13 @@ namespace kdeck
         MainFrame *frame = new MainFrame();
         frame->Show();
 
+        return true;
+    }
+
+    int App::OnExit()
+    {
         oatpp::base::Environment::destroy();
 
-        return true;
+        return 0;
     }
 }

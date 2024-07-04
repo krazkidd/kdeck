@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <variant>
 
+#include "oatpp/core/base/Environment.hpp"
+
 #include "api/Api.hpp"
 #include "api/types.hpp"
 
@@ -32,6 +34,8 @@ namespace kdeck
         if (std::holds_alternative<std::shared_ptr<LoginResponse>>(res))
         {
             login = std::get<std::shared_ptr<LoginResponse>>(res);
+
+            OATPP_LOGD("Api", "Login (auth token = %s)", login->token->c_str());
         }
         else
         {
@@ -54,6 +58,8 @@ namespace kdeck
         // if (std::holds_alternative<std::shared_ptr<VoidResponse>>(res))
         {
             login = nullptr;
+
+            OATPP_LOGD("Api", "Logout");
         }
         // else
         // {

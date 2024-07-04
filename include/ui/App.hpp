@@ -9,6 +9,7 @@ namespace kdeck
     {
     public:
         bool OnInit() override;
+        int OnExit() override;
     };
 }
 

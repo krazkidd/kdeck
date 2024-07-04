@@ -40,4 +40,17 @@ find_package(unofficial-curlpp CONFIG REQUIRED)
 find_package(oatpp CONFIG REQUIRED)
 find_package(oatpp-openssl CONFIG REQUIRED)
 
+# Check if the build type is Debug
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    # do nothing
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(OATPP_DISABLE_LOGV)
+    add_compile_definitions(OATPP_DISABLE_LOGD)
+    #add_compile_definitions(OATPP_DISABLE_LOGI)
+    #add_compile_definitions(OATPP_DISABLE_LOGW)
+    #add_compile_definitions(OATPP_DISABLE_LOGE)
+else()
+    # do nothing
+endif()
+
 add_subdirectory(src)
