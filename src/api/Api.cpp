@@ -8,7 +8,9 @@
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/web/client/HttpRequestExecutor.hpp"
 #include "oatpp/web/protocol/http/incoming/Response.hpp"
+#include "oatpp-openssl/Config.hpp"
 #include "oatpp-openssl/client/ConnectionProvider.hpp"
+#include "oatpp-openssl/configurer/TrustStore.hpp"
 
 #include "api/Api.hpp"
 #include "api/types.hpp"
@@ -19,7 +21,7 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    Api::Api(std::string_view apiEndpointUrl)
+    Api::Api(std::string_view apiEndpointUrl, std::string_view sslTrustStoreDir)
         : login{nullptr}
     {
         auto url = oatpp::network::Url::Parser::parseUrl(std::string{apiEndpointUrl});
@@ -29,6 +31,12 @@ namespace kdeck
         if (url.scheme.equalsCI_ASCII("https"))
         {
             auto config = oatpp::openssl::Config::createDefaultClientConfigShared();
+
+            if (!sslTrustStoreDir.empty())
+            {
+                //TODO this throws an error
+                config->addContextConfigurer(std::make_shared<oatpp::openssl::configurer::TrustStore>(std::string{sslTrustStoreDir}, nullptr));
+            }
 
             connectionProvider = oatpp::openssl::client::ConnectionProvider::createShared(config, {url.authority.host, static_cast<uint16_t>(url.authority.port)});
         }

@@ -25,7 +25,7 @@ namespace kdeck
     class Api
     {
     public:
-        Api(std::string_view apiEndpointUrl);
+        Api(std::string_view apiEndpointUrl, std::string_view sslTrustStoreDir = {});
 
         // auth
         void Login(std::string_view email, std::string_view password);

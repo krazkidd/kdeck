@@ -20,7 +20,7 @@ namespace kdeck
 
     MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
         : wxFrame(parent, winid, title)
-        , api{kKalshiApiUrl}
+        , api{kKalshiApiUrl, kSslTrustStoreDir}
     {
         Setup();
     }
