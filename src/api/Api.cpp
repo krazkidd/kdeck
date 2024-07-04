@@ -38,11 +38,11 @@ namespace kdeck
                 config->addContextConfigurer(std::make_shared<oatpp::openssl::configurer::TrustStore>(std::string{sslTrustStoreDir}, nullptr));
             }
 
-            connectionProvider = oatpp::openssl::client::ConnectionProvider::createShared(config, {url.authority.host, static_cast<uint16_t>(url.authority.port)});
+            connectionProvider = oatpp::openssl::client::ConnectionProvider::createShared(config, {url.authority.host, static_cast<uint16_t>(url.authority.port == -1 ? 443 : url.authority.port)});
         }
         else if (url.scheme.equalsCI_ASCII("http"))
         {
-            connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({url.authority.host, static_cast<uint16_t>(url.authority.port)});
+            connectionProvider = oatpp::network::tcp::client::ConnectionProvider::createShared({url.authority.host, static_cast<uint16_t>(url.authority.port == -1 ? 80 : url.authority.port)});
         }
         else
         {
