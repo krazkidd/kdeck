@@ -1,3 +1,4 @@
+#include <memory>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -11,11 +12,50 @@
 #include <curlpp/Infos.hpp>
 #include <boost/json.hpp>
 
+#include "oatpp/core/Types.hpp"
+#include "oatpp/web/protocol/http/incoming/Response.hpp"
+
 #include "api/converters.hpp"
 #include "api/types.hpp"
 
 namespace kdeck
 {
+    template <typename TResponse>
+    OatApiResult<TResponse> Api::HandleResponse(std::shared_ptr<oatpp::web::protocol::http::incoming::Response> response)
+    {
+        switch (response->getStatusCode())
+        {
+            // success
+            case 200:
+            case 201:
+                return response->readBodyToDto<oatpp::Object<TResponse>>(objectMapper.get()).getPtr();
+
+            // success (no response body)
+            case 204:
+                // NOTE: If we try to parse an empty body (not valid JSON),
+                //       oatpp will throw. So we just return
+                //       the expected type (should be VoidResponse).
+
+                //return response->readBodyToDto<oatpp::Object<TResponse>>(objectMapper.get()).getPtr();
+                //TODO refactor after converting VoidResponse to oatpp DTO
+                //return std::make_shared<TResponse>(TResponse{});
+                throw new std::runtime_error("Not implemented");
+
+            // error
+            case 400:
+            case 401:
+            case 403:
+            case 404:
+            case 500:
+            case 503:
+                //TODO refactor after converting ErrorResponse to oatpp DTO
+                //return response->readBodyToDto<oatpp::Object<ErrorResponse>>(objectMapper.get()).getPtr();
+                throw new std::runtime_error("Not implemented");
+        }
+
+        throw std::runtime_error("Unknown JSON error.");
+    }
+
     template <typename TResponse>
     ApiResult<TResponse> Api::HandleResponse(int responseCode, const std::stringstream &responseBody)
     {
@@ -75,7 +115,7 @@ namespace kdeck
 
             if (IsLoggedIn())
             {
-                headers.push_back(std::string{"Authorization: Bearer "}.append(login.token));
+                headers.push_back(std::string{"Authorization: Bearer "}.append(login->token));
             }
 
             if (doPostMethod)

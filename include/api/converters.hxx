@@ -22,22 +22,6 @@ namespace kdeck
         };
     }
 
-    inline void tag_invoke(const boost::json::value_from_tag &, boost::json::value &jv, const LoginRequest &req)
-    {
-        jv = {
-            { "email", req.email },
-            { "password", req.password }
-        };
-    }
-
-    inline LoginResponse tag_invoke(const boost::json::value_to_tag<LoginResponse> &, const boost::json::value &jv)
-    {
-        return LoginResponse{
-            jv.at("member_id").as_string().c_str(),
-            jv.at("token").as_string().c_str()
-        };
-    }
-
     inline ExchangeAnnouncementsResponse::Announcement tag_invoke(const boost::json::value_to_tag<ExchangeAnnouncementsResponse::Announcement> &, const boost::json::value &jv)
     {
         return ExchangeAnnouncementsResponse::Announcement{

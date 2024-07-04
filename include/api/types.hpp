@@ -6,6 +6,9 @@
 #include <string_view>
 #include <vector>
 
+#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/core/Types.hpp"
+
 namespace kdeck
 {
     struct VoidResponse
@@ -24,17 +27,31 @@ namespace kdeck
     // auth /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    struct LoginRequest
+    #include OATPP_CODEGEN_BEGIN(DTO)
+
+    class LoginRequest
+        : public oatpp::DTO
     {
-        std::string_view email{};
-        std::string_view password{};
+
+        DTO_INIT(LoginRequest, DTO /* extends */)
+
+        DTO_FIELD(String, email);
+        DTO_FIELD(String, password);
+
     };
 
-    struct LoginResponse
+    class LoginResponse
+        : public oatpp::DTO
     {
-        std::string member_id{};
-        std::string token{};
+
+        DTO_INIT(LoginResponse, DTO /* extends */)
+
+        DTO_FIELD(String, member_id);
+        DTO_FIELD(String, token);
+
     };
+
+    #include OATPP_CODEGEN_END(DTO)
 
     // exchange /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
