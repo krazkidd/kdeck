@@ -24,10 +24,10 @@ namespace kdeck
         std::string message{};
     };
 
+    #include OATPP_CODEGEN_BEGIN(DTO)
+
     // auth /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
-
-    #include OATPP_CODEGEN_BEGIN(DTO)
 
     class LoginRequest
         : public oatpp::DTO
