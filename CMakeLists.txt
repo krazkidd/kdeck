@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.20.0)
 project(kdeck VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -30,5 +30,14 @@ configure_file(
 #TODO GitHub Copilot suggested this to combine source and generated headers
 # install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 # install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+find_package(OpenGL REQUIRED)
+find_package(wxWidgets CONFIG REQUIRED COMPONENTS core base gl)
+
+find_package(Boost REQUIRED COMPONENTS format json)
+find_package(CURL REQUIRED)
+find_package(unofficial-curlpp CONFIG REQUIRED)
+find_package(oatpp CONFIG REQUIRED)
+find_package(oatpp-openssl CONFIG REQUIRED)
 
 add_subdirectory(src)

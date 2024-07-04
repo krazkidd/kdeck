@@ -12,22 +12,14 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
-# see https://cmake.org/cmake/help/latest/module/FindBoost.html
-find_package(Boost REQUIRED COMPONENTS json)
-# see https://cmake.org/cmake/help/latest/module/FindCURL.html
-find_package(CURL REQUIRED COMPONENTS HTTPS)
-
-add_library(curlpp UNKNOWN IMPORTED)
-set_target_properties(curlpp PROPERTIES
-    IMPORTED_LOCATION "/usr/lib/x86_64-linux-gnu/libcurlpp.so.1"
-    #INTERFACE_INCLUDE_DIRECTORIES "/usr/include/curlpp"
-)
-
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC
+    PRIVATE
+        Boost::boost
         Boost::json
         CURL::libcurl
-        curlpp
+        unofficial::curlpp::curlpp
+        oatpp::oatpp
+        oatpp::oatpp-openssl
 )
 
 target_compile_options(${PROJECT_NAME}
