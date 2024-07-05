@@ -59,9 +59,9 @@ namespace kdeck
     {
         try
         {
-            ExchangeStatusResponse status = api->GetExchangeStatus();
+            std::shared_ptr<ExchangeStatusResponse> status = api->GetExchangeStatus();
 
-            if (status.exchange_active)
+            if (status->exchange_active)
             {
                 lblExchangeStatus->SetLabel(L"🟢 Active");
             }
@@ -70,7 +70,7 @@ namespace kdeck
                 lblExchangeStatus->SetLabel(L"🔴 Not active");
             }
 
-            if (status.trading_active)
+            if (status->trading_active)
             {
                 lblTradingStatus->SetLabel(L"🟢 Active");
             }

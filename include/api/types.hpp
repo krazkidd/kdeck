@@ -51,63 +51,109 @@ namespace kdeck
 
     };
 
-    #include OATPP_CODEGEN_END(DTO)
-
     // exchange /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    struct ExchangeAnnouncementsResponse
+    class Announcement
+        : public oatpp::DTO
     {
-        struct Announcement
-        {
-            std::chrono::time_point<std::chrono::system_clock> delivery_time{};
-            std::string message{};
-            std::string status{};
-            std::string type{};
-        };
 
-        std::vector<Announcement> announcements{};
+        DTO_INIT(Announcement, DTO /* extends */)
+
+        //TODO
+        //std::chrono::time_point<std::chrono::system_clock> delivery_time{};
+        //DTO_FIELD(TODO, delivery_time);
+        DTO_FIELD(String, message);
+        DTO_FIELD(String, status);
+        DTO_FIELD(String, type);
+
+    };
+
+    class MaintenanceWindow
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MaintenanceWindow, DTO /* extends */)
+
+        //TODO
+        //std::chrono::time_point<std::chrono::system_clock> start_datetime{};
+        //DTO_FIELD(TODO, start_datetime);
+        //TODO
+        //std::chrono::time_point<std::chrono::system_clock> end_datetime{};
+        //DTO_FIELD(TODO, end_datetime);
+
+    };
+
+    class DailyHours
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(DailyHours, DTO /* extends */)
+
+        DTO_FIELD(String, open_time);
+        DTO_FIELD(String, close_time);
+
+    };
+
+    class StandardHours
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(StandardHours, DTO /* extends */)
+
+        DTO_FIELD(Object<DailyHours>, sunday);
+        DTO_FIELD(Object<DailyHours>, monday);
+        DTO_FIELD(Object<DailyHours>, tuesday);
+        DTO_FIELD(Object<DailyHours>, wednesday);
+        DTO_FIELD(Object<DailyHours>, thursday);
+        DTO_FIELD(Object<DailyHours>, friday);
+        DTO_FIELD(Object<DailyHours>, saturday);
+
+    };
+
+    class Schedule
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(Schedule, DTO /* extends */)
+
+        DTO_FIELD(List<Object<MaintenanceWindow>>, maintenance_windows);
+        DTO_FIELD(Object<StandardHours>, standard_hours);
+
+    };
+
+    class ExchangeAnnouncementsResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(ExchangeAnnouncementsResponse, DTO /* extends */)
+
+        DTO_FIELD(List<Object<Announcement>>, announcements);
+
     };
 
     struct ExchangeScheduleResponse
+        : public oatpp::DTO
     {
-        struct MaintenanceWindow
-        {
-            std::chrono::time_point<std::chrono::system_clock> start_datetime{};
-            std::chrono::time_point<std::chrono::system_clock> end_datetime{};
-        };
 
-        struct DailyHours
-        {
-            std::string open_time{};
-            std::string close_time{};
-        };
+        DTO_INIT(ExchangeScheduleResponse, DTO /* extends */)
 
-        struct StandardHours
-        {
-            DailyHours sunday{};
-            DailyHours monday{};
-            DailyHours tuesday{};
-            DailyHours wednesday{};
-            DailyHours thursday{};
-            DailyHours friday{};
-            DailyHours saturday{};
-        };
+        DTO_FIELD(Object<Schedule>, schedule);
 
-        struct Schedule
-        {
-            std::vector<MaintenanceWindow> maintenance_windows{};
-            StandardHours standard_hours{};
-        };
-
-        Schedule schedule{};
     };
 
     struct ExchangeStatusResponse
+        : public oatpp::DTO
     {
-        bool exchange_active{};
-        bool trading_active{};
+
+        DTO_INIT(ExchangeStatusResponse, DTO /* extends */)
+
+        DTO_FIELD(Boolean, exchange_active);
+        DTO_FIELD(Boolean, trading_active);
+
     };
+
+    #include OATPP_CODEGEN_END(DTO)
 
     // portfolio ////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////

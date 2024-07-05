@@ -32,9 +32,9 @@ namespace kdeck
         void Logout();
 
         // exchange
-        ExchangeAnnouncementsResponse GetExchangeAnnouncements();
-        ExchangeScheduleResponse GetExchangeSchedule();
-        ExchangeStatusResponse GetExchangeStatus();
+        std::shared_ptr<ExchangeAnnouncementsResponse> GetExchangeAnnouncements();
+        std::shared_ptr<ExchangeScheduleResponse> GetExchangeSchedule();
+        std::shared_ptr<ExchangeStatusResponse> GetExchangeStatus();
 
         // portfolio
         double GetBalance();
@@ -54,9 +54,9 @@ namespace kdeck
         std::shared_ptr<LoginResponse> login;
 
         // exchange
-        ExchangeAnnouncementsResponse announcements;
-        ExchangeScheduleResponse schedule;
-        ExchangeStatusResponse status;
+        std::shared_ptr<ExchangeAnnouncementsResponse> announcements;
+        std::shared_ptr<ExchangeScheduleResponse> schedule;
+        std::shared_ptr<ExchangeStatusResponse> status;
 
         // portfolio
         PortfolioBalanceResponse balance;

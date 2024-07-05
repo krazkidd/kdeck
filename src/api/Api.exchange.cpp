@@ -2,12 +2,14 @@
 #include <variant>
 #include <vector>
 
+#include "oatpp/core/base/Environment.hpp"
+
 #include "api/Api.hpp"
 #include "api/types.hpp"
 
 namespace kdeck
 {
-    ExchangeAnnouncementsResponse Api::GetExchangeAnnouncements()
+    std::shared_ptr<ExchangeAnnouncementsResponse> Api::GetExchangeAnnouncements()
     {
         // we don't need to be logged in!
         // if (!IsLoggedIn())
@@ -15,21 +17,23 @@ namespace kdeck
         //     throw std::logic_error("Not logged in.");
         // }
 
-        ApiResult<ExchangeAnnouncementsResponse> res = GetRequest<ExchangeAnnouncementsResponse>("/exchange/announcements");
+        OatApiResult<ExchangeAnnouncementsResponse> res = HandleResponse<ExchangeAnnouncementsResponse>(_api->GetExchangeAnnouncements());
 
-        if (std::holds_alternative<ExchangeAnnouncementsResponse>(res))
+        if (std::holds_alternative<std::shared_ptr<ExchangeAnnouncementsResponse>>(res))
         {
-            announcements = std::get<ExchangeAnnouncementsResponse>(res);
+            announcements = std::get<std::shared_ptr<ExchangeAnnouncementsResponse>>(res);
+
+            OATPP_LOGD("Api", "GetExchangeAnnouncements");
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
 
         return announcements;
     }
 
-    ExchangeScheduleResponse Api::GetExchangeSchedule()
+    std::shared_ptr<ExchangeScheduleResponse> Api::GetExchangeSchedule()
     {
         // we don't need to be logged in!
         // if (!IsLoggedIn())
@@ -37,21 +41,23 @@ namespace kdeck
         //     throw std::logic_error("Not logged in.");
         // }
 
-        ApiResult<ExchangeScheduleResponse> res = GetRequest<ExchangeScheduleResponse>("/exchange/schedule");
+        OatApiResult<ExchangeScheduleResponse> res = HandleResponse<ExchangeScheduleResponse>(_api->GetExchangeSchedule());
 
-        if (std::holds_alternative<ExchangeScheduleResponse>(res))
+        if (std::holds_alternative<std::shared_ptr<ExchangeScheduleResponse>>(res))
         {
-            schedule = std::get<ExchangeScheduleResponse>(res);
+            schedule = std::get<std::shared_ptr<ExchangeScheduleResponse>>(res);
+
+            OATPP_LOGD("Api", "GetExchangeSchedule");
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
 
         return schedule;
     }
 
-    ExchangeStatusResponse Api::GetExchangeStatus()
+    std::shared_ptr<ExchangeStatusResponse> Api::GetExchangeStatus()
     {
         // we don't need to be logged in!
         // if (!IsLoggedIn())
@@ -59,15 +65,17 @@ namespace kdeck
         //     throw std::logic_error("Not logged in.");
         // }
 
-        ApiResult<ExchangeStatusResponse> res = GetRequest<ExchangeStatusResponse>("/exchange/status");
+        OatApiResult<ExchangeStatusResponse> res = HandleResponse<ExchangeStatusResponse>(_api->GetExchangeStatus());
 
-        if (std::holds_alternative<ExchangeStatusResponse>(res))
+        if (std::holds_alternative<std::shared_ptr<ExchangeStatusResponse>>(res))
         {
-            status = std::get<ExchangeStatusResponse>(res);
+            status = std::get<std::shared_ptr<ExchangeStatusResponse>>(res);
+
+            OATPP_LOGD("Api", "GetExchangeStatus");
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
 
         return status;

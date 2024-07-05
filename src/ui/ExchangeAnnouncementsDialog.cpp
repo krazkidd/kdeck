@@ -42,25 +42,25 @@ namespace kdeck
 
         try
         {
-            ExchangeAnnouncementsResponse announcements = api->GetExchangeAnnouncements();
+            std::shared_ptr<ExchangeAnnouncementsResponse> announcements = api->GetExchangeAnnouncements();
 
             wxSizerFlags flags = wxSizerFlags().Border(wxALL, 10); //.Expand();
 
-            if (announcements.announcements.empty())
+            if (announcements->announcements->empty())
             {
                 boxSizer->Add(new wxStaticText(this, wxID_ANY, "No announcements."), flags);
             }
             else
             {
-                for (auto announcement : announcements.announcements)
+                for (auto announcement : *(announcements->announcements))
                 {
                     wxBoxSizer* szr = new wxBoxSizer(wxHORIZONTAL);
 
                     //TODO need to stringify/localize time
                     //szr->Add(new wxStaticText(this, wxID_ANY, announcement.delivery_time), flags);
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement.status), flags);
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement.type), flags);
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement.message), flags);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->status->c_str()), flags);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->type->c_str()), flags);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->message->c_str()), flags);
                 }
             }
         }

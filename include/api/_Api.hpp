@@ -39,6 +39,27 @@ namespace kdeck
         }
         API_CALL("POST", "trade-api/v2/logout", Logout, AUTHORIZATION(String, authString, "Bearer"))
 
+        API_CALL_HEADERS(GetExchangeAnnouncements)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "trade-api/v2/exchange/announcements", GetExchangeAnnouncements)
+
+        API_CALL_HEADERS(GetExchangeSchedule)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "trade-api/v2/exchange/schedule", GetExchangeSchedule)
+
+        API_CALL_HEADERS(GetExchangeStatus)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "trade-api/v2/exchange/status", GetExchangeStatus)
+
     };
 
     #include OATPP_CODEGEN_END(ApiClient)
