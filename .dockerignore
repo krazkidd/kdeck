@@ -22,6 +22,7 @@
 #**/node_modules
 #**/npm-debug.log
 build/
+vendor/
 CMakeUserPresets.json
 LICENSE.md
 README.md

@@ -2,6 +2,7 @@ name: Debian Bookworm Release
 
 on:
   push:
+    # this won't work as the build requires a tag with a version number
     # branches:
     #   - main
     tags:
@@ -22,15 +23,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # NOTE: Our .dockerignore doesn't copy git repo metadata,
+      #       so vcpkg will be unable to install dependencies
+      #       inside the container.
+
+      - name: Install vcpkg dependencies
+        run: ./vendor/microsoft/vcpkg/vcpkg install
 
       - name: Build Docker image
         run: docker build -t kdeck-build .
 
-      # NOTE: We use a bind-mount instead of a volume because the runner user
-      #       does not have permission to access a created volume.
+      # NOTE: We use a bind-mount instead of a volume for the build dir
+      #       because the runner user will not have permission to access
+      #       an (automatically created) anonymous volume.
 
       - name: Run build in Docker container
-        run: docker run -v "${{ github.workspace }}/build:/src/build" kdeck-build
+        run: |
+          docker run
+            -v "${{ github.workspace }}/build:/src/build"
+            -v "${{ github.workspace }}/vendor:/src/vendor"
+            kdeck-build
 
       - name: Record hash
         run: echo ${{ github.sha }} > release.txt
