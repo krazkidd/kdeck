@@ -90,15 +90,15 @@ namespace kdeck
     {
         try
         {
-            ExchangeScheduleResponse status = api->GetExchangeSchedule();
+            std::shared_ptr<ExchangeScheduleResponse> status = api->GetExchangeSchedule();
 
-            lblSundaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.sunday.open_time, status.schedule.standard_hours.sunday.close_time));
-            lblMondaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.monday.open_time, status.schedule.standard_hours.monday.close_time));
-            lblTuesdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.tuesday.open_time, status.schedule.standard_hours.tuesday.close_time));
-            lblWednesdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.wednesday.open_time, status.schedule.standard_hours.wednesday.close_time));
-            lblThursdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.thursday.open_time, status.schedule.standard_hours.thursday.close_time));
-            lblFridaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.friday.open_time, status.schedule.standard_hours.friday.close_time));
-            lblSaturdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status.schedule.standard_hours.saturday.open_time, status.schedule.standard_hours.saturday.close_time));
+            lblSundaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->sunday->open_time->c_str(), status->schedule->standard_hours->sunday->close_time->c_str()));
+            lblMondaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->monday->open_time->c_str(), status->schedule->standard_hours->monday->close_time->c_str()));
+            lblTuesdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->tuesday->open_time->c_str(), status->schedule->standard_hours->tuesday->close_time->c_str()));
+            lblWednesdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->wednesday->open_time->c_str(), status->schedule->standard_hours->wednesday->close_time->c_str()));
+            lblThursdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->thursday->open_time->c_str(), status->schedule->standard_hours->thursday->close_time->c_str()));
+            lblFridaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->friday->open_time->c_str(), status->schedule->standard_hours->friday->close_time->c_str()));
+            lblSaturdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", status->schedule->standard_hours->saturday->open_time->c_str(), status->schedule->standard_hours->saturday->close_time->c_str()));
         }
         catch (std::exception &e)
         {

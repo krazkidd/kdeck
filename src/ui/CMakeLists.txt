@@ -21,14 +21,13 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
-# see https://cmake.org/cmake/help/latest/module/FindwxWidgets.html
-find_package(wxWidgets REQUIRED gl core base)
-include(${wxWidgets_USE_FILE})
-
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         api
-        #TODO requires cmake 3.27
-        #wxWidgets::wxWidgets
-        ${wxWidgets_LIBRARIES}
+    PRIVATE
+        OpenGL::EGL
+        wx::core
+        wx::base
+        wx::gl
+        oatpp::oatpp
 )

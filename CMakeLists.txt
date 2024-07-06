@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.20.0)
 project(kdeck VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -27,8 +27,24 @@ configure_file(
     "${CMAKE_BINARY_DIR}/include/config.hpp"
 )
 
-#TODO GitHub Copilot suggested this to combine source and generated headers
-# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+find_package(OpenGL REQUIRED)
+find_package(wxWidgets CONFIG REQUIRED COMPONENTS core base gl)
+
+find_package(OpenSSL REQUIRED)
+find_package(oatpp CONFIG REQUIRED)
+find_package(oatpp-openssl CONFIG REQUIRED)
+
+# Check if the build type is Debug
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    # do nothing
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(OATPP_DISABLE_LOGV)
+    add_compile_definitions(OATPP_DISABLE_LOGD)
+    #add_compile_definitions(OATPP_DISABLE_LOGI)
+    #add_compile_definitions(OATPP_DISABLE_LOGW)
+    #add_compile_definitions(OATPP_DISABLE_LOGE)
+else()
+    # do nothing
+endif()
 
 add_subdirectory(src)

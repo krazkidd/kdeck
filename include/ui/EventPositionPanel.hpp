@@ -1,6 +1,8 @@
 #ifndef EVENTTPOSITIONPANEL_HPP
 #define EVENTTPOSITIONPANEL_HPP
 
+#include <memory>
+
 #include <wx/wx.h>
 
 #include "api/types.hpp"
@@ -10,11 +12,10 @@ namespace kdeck
     class EventPositionPanel : public wxPanel
     {
     public:
-        EventPositionPanel(wxWindow* parent, wxWindowID winid, PortfolioPositionsResponse::EventPosition* event);
+        EventPositionPanel(wxWindow* parent, wxWindowID winid, std::shared_ptr<EventPosition> event);
 
     private:
-        //TODO these are pointers, should be references?
-        PortfolioPositionsResponse::EventPosition* event;
+        std::shared_ptr<EventPosition> event;
 
         // init
         void Setup();

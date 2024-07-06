@@ -6,139 +6,237 @@
 #include <string_view>
 #include <vector>
 
+#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/core/Types.hpp"
+
 namespace kdeck
 {
-    struct VoidResponse
+
+    #include OATPP_CODEGEN_BEGIN(DTO)
+
+    //TODO this type is not used--it's a hack
+    class VoidResponse
+        : public oatpp::DTO
     {
+
+        DTO_INIT(VoidResponse, DTO /* extends */)
 
     };
 
-    struct ErrorResponse
+    class ErrorResponse
+        : public oatpp::DTO
     {
-        std::string code{};
+
+        DTO_INIT(ErrorResponse, DTO /* extends */)
+
+        DTO_FIELD(String, code);
         //TODO try using std::optional
-        std::string details{};
-        std::string message{};
+        DTO_FIELD(String, details);
+        DTO_FIELD(String, message);
+
     };
 
     // auth /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    struct LoginRequest
+    class LoginRequest
+        : public oatpp::DTO
     {
-        std::string_view email{};
-        std::string_view password{};
+
+        DTO_INIT(LoginRequest, DTO /* extends */)
+
+        DTO_FIELD(String, email);
+        DTO_FIELD(String, password);
+
     };
 
-    struct LoginResponse
+    class LoginResponse
+        : public oatpp::DTO
     {
-        std::string member_id{};
-        std::string token{};
+
+        DTO_INIT(LoginResponse, DTO /* extends */)
+
+        DTO_FIELD(String, member_id);
+        DTO_FIELD(String, token);
+
     };
 
     // exchange /////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    struct ExchangeAnnouncementsResponse
+    class Announcement
+        : public oatpp::DTO
     {
-        struct Announcement
-        {
-            std::chrono::time_point<std::chrono::system_clock> delivery_time{};
-            std::string message{};
-            std::string status{};
-            std::string type{};
-        };
 
-        std::vector<Announcement> announcements{};
+        DTO_INIT(Announcement, DTO /* extends */)
+
+        //TODO
+        //std::chrono::time_point<std::chrono::system_clock> delivery_time{};
+        //DTO_FIELD(TODO, delivery_time);
+        DTO_FIELD(String, message);
+        DTO_FIELD(String, status);
+        DTO_FIELD(String, type);
+
+    };
+
+    class MaintenanceWindow
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MaintenanceWindow, DTO /* extends */)
+
+        //TODO
+        //std::chrono::time_point<std::chrono::system_clock> start_datetime{};
+        //DTO_FIELD(TODO, start_datetime);
+        //TODO
+        //std::chrono::time_point<std::chrono::system_clock> end_datetime{};
+        //DTO_FIELD(TODO, end_datetime);
+
+    };
+
+    class DailyHours
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(DailyHours, DTO /* extends */)
+
+        DTO_FIELD(String, open_time);
+        DTO_FIELD(String, close_time);
+
+    };
+
+    class StandardHours
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(StandardHours, DTO /* extends */)
+
+        DTO_FIELD(Object<DailyHours>, sunday);
+        DTO_FIELD(Object<DailyHours>, monday);
+        DTO_FIELD(Object<DailyHours>, tuesday);
+        DTO_FIELD(Object<DailyHours>, wednesday);
+        DTO_FIELD(Object<DailyHours>, thursday);
+        DTO_FIELD(Object<DailyHours>, friday);
+        DTO_FIELD(Object<DailyHours>, saturday);
+
+    };
+
+    class Schedule
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(Schedule, DTO /* extends */)
+
+        DTO_FIELD(List<Object<MaintenanceWindow>>, maintenance_windows);
+        DTO_FIELD(Object<StandardHours>, standard_hours);
+
+    };
+
+    class ExchangeAnnouncementsResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(ExchangeAnnouncementsResponse, DTO /* extends */)
+
+        DTO_FIELD(List<Object<Announcement>>, announcements);
+
     };
 
     struct ExchangeScheduleResponse
+        : public oatpp::DTO
     {
-        struct MaintenanceWindow
-        {
-            std::chrono::time_point<std::chrono::system_clock> start_datetime{};
-            std::chrono::time_point<std::chrono::system_clock> end_datetime{};
-        };
 
-        struct DailyHours
-        {
-            std::string open_time{};
-            std::string close_time{};
-        };
+        DTO_INIT(ExchangeScheduleResponse, DTO /* extends */)
 
-        struct StandardHours
-        {
-            DailyHours sunday{};
-            DailyHours monday{};
-            DailyHours tuesday{};
-            DailyHours wednesday{};
-            DailyHours thursday{};
-            DailyHours friday{};
-            DailyHours saturday{};
-        };
+        DTO_FIELD(Object<Schedule>, schedule);
 
-        struct Schedule
-        {
-            std::vector<MaintenanceWindow> maintenance_windows{};
-            StandardHours standard_hours{};
-        };
-
-        Schedule schedule{};
     };
 
     struct ExchangeStatusResponse
+        : public oatpp::DTO
     {
-        bool exchange_active{};
-        bool trading_active{};
+
+        DTO_INIT(ExchangeStatusResponse, DTO /* extends */)
+
+        DTO_FIELD(Boolean, exchange_active);
+        DTO_FIELD(Boolean, trading_active);
+
     };
 
     // portfolio ////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    struct PortfolioBalanceResponse
+    class PortfolioBalanceResponse
+        : public oatpp::DTO
     {
-        double balance{};
-        //TODO try using std::optional
-        double payout{};
+        DTO_INIT(PortfolioBalanceResponse, DTO /* extends */)
+
+        DTO_FIELD(Int64, balance);
+        //TODO how to make optional?
+        DTO_FIELD(Int64, payout);
+
     };
 
     struct PortfolioPositionsRequest
+        : public oatpp::DTO
     {
-        std::string_view cursor{};
-        int limit{100};
-        std::string_view count_filter{"position,total_traded,resting_order_count"};
-        std::string_view settlement_status{"unsettled"};
-        std::string_view ticker{};
-        std::string_view event_ticker{};
+
+        DTO_INIT(PortfolioPositionsRequest, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Int32, limit) = 100;
+        DTO_FIELD(String, count_filter) = "position,total_traded,resting_order_count";
+        DTO_FIELD(String, settlement_status) = "unsettled";
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, event_ticker);
+
+    };
+
+    class EventPosition
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(EventPosition, DTO /* extends */)
+
+        DTO_FIELD(Int64, event_exposure);
+        DTO_FIELD(String, event_ticker);
+        DTO_FIELD(Int64, fees_paid);
+        DTO_FIELD(Int64, realized_pnl);
+        DTO_FIELD(Int32, resting_order_count);
+        DTO_FIELD(Int64, total_cost);
+
+    };
+
+    class MarketPosition
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MarketPosition, DTO /* extends */)
+
+        DTO_FIELD(Int64, fees_paid);
+        DTO_FIELD(Int64, market_exposure);
+        DTO_FIELD(Int32, position);
+        DTO_FIELD(Int64, realized_pnl);
+        DTO_FIELD(Int32, resting_orders_count);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(Int64, total_traded);
+
     };
 
     struct PortfolioPositionsResponse
+        : public oatpp::DTO
     {
-        struct EventPosition
-        {
-            double event_exposure{};
-            std::string event_ticker{};
-            double fees_paid{};
-            double realized_pnl{};
-            long resting_order_count{};
-            double total_cost{};
-        };
 
-        struct MarketPosition
-        {
-            double fees_paid{};
-            double market_exposure{};
-            long position{};
-            double realized_pnl{};
-            long resting_orders_count{};
-            std::string ticker{};
-            double total_traded{};
-        };
+        DTO_INIT(PortfolioPositionsResponse, DTO /* extends */)
 
-        std::string cursor{};
-        std::vector<EventPosition> event_positions{};
-        std::vector<MarketPosition> market_positions{};
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(List<Object<EventPosition>>, event_positions);
+        DTO_FIELD(List<Object<MarketPosition>>, market_positions);
+
     };
+
+    #include OATPP_CODEGEN_END(DTO)
+
 }
 
 #endif

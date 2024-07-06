@@ -10,6 +10,6 @@ namespace kdeck
 
     void StaticCurrency::SetAmount(double amount)
     {
-        SetLabel(wxString::Format("$%.2f", amount));
+        SetLabel(wxString::Format("$%.2f", amount / 100.0));
     }
 }

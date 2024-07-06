@@ -1,6 +1,9 @@
+#include <memory>
 #include <string_view>
 #include <stdexcept>
 #include <variant>
+
+#include "oatpp/core/base/Environment.hpp"
 
 #include "api/Api.hpp"
 #include "api/types.hpp"
@@ -22,15 +25,21 @@ namespace kdeck
             throw std::invalid_argument("Password not provided.");
         }
 
-        ApiResult<LoginResponse> res = PostRequest<LoginResponse, LoginRequest>("/login", LoginRequest{email, password});
+        auto req = LoginRequest::createShared();
+        req->email = std::string{email};
+        req->password = std::string{password};
 
-        if (std::holds_alternative<LoginResponse>(res))
+        ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(req));
+
+        if (std::holds_alternative<std::shared_ptr<LoginResponse>>(res))
         {
-            login = std::get<LoginResponse>(res);
+            login = std::get<std::shared_ptr<LoginResponse>>(res);
+
+            OATPP_LOGD("Api", "Login (auth token = %s)", login->token->c_str());
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
     }
 
@@ -41,15 +50,17 @@ namespace kdeck
             throw std::logic_error("Already logged out.");
         }
 
-        ApiResult<VoidResponse> res = PostRequest<VoidResponse>("/logout");
+        ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(login->token));
 
-        if (std::holds_alternative<VoidResponse>(res))
+        if (std::holds_alternative<std::shared_ptr<VoidResponse>>(res))
         {
-            login = LoginResponse{};
+            login = nullptr;
+
+            OATPP_LOGD("Api", "Logout");
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
     }
 
@@ -57,6 +68,6 @@ namespace kdeck
 
     bool Api::IsLoggedIn()
     {
-        return !login.member_id.empty();
+        return login != nullptr;
     }
 }

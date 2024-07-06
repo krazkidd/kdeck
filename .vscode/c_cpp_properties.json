@@ -4,6 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/include/**",
+                "${workspaceFolder}/vcpkg_installed/x64-linux/include/**",
                 "/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2",
                 "/usr/include/wx-3.2"
             ],

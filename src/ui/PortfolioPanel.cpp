@@ -55,13 +55,13 @@ namespace kdeck
 
                 wxSizerFlags flagsPnl = wxSizerFlags().Border(wxUP | wxDOWN, 5).Expand();
 
-                for (PortfolioPositionsResponse::EventPosition event : api->GetEventPositions())
+                for (auto event : api->GetEventPositions())
                 {
-                    boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, &event), flagsPnl);
+                    boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, event), flagsPnl);
 
-                    for (PortfolioPositionsResponse::MarketPosition market : api->GetMarketPositions(event.event_ticker))
+                    for (auto market : api->GetMarketPositions(*event->event_ticker))
                     {
-                        boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, &market), flagsPnl);
+                        boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flagsPnl);
                     }
                 }
 

@@ -11,6 +11,8 @@ namespace kdeck
     constexpr std::string_view kProjectVersion{"@CMAKE_PROJECT_VERSION@"};
 
     constexpr std::string_view kKalshiApiUrl{"@KALSHI_API_URL@"};
+
+    constexpr std::string_view kSslTrustStoreDir{"@SSL_TRUST_STORE_DIR@"};
 }
 
 #endif

@@ -1,6 +1,7 @@
 project(api)
 
 add_library(${PROJECT_NAME} STATIC
+    Api.cpp
     Api.auth.cpp
     Api.exchange.cpp
     Api.portfolio.cpp
@@ -12,22 +13,12 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
 
-# see https://cmake.org/cmake/help/latest/module/FindBoost.html
-find_package(Boost REQUIRED COMPONENTS json)
-# see https://cmake.org/cmake/help/latest/module/FindCURL.html
-find_package(CURL REQUIRED COMPONENTS HTTPS)
-
-add_library(curlpp UNKNOWN IMPORTED)
-set_target_properties(curlpp PROPERTIES
-    IMPORTED_LOCATION "/usr/lib/x86_64-linux-gnu/libcurlpp.so.1"
-    #INTERFACE_INCLUDE_DIRECTORIES "/usr/include/curlpp"
-)
-
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC
-        Boost::json
-        CURL::libcurl
-        curlpp
+    PRIVATE
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        oatpp::oatpp
+        oatpp::oatpp-openssl
 )
 
 target_compile_options(${PROJECT_NAME}

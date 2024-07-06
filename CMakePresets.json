@@ -15,7 +15,10 @@
             "installDir": "${sourceDir}/build/install",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",
-                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vendor/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays",
+                "SSL_TRUST_STORE_DIR": ""
             }
         },
         {
