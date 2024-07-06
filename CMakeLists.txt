@@ -27,10 +27,6 @@ configure_file(
     "${CMAKE_BINARY_DIR}/include/config.hpp"
 )
 
-#TODO GitHub Copilot suggested this to combine source and generated headers
-# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets CONFIG REQUIRED COMPONENTS core base gl)
 
