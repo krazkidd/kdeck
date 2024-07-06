@@ -17,7 +17,7 @@ namespace kdeck
         //     throw std::logic_error("Not logged in.");
         // }
 
-        OatApiResult<ExchangeAnnouncementsResponse> res = HandleResponse<ExchangeAnnouncementsResponse>(_api->GetExchangeAnnouncements());
+        ApiResult<ExchangeAnnouncementsResponse> res = HandleResponse<ExchangeAnnouncementsResponse>(_api->GetExchangeAnnouncements());
 
         if (std::holds_alternative<std::shared_ptr<ExchangeAnnouncementsResponse>>(res))
         {
@@ -41,7 +41,7 @@ namespace kdeck
         //     throw std::logic_error("Not logged in.");
         // }
 
-        OatApiResult<ExchangeScheduleResponse> res = HandleResponse<ExchangeScheduleResponse>(_api->GetExchangeSchedule());
+        ApiResult<ExchangeScheduleResponse> res = HandleResponse<ExchangeScheduleResponse>(_api->GetExchangeSchedule());
 
         if (std::holds_alternative<std::shared_ptr<ExchangeScheduleResponse>>(res))
         {
@@ -65,7 +65,7 @@ namespace kdeck
         //     throw std::logic_error("Not logged in.");
         // }
 
-        OatApiResult<ExchangeStatusResponse> res = HandleResponse<ExchangeStatusResponse>(_api->GetExchangeStatus());
+        ApiResult<ExchangeStatusResponse> res = HandleResponse<ExchangeStatusResponse>(_api->GetExchangeStatus());
 
         if (std::holds_alternative<std::shared_ptr<ExchangeStatusResponse>>(res))
         {

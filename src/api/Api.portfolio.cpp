@@ -16,7 +16,7 @@ namespace kdeck
             throw std::logic_error("Not logged in.");
         }
 
-        OatApiResult<PortfolioBalanceResponse> res = HandleResponse<PortfolioBalanceResponse>(_api->GetBalance(login->token));
+        ApiResult<PortfolioBalanceResponse> res = HandleResponse<PortfolioBalanceResponse>(_api->GetBalance(login->token));
 
         if (std::holds_alternative<std::shared_ptr<PortfolioBalanceResponse>>(res))
         {
@@ -39,7 +39,7 @@ namespace kdeck
 
         auto req = PortfolioPositionsRequest::createShared();
 
-        OatApiResult<PortfolioPositionsResponse> res = HandleResponse<PortfolioPositionsResponse>(_api->GetPositions(login->token, req));
+        ApiResult<PortfolioPositionsResponse> res = HandleResponse<PortfolioPositionsResponse>(_api->GetPositions(login->token, req));
 
         if (std::holds_alternative<std::shared_ptr<PortfolioPositionsResponse>>(res))
         {

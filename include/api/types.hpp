@@ -11,20 +11,30 @@
 
 namespace kdeck
 {
-    struct VoidResponse
-    {
-
-    };
-
-    struct ErrorResponse
-    {
-        std::string code{};
-        //TODO try using std::optional
-        std::string details{};
-        std::string message{};
-    };
 
     #include OATPP_CODEGEN_BEGIN(DTO)
+
+    //TODO this type is not used--it's a hack
+    class VoidResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(VoidResponse, DTO /* extends */)
+
+    };
+
+    class ErrorResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(ErrorResponse, DTO /* extends */)
+
+        DTO_FIELD(String, code);
+        //TODO try using std::optional
+        DTO_FIELD(String, details);
+        DTO_FIELD(String, message);
+
+    };
 
     // auth /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////

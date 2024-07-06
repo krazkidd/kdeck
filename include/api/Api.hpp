@@ -17,10 +17,7 @@
 namespace kdeck
 {
     template <typename TResponse>
-    using OatApiResult = std::variant<std::shared_ptr<TResponse>, std::shared_ptr<ErrorResponse>>;
-
-    template <typename TResponse>
-    using ApiResult = std::variant<TResponse, ErrorResponse>;
+    using ApiResult = std::variant<std::shared_ptr<TResponse>, std::shared_ptr<ErrorResponse>>;
 
     class Api
     {
@@ -67,28 +64,8 @@ namespace kdeck
 
         // core
         template <typename TResponse>
-        OatApiResult<TResponse> HandleResponse(std::shared_ptr<oatpp::web::protocol::http::incoming::Response> response);
+        ApiResult<TResponse> HandleResponse(std::shared_ptr<oatpp::web::protocol::http::incoming::Response> response);
 
-        template <typename TResponse>
-        ApiResult<TResponse> HandleResponse(int responseCode, const std::stringstream &responseBody);
-
-        template <typename TResponse>
-        ApiResult<TResponse> MakeRequest(std::string_view endpoint, bool doPostMethod = false);
-
-        template <typename TResponse>
-        ApiResult<TResponse> MakeRequest(std::string_view endpoint, const boost::json::value &json, bool doPostMethod = false);
-
-        template <typename TResponse>
-        ApiResult<TResponse> GetRequest(std::string_view endpoint);
-
-        template <typename TResponse, typename TRequest>
-        ApiResult<TResponse> GetRequest(std::string_view endpoint, TRequest&& req);
-
-        template <typename TResponse>
-        ApiResult<TResponse> PostRequest(std::string_view endpoint);
-
-        template <typename TResponse, typename TRequest>
-        ApiResult<TResponse> PostRequest(std::string_view endpoint, TRequest&& req);
     };
 }
 

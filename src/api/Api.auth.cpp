@@ -29,7 +29,7 @@ namespace kdeck
         req->email = std::string{email};
         req->password = std::string{password};
 
-        OatApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(req));
+        ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(req));
 
         if (std::holds_alternative<std::shared_ptr<LoginResponse>>(res))
         {
@@ -50,21 +50,18 @@ namespace kdeck
             throw std::logic_error("Already logged out.");
         }
 
-        //TODO refactor after converting VoidResponse to oatpp DTO
+        ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(login->token));
 
-        //OatApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(login->token));
-        _api->Logout(login->token);
-
-        // if (std::holds_alternative<std::shared_ptr<VoidResponse>>(res))
+        if (std::holds_alternative<std::shared_ptr<VoidResponse>>(res))
         {
             login = nullptr;
 
             OATPP_LOGD("Api", "Logout");
         }
-        // else
-        // {
-        //     throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
-        // }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
+        }
     }
 
     // helpers /////////////////////////////////////////////////////////////////////
