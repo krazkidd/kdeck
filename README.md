@@ -13,37 +13,29 @@ License: GPLv3 (see LICENSE.md file)
 To get started with the kdeck project, you will need to install a few dependencies. These should be available through your system package manager.
 
 > [!NOTE]  
-> The names and versions below come from Debian 12 (Bookworm) and may vary on your system.
+> kdeck is primarily developed on Debian 12 (Bookworm) and any instructions may have to be adapted for other systems.
 
 ### System Requirements
 
-Make sure you have the following dependencies installed on your system. The version numbers are not strict requirements but the ones shown were available during development.
-
-* **libcurl4** (version 7.88 or higher)
-* **libcurlpp** (version 0.8 or higher)
-* **libboost-json** (version 1.81 or higher)
-* **libwxgtk** (version 3.2 or higher)
+The program is statically linked so no shared libraries should be required. Performance requirements should be minimal but note that kdeck is a GUI program based on wxWidgets, so a desktop environment is required. On Linux, your desktop environment must support GTK.
 
 ### Build Requirements
 
-At a minimum, you will need these build tools:
+First install required submodules:
 
-* **gcc**
-* **cmake**
+```bash
+git submodule update --init --recursive
+```
 
-Don't forget to install development headers for system dependencies if they are distributed separately on your system:
+This project uses vcpkg to manage dependencies which is installed as a git submodule. vcpkg is designed to statically compile programs and makes it difficult to rely on shared libraries[^1]. For the time being, this repo follows the path of least resistance. However, a number of build tools are required to be present.
 
-* **libcurl4-openssl-dev**
-* **libcurlpp-dev**
-* **libboost-json1.81-dev**
-* **libwxgtk3.2-dev**
+[^1]: Previously, kdeck used the [Boost.JSON](https://boost.org/libs/json) and [curlpp](http://www.curlpp.org/) ([libcURL](https://curl.se/libcurl/) wrapper) libraries to make API requests. See the `curl-and-boost` branch for the version based on these other libraries. (This branch does not make use of vcpkg.)
+
+A `Dockerfile` documents which packages are required to acquire the necessary tools and build on a Debian-based system. You may install these directly or use the Docker-based build
 
 ## Build Steps
 
-This project uses [CMake](https://cmake.org/) for builds. Out-of-source builds are expected.
-
-> [!NOTE]
-> Builds used to rely on Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension for Visual Studio Code. If you're curious, you will find the old config [here](https://github.com/krazkidd/kdeck/blob/c8c90c0709d981d3f6170763a70ff6e239ec2001/.vscode/tasks.json).
+This project uses [CMake](https://cmake.org/) for builds.
 
 ### Debug Builds
 
@@ -56,7 +48,7 @@ cmake -DCMAKE_BUILD_TYPE="Debug" ..
 make
 ```
 
-Or, alternatively:
+Or, preferrably:
 
 ```bash
 cmake --preset debug
@@ -73,19 +65,34 @@ You will find the final build output under `build/bin`.
 > [!CAUTION]
 > **Release builds will target the live Kalshi trading platform. You are responsible for any activity made through the API.**
 
-One way to create a release build is to invoke CMake directly, like a debug build.
-
-For official releases, a Docker container is provided. If you have Docker installed, you may run from the root source directory:
+One way to create a release build is to invoke CMake directly, like the debug build above:
 
 ```bash
-docker build -t kdeck-build .
-docker run -v "<MOUNT_PATH>:/src/build" kdeck-build
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE="Release" ..
+make
 ```
 
-where `<MOUNT_PATH>` is a named volume (e.g. `kdeck-build-volume`) or a bind-mounted directory (e.g. `$(pwd)/build`).
+Or, preferrably:
+
+```bash
+cmake --preset release
+cmake --build --preset release
+```
+
+For official releases, a `Dockerfile` is provided. If you have Docker installed, you may run from the root source directory:
+
+```bash
+./vendor/microsoft/vcpkg/vcpkg install
+docker build -t kdeck-build .
+docker run -v "<MOUNT_PATH>:/src/build" -v "<SOURCE_PATH>/vendor:/src/vendor" kdeck-build
+```
+
+where `<MOUNT_PATH>` is a named volume (e.g. `kdeck-build-volume`) or a bind-mounted directory (e.g. `$(pwd)/build`) and where `<SOURCE_PATH>` is the source root directory (e.g. `$(pwd)`).
 
 > [!NOTE]
-> Currently, only Debian 12 (Bookworm) releases are produced via the Docker method. Shared libraries are required to run.
+> While kdeck is statically linked by the vcpkg build process, it is not tested on systems other than Debian 12 (Bookworm).
 
 ## Design Tools
 
@@ -97,6 +104,6 @@ This project is **not yet** making use of wxWidgets' XRC support. In the future,
 
 ## Kalshi API
 
-Kalshi provides a [REST API](https://trading-api.readme.io/reference/getting-started) for getting portfolio information and making trades, among other things. kdeck uses the [Boost.JSON](https://boost.org/libs/json) and [curlpp](http://www.curlpp.org/) ([libcURL](https://curl.se/libcurl/) wrapper) libraries to make API requests.
+Kalshi provides a [REST API](https://trading-api.readme.io/reference/getting-started) for getting portfolio information and making trades, among other things. kdeck uses the [Oat++](https://oatpp.io/) library to make API requests[^1].
 
 Kalshi provides a [demo environment](https://trading-api.readme.io/reference/creating-a-demo-account) for API development.
