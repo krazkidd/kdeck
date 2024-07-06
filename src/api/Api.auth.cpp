@@ -25,11 +25,11 @@ namespace kdeck
             throw std::invalid_argument("Password not provided.");
         }
 
-        auto loginRequest = LoginRequest::createShared();
-        loginRequest->email = std::string{email};
-        loginRequest->password = std::string{password};
+        auto req = LoginRequest::createShared();
+        req->email = std::string{email};
+        req->password = std::string{password};
 
-        OatApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(loginRequest));
+        OatApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(req));
 
         if (std::holds_alternative<std::shared_ptr<LoginResponse>>(res))
         {

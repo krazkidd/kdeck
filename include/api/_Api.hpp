@@ -25,6 +25,9 @@ namespace kdeck
         // NOTE: API_CALL returns std::shared_ptr<IncomingResponse>.
         //       Source: https://oatpp.io/api/latest/oatpp/web/protocol/http/incoming/Response/
 
+        // auth /////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////
+
         API_CALL_HEADERS(Login)
         {
             headers.put("Content-Type", "application/json");
@@ -38,6 +41,9 @@ namespace kdeck
             headers.put("Accept", "application/json");
         }
         API_CALL("POST", "trade-api/v2/logout", Logout, AUTHORIZATION(String, authString, "Bearer"))
+
+        // exchange /////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////
 
         API_CALL_HEADERS(GetExchangeAnnouncements)
         {
@@ -59,6 +65,9 @@ namespace kdeck
             headers.put("Accept", "application/json");
         }
         API_CALL("GET", "trade-api/v2/exchange/status", GetExchangeStatus)
+
+        // portfolio ////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////
 
         API_CALL_HEADERS(GetBalance)
         {

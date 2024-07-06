@@ -52,7 +52,7 @@ namespace kdeck
             }
             else
             {
-                for (auto announcement : *(announcements->announcements))
+                for (auto announcement : *announcements->announcements)
                 {
                     wxBoxSizer* szr = new wxBoxSizer(wxHORIZONTAL);
 
