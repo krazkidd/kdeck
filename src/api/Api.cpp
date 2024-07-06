@@ -47,7 +47,7 @@ namespace kdeck
         else
         {
             //TODO
-            //throw std::runtime_error("Unsupported scheme: " + url.scheme.getValue());
+            //throw std::runtime_error("Unsupported scheme: " + *url.scheme);
         }
 
         auto requestExecutor = oatpp::web::client::HttpRequestExecutor::createShared(connectionProvider);
