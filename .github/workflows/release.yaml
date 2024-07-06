@@ -31,7 +31,8 @@ jobs:
       #       inside the container.
 
       - name: Install vcpkg dependencies
-        run: ./vendor/microsoft/vcpkg/vcpkg install
+        #TODO VS Code complains when I try to wrap the command path in quotes
+        run: ${{ github.workspace }}/vendor/microsoft/vcpkg/vcpkg install
 
       - name: Build Docker image
         run: docker build -t kdeck-build .
