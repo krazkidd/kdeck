@@ -32,9 +32,9 @@ jobs:
 
       - name: Install vcpkg dependencies
         run: |
-          cd "${{ github.workspace }}/vendor/microsoft/vcpkg"
-          & ./bootstrap-vcpkg.sh
-          & ./vcpkg install
+          cd "${{ github.workspace }}/vendor/microsoft/vcpkg" \
+          && ./bootstrap-vcpkg.sh \
+          && ./vcpkg install
 
       - name: Build Docker image
         run: docker build -t kdeck-build .
