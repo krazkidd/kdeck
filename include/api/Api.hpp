@@ -5,8 +5,7 @@
 #include <memory>
 #include <string_view>
 #include <list>
-
-#include <boost/json.hpp>
+#include <variant>
 
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 

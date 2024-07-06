@@ -25,12 +25,9 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
         api
     PRIVATE
-        Boost::boost
-        Boost::format
         OpenGL::EGL
         wx::core
         wx::base
         wx::gl
-        unofficial::curlpp::curlpp
         oatpp::oatpp
 )

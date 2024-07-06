@@ -2,7 +2,6 @@
 #define MAINFRAME_HPP
 
 #include <wx/wx.h>
-#include <curlpp/cURLpp.hpp>
 
 #include "config.hpp"
 #include "api/Api.hpp"
@@ -28,9 +27,6 @@ namespace kdeck
         void UpdateStuff();
 
     private:
-        // handles global cURLpp::initialize()/terminate()
-        cURLpp::Cleanup cURLpp();
-
         Api api;
 
         wxMenuItem *mnuLogin;

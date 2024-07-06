@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include <boost/format.hpp>
+#include <wx/string.h>
 #include <wx/wx.h>
 
 #include "config.hpp"
@@ -69,7 +69,7 @@ namespace kdeck
         ///////////////////////////////////////////////////////////////////////////
 
         CreateStatusBar(3);
-        ShowStatus((boost::format("Welcome to %1%!") % kProjectName).str());
+        ShowStatus(wxString::Format("Welcome to %s!", kProjectName));
 
         ///////////////////////////////////////////////////////////////////////////
 
@@ -233,7 +233,7 @@ namespace kdeck
 
                 break;
             case wxID_ABOUT:
-                wxMessageBox((boost::format("%1% v%2%") % kProjectName % kProjectVersion).str(), (boost::format("About %1%") % kProjectName).str(), wxOK | wxICON_INFORMATION);
+                wxMessageBox(wxString::Format("%s v%s", kProjectName, kProjectVersion), wxString::Format("About %s", kProjectName), wxOK | wxICON_INFORMATION);
 
                 break;
             case wxID_EXIT:

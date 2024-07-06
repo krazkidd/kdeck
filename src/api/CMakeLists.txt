@@ -15,10 +15,8 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        Boost::boost
-        Boost::json
-        CURL::libcurl
-        unofficial::curlpp::curlpp
+        OpenSSL::SSL
+        OpenSSL::Crypto
         oatpp::oatpp
         oatpp::oatpp-openssl
 )

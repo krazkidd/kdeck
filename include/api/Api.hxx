@@ -5,13 +5,6 @@
 #include <utility>
 #include <variant>
 
-#include <curlpp/cURLpp.hpp>
-#include <curlpp/Easy.hpp>
-#include <curlpp/Options.hpp>
-#include <curlpp/Exception.hpp>
-#include <curlpp/Infos.hpp>
-#include <boost/json.hpp>
-
 #include "oatpp/core/Types.hpp"
 #include "oatpp/web/protocol/http/incoming/Response.hpp"
 

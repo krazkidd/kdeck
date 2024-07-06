@@ -34,9 +34,7 @@ configure_file(
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets CONFIG REQUIRED COMPONENTS core base gl)
 
-find_package(Boost REQUIRED COMPONENTS format json)
-find_package(CURL REQUIRED)
-find_package(unofficial-curlpp CONFIG REQUIRED)
+find_package(OpenSSL REQUIRED)
 find_package(oatpp CONFIG REQUIRED)
 find_package(oatpp-openssl CONFIG REQUIRED)
 
