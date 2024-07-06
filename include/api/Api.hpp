@@ -4,7 +4,7 @@
 #include <map>
 #include <memory>
 #include <string_view>
-#include <vector>
+#include <list>
 
 #include <boost/json.hpp>
 
@@ -38,13 +38,13 @@ namespace kdeck
 
         // portfolio
         double GetBalance();
-        PortfolioPositionsResponse GetPositions();
+        std::shared_ptr<PortfolioPositionsResponse> GetPositions();
 
         // helpers
         bool IsLoggedIn();
 
-        std::vector<PortfolioPositionsResponse::EventPosition> GetEventPositions();
-        std::vector<PortfolioPositionsResponse::MarketPosition> GetMarketPositions(std::string_view eventTicker = "");
+        std::list<std::shared_ptr<EventPosition>> GetEventPositions();
+        std::list<std::shared_ptr<MarketPosition>> GetMarketPositions(std::string_view eventTicker = "");
 
     private:
         std::shared_ptr<oatpp::parser::json::mapping::ObjectMapper> objectMapper;
@@ -59,11 +59,11 @@ namespace kdeck
         std::shared_ptr<ExchangeStatusResponse> status;
 
         // portfolio
-        PortfolioBalanceResponse balance;
-        PortfolioPositionsResponse positions;
+        std::shared_ptr<PortfolioBalanceResponse> balance;
+        std::shared_ptr<PortfolioPositionsResponse> positions;
 
-        std::map<std::string, PortfolioPositionsResponse::EventPosition> eventsMap;
-        std::map<std::string, std::map<std::string, PortfolioPositionsResponse::MarketPosition>> marketsMap;
+        std::map<std::string, std::shared_ptr<EventPosition>> eventsMap;
+        std::map<std::string, std::map<std::string, std::shared_ptr<MarketPosition>>> marketsMap;
 
         // core
         template <typename TResponse>

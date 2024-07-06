@@ -60,6 +60,20 @@ namespace kdeck
         }
         API_CALL("GET", "trade-api/v2/exchange/status", GetExchangeStatus)
 
+        API_CALL_HEADERS(GetBalance)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "trade-api/v2/portfolio/balance", GetBalance, AUTHORIZATION(String, authString, "Bearer"))
+
+        API_CALL_HEADERS(GetPositions)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "trade-api/v2/portfolio/positions", GetPositions, AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioPositionsRequest>, portfolioPositionsRequest))
+
     };
 
     #include OATPP_CODEGEN_END(ApiClient)

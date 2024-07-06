@@ -153,55 +153,80 @@ namespace kdeck
 
     };
 
-    #include OATPP_CODEGEN_END(DTO)
-
     // portfolio ////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    struct PortfolioBalanceResponse
+    class PortfolioBalanceResponse
+        : public oatpp::DTO
     {
-        double balance{};
-        //TODO try using std::optional
-        double payout{};
+        DTO_INIT(PortfolioBalanceResponse, DTO /* extends */)
+
+        DTO_FIELD(Int64, balance);
+        //TODO how to make optional?
+        DTO_FIELD(Int64, payout);
+
     };
 
     struct PortfolioPositionsRequest
+        : public oatpp::DTO
     {
-        std::string_view cursor{};
-        int limit{100};
-        std::string_view count_filter{"position,total_traded,resting_order_count"};
-        std::string_view settlement_status{"unsettled"};
-        std::string_view ticker{};
-        std::string_view event_ticker{};
+
+        DTO_INIT(PortfolioPositionsRequest, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Int32, limit) = 100;
+        DTO_FIELD(String, count_filter) = "position,total_traded,resting_order_count";
+        DTO_FIELD(String, settlement_status) = "unsettled";
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, event_ticker);
+
+    };
+
+    class EventPosition
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(EventPosition, DTO /* extends */)
+
+        DTO_FIELD(Int64, event_exposure);
+        DTO_FIELD(String, event_ticker);
+        DTO_FIELD(Int64, fees_paid);
+        DTO_FIELD(Int64, realized_pnl);
+        DTO_FIELD(Int32, resting_order_count);
+        DTO_FIELD(Int64, total_cost);
+
+    };
+
+    class MarketPosition
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MarketPosition, DTO /* extends */)
+
+        DTO_FIELD(Int64, fees_paid);
+        DTO_FIELD(Int64, market_exposure);
+        DTO_FIELD(Int32, position);
+        DTO_FIELD(Int64, realized_pnl);
+        DTO_FIELD(Int32, resting_orders_count);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(Int64, total_traded);
+
     };
 
     struct PortfolioPositionsResponse
+        : public oatpp::DTO
     {
-        struct EventPosition
-        {
-            double event_exposure{};
-            std::string event_ticker{};
-            double fees_paid{};
-            double realized_pnl{};
-            long resting_order_count{};
-            double total_cost{};
-        };
 
-        struct MarketPosition
-        {
-            double fees_paid{};
-            double market_exposure{};
-            long position{};
-            double realized_pnl{};
-            long resting_orders_count{};
-            std::string ticker{};
-            double total_traded{};
-        };
+        DTO_INIT(PortfolioPositionsResponse, DTO /* extends */)
 
-        std::string cursor{};
-        std::vector<EventPosition> event_positions{};
-        std::vector<MarketPosition> market_positions{};
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(List<Object<EventPosition>>, event_positions);
+        DTO_FIELD(List<Object<MarketPosition>>, market_positions);
+
     };
+
+    #include OATPP_CODEGEN_END(DTO)
+
 }
 
 #endif

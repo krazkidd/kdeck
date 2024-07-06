@@ -1,3 +1,4 @@
+#include <memory>
 #include <stdexcept>
 #include <string_view>
 #include <variant>
@@ -15,56 +16,58 @@ namespace kdeck
             throw std::logic_error("Not logged in.");
         }
 
-        ApiResult<PortfolioBalanceResponse> res = GetRequest<PortfolioBalanceResponse>("/portfolio/balance");
+        OatApiResult<PortfolioBalanceResponse> res = HandleResponse<PortfolioBalanceResponse>(_api->GetBalance(login->token));
 
-        if (std::holds_alternative<PortfolioBalanceResponse>(res))
+        if (std::holds_alternative<std::shared_ptr<PortfolioBalanceResponse>>(res))
         {
-            balance = std::get<PortfolioBalanceResponse>(res);
+            balance = std::get<std::shared_ptr<PortfolioBalanceResponse>>(res);
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
 
-        return balance.balance;
+        return balance->balance;
     }
 
-    PortfolioPositionsResponse Api::GetPositions()
+    std::shared_ptr<PortfolioPositionsResponse> Api::GetPositions()
     {
         if (!IsLoggedIn())
         {
             throw std::logic_error("Not logged in.");
         }
 
-        ApiResult<PortfolioPositionsResponse> res = GetRequest<PortfolioPositionsResponse>("/portfolio/positions");
+        auto req = PortfolioPositionsRequest::createShared();
 
-        if (std::holds_alternative<PortfolioPositionsResponse>(res))
+        OatApiResult<PortfolioPositionsResponse> res = HandleResponse<PortfolioPositionsResponse>(_api->GetPositions(login->token, req));
+
+        if (std::holds_alternative<std::shared_ptr<PortfolioPositionsResponse>>(res))
         {
-            positions = std::get<PortfolioPositionsResponse>(res);
+            positions = std::get<std::shared_ptr<PortfolioPositionsResponse>>(res);
 
             eventsMap.clear();
             marketsMap.clear();
 
-            for (const auto &event : positions.event_positions)
+            for (const auto event : *positions->event_positions)
             {
-                eventsMap[event.event_ticker] = event;
+                eventsMap[*event->event_ticker] = event.getPtr();
             }
 
-            for (const auto &market : positions.market_positions)
+            for (const auto market : *positions->market_positions)
             {
-                std::string eventTicker = market.ticker.substr(0, market.ticker.find("-"));
+                std::string eventTicker = market->ticker->substr(0, market->ticker->find("-"));
 
-                if (marketsMap.find(eventTicker) == marketsMap.end())
+                if (marketsMap.count(eventTicker) == 0)
                 {
                     marketsMap[eventTicker] = {};
                 }
 
-                marketsMap[eventTicker][market.ticker] = market;
+                marketsMap[eventTicker][*market->ticker] = market.getPtr();
             }
         }
         else
         {
-            throw std::runtime_error(std::get<ErrorResponse>(res).message);
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->message);
         }
 
         return positions;
@@ -72,31 +75,46 @@ namespace kdeck
 
     // helpers /////////////////////////////////////////////////////////////////////
 
-    std::vector<PortfolioPositionsResponse::EventPosition> Api::GetEventPositions()
+    std::list<std::shared_ptr<EventPosition>> Api::GetEventPositions()
     {
-        return positions.event_positions;
+        //TODO try to avoid creating a new list
+
+        auto list = std::list<std::shared_ptr<EventPosition>>();
+
+        for (const auto event : *positions->event_positions)
+        {
+            list.emplace_back(event.getPtr());
+        }
+
+        return list;
     }
 
-    std::vector<PortfolioPositionsResponse::MarketPosition> Api::GetMarketPositions(std::string_view eventTicker)
+    std::list<std::shared_ptr<MarketPosition>> Api::GetMarketPositions(std::string_view eventTicker)
     {
+        //TODO try to avoid creating a new list
+
         if (eventTicker.empty())
         {
-            return positions.market_positions;
+            auto list = std::list<std::shared_ptr<MarketPosition>>();
+
+            for (const auto market : *positions->market_positions)
+            {
+                list.emplace_back(market.getPtr());
+            }
+
+            return list;
         }
 
         //TODO we should probably check if the eventTicker is in the map
         const auto map = marketsMap[std::string{eventTicker}];
 
-        //TODO creating a vector is not very efficient--can we just return an iterator (using a lambda)?
-        std::vector<PortfolioPositionsResponse::MarketPosition> vec;
-        vec.reserve(map.size());
+        auto list = std::list<std::shared_ptr<MarketPosition>>();
 
-        for (const auto &pair : map)
+        for (const auto pair : map)
         {
-            //TODO this is dangerous because we are not making a copy
-            vec.push_back(pair.second);
+            list.emplace_back(pair.second);
         }
 
-        return vec;
+        return list;
     }
 }
