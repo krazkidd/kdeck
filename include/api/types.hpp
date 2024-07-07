@@ -14,7 +14,6 @@ namespace kdeck
 
     #include OATPP_CODEGEN_BEGIN(DTO)
 
-    //TODO this type is not used--it's a hack
     class VoidResponse
         : public oatpp::DTO
     {
