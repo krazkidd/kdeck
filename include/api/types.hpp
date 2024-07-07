@@ -1,7 +1,6 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-#include <chrono>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -11,6 +10,11 @@
 
 namespace kdeck
 {
+
+    // Kalshi defines "date-time" type as a string in the ISO8601 format (e.g. "2024-07-07T20:17:11.558Z")
+    typedef oatpp::String DateTime_Iso8601;
+    // for simple daily hours, Kalshi returns a string in the format "HH:MM" (24-hour clock in their local time zone, Eastern Time)
+    typedef oatpp::String EasternTime_HH_MM;
 
     #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -69,9 +73,7 @@ namespace kdeck
 
         DTO_INIT(Announcement, DTO /* extends */)
 
-        //TODO
-        //std::chrono::time_point<std::chrono::system_clock> delivery_time{};
-        //DTO_FIELD(TODO, delivery_time);
+        DTO_FIELD(DateTime_Iso8601, delivery_time);
         DTO_FIELD(String, message);
         DTO_FIELD(String, status);
         DTO_FIELD(String, type);
@@ -84,12 +86,8 @@ namespace kdeck
 
         DTO_INIT(MaintenanceWindow, DTO /* extends */)
 
-        //TODO
-        //std::chrono::time_point<std::chrono::system_clock> start_datetime{};
-        //DTO_FIELD(TODO, start_datetime);
-        //TODO
-        //std::chrono::time_point<std::chrono::system_clock> end_datetime{};
-        //DTO_FIELD(TODO, end_datetime);
+        DTO_FIELD(DateTime_Iso8601, start_datetime);
+        DTO_FIELD(DateTime_Iso8601, end_datetime);
 
     };
 
@@ -99,8 +97,8 @@ namespace kdeck
 
         DTO_INIT(DailyHours, DTO /* extends */)
 
-        DTO_FIELD(String, open_time);
-        DTO_FIELD(String, close_time);
+        DTO_FIELD(EasternTime_HH_MM, open_time);
+        DTO_FIELD(EasternTime_HH_MM, close_time);
 
     };
 
