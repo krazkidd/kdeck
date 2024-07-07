@@ -17,17 +17,21 @@ RUN apt-get update && apt-get -y --no-install-suggests install \
     git \
     make \
     libdbus-1-dev \
+    libegl1-mesa-dev \
     libgles2-mesa-dev \
     libgtk-3-dev \
+    libibus-1.0-dev \
     libsystemd-dev \
     libtool \
+    libwayland-dev \
     libwxgtk3.2-dev \
     libx11-dev \
     libxext-dev \
     libxft-dev \
     libxi-dev \
+    libxkbcommon-dev \
     libxtst-dev \
-    #linux-libc-dev \
+    linux-libc-dev \
     pkg-config \
     python3 \
     python3-babel \
