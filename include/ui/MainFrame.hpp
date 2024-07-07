@@ -3,7 +3,6 @@
 
 #include <wx/wx.h>
 
-#include "config.hpp"
 #include "api/Api.hpp"
 
 namespace kdeck
