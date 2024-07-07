@@ -26,6 +26,9 @@ namespace kdeck
     {
         auto url = oatpp::network::Url::Parser::parseUrl(std::string{apiEndpointUrl});
 
+        // remove leading slash because oatpp's API_CALL() macro preserves it somehow
+        basePath = url.path->substr(url.path->at(0) == '/' ? 1 : 0);
+
         std::shared_ptr<oatpp::network::ClientConnectionProvider> connectionProvider = nullptr;
 
         if (url.scheme.equalsCI_ASCII("https"))

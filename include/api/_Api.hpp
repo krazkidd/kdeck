@@ -33,14 +33,14 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("POST", "trade-api/v2/login", Login, BODY_DTO(Object<LoginRequest>, loginRequest))
+        API_CALL("POST", "{basePath}/login", Login, PATH(String, basePath), BODY_DTO(Object<LoginRequest>, loginRequest))
 
         API_CALL_HEADERS(Logout)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("POST", "trade-api/v2/logout", Logout, AUTHORIZATION(String, authString, "Bearer"))
+        API_CALL("POST", "{basePath}/logout", Logout, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"))
 
         // exchange /////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
@@ -50,21 +50,21 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "trade-api/v2/exchange/announcements", GetExchangeAnnouncements)
+        API_CALL("GET", "{basePath}/exchange/announcements", GetExchangeAnnouncements, PATH(String, basePath))
 
         API_CALL_HEADERS(GetExchangeSchedule)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "trade-api/v2/exchange/schedule", GetExchangeSchedule)
+        API_CALL("GET", "{basePath}/exchange/schedule", GetExchangeSchedule, PATH(String, basePath))
 
         API_CALL_HEADERS(GetExchangeStatus)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "trade-api/v2/exchange/status", GetExchangeStatus)
+        API_CALL("GET", "{basePath}/exchange/status", GetExchangeStatus, PATH(String, basePath))
 
         // portfolio ////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
@@ -74,14 +74,14 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "trade-api/v2/portfolio/balance", GetBalance, AUTHORIZATION(String, authString, "Bearer"))
+        API_CALL("GET", "{basePath}/portfolio/balance", GetBalance, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"))
 
         API_CALL_HEADERS(GetPositions)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "trade-api/v2/portfolio/positions", GetPositions, AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioPositionsRequest>, portfolioPositionsRequest))
+        API_CALL("GET", "{basePath}/portfolio/positions", GetPositions, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioPositionsRequest>, portfolioPositionsRequest))
 
     };
 

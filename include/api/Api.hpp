@@ -43,6 +43,7 @@ namespace kdeck
         std::list<std::shared_ptr<MarketPosition>> GetMarketPositions(std::string_view eventTicker = "");
 
     private:
+        std::string basePath;
         std::shared_ptr<oatpp::parser::json::mapping::ObjectMapper> objectMapper;
         std::shared_ptr<_Api> _api;
 

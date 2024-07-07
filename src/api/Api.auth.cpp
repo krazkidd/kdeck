@@ -29,7 +29,7 @@ namespace kdeck
         req->email = std::string{email};
         req->password = std::string{password};
 
-        ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(req));
+        ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(basePath, req));
 
         if (std::holds_alternative<std::shared_ptr<LoginResponse>>(res))
         {
@@ -50,7 +50,7 @@ namespace kdeck
             throw std::logic_error("Already logged out.");
         }
 
-        ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(login->token));
+        ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(basePath, login->token));
 
         if (std::holds_alternative<std::shared_ptr<VoidResponse>>(res))
         {
