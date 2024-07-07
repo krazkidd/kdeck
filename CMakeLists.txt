@@ -14,14 +14,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${FullOutputDir}/static_libs")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${FullOutputDir}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${FullOutputDir}")
 
-#TODO it is recommended to use CI tools to enforce warnings limits
-# target_compile_options(${PROJECT_NAME}
-#     PUBLIC
-#         "-Wall"
-#         "-Werror"
-#         "-fdiagnostics-color=always"
-# )
-
 configure_file(
     "${CMAKE_SOURCE_DIR}/include/config.hpp.in"
     "${CMAKE_BINARY_DIR}/include/config.hpp"
