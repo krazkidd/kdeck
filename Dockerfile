@@ -16,11 +16,11 @@ RUN apt-get update && apt-get -y --no-install-suggests install \
     g++ \
     git \
     make \
+    libgles2-mesa-dev \
     libgtk-3-dev \
     libtool \
-    libx11-dev \
-    libgles2-mesa-dev \
     libwxgtk3.2-dev \
+    libx11-dev \
     libxext-dev \
     libxft-dev \
     libxi-dev \
