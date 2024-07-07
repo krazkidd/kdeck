@@ -35,7 +35,7 @@ namespace kdeck
         wxSizer* szrButton = CreateButtonSizer(wxOK | wxCANCEL);
         if (szrButton)
         {
-            boxSizer->Add(szrButton);
+            boxSizer->Add(szrButton, wxSizerFlags().Center());
         }
 
         if (txtEmail->IsEmpty())

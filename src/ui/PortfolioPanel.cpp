@@ -30,7 +30,7 @@ namespace kdeck
 
         wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
-        wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 25).Expand();
+        wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 10).Expand();
 
         boxSizer->Add(pnlBalance, flagsPnl);
         boxSizer->Add(pnlPositions, flagsPnl);
@@ -53,7 +53,7 @@ namespace kdeck
 
                 wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
-                wxSizerFlags flagsPnl = wxSizerFlags().Border(wxUP | wxDOWN, 5).Expand();
+                wxSizerFlags flagsPnl = wxSizerFlags().Border(wxUP | wxDOWN, 10).Expand();
 
                 for (auto event : api->GetEventPositions())
                 {
