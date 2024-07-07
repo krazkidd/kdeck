@@ -18,11 +18,11 @@ RUN apt-get update && apt-get -y --no-install-suggests install \
     make \
     libgtk-3-dev \
     libtool \
-    #libx11-dev \
-    #libgles2-mesa-dev \
+    libx11-dev \
+    libgles2-mesa-dev \
     libwxgtk3.2-dev \
-    #libxext-dev \
-    #libxft-dev \
+    libxext-dev \
+    libxft-dev \
     libxi-dev \
     libxtst-dev \
     #linux-libc-dev \
