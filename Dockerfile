@@ -16,8 +16,10 @@ RUN apt-get update && apt-get -y --no-install-suggests install \
     g++ \
     git \
     make \
+    libdbus-1-dev \
     libgles2-mesa-dev \
     libgtk-3-dev \
+    libsystemd-dev \
     libtool \
     libwxgtk3.2-dev \
     libx11-dev \
