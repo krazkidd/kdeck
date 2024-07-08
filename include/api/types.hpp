@@ -18,6 +18,18 @@ namespace kdeck
 
     #include OATPP_CODEGEN_BEGIN(DTO)
 
+    class Error
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(Error, DTO /* extends */)
+
+        DTO_FIELD(String, code);
+        DTO_FIELD(String, message);
+        DTO_FIELD(String, service);
+
+    };
+
     class VoidResponse
         : public oatpp::DTO
     {
@@ -32,10 +44,7 @@ namespace kdeck
 
         DTO_INIT(ErrorResponse, DTO /* extends */)
 
-        DTO_FIELD(String, code);
-        //TODO try using std::optional
-        DTO_FIELD(String, details);
-        DTO_FIELD(String, message);
+        DTO_FIELD(Object<Error>, error);
 
     };
 

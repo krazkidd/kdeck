@@ -113,8 +113,6 @@ namespace kdeck
             }
             catch (std::exception &e)
             {
-                std::cerr << e.what() << std::endl;
-
                 wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
                 evt->SetEventObject(this);
                 evt->SetString("Login failed!");
@@ -140,8 +138,6 @@ namespace kdeck
             }
             catch (std::exception &e)
             {
-                std::cerr << e.what() << std::endl;
-
                 wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
                 evt->SetEventObject(this);
                 evt->SetString("Logout failed!");
@@ -257,7 +253,7 @@ namespace kdeck
                 }
                 catch (std::exception &e)
                 {
-                    std::cerr << e.what() << std::endl;
+                    // do nothing; we're closing anyway
                 }
 
                 Destroy();

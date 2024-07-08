@@ -69,8 +69,6 @@ namespace kdeck
             }
             catch (std::exception &e)
             {
-                std::cerr << e.what() << std::endl;
-
                 wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
                 evt->SetEventObject(this);
                 evt->SetString("Portfolio update failed!");

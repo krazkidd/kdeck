@@ -15,6 +15,8 @@ namespace kdeck
     template <typename TResponse>
     ApiResult<TResponse> Api::HandleResponse(std::shared_ptr<oatpp::web::protocol::http::incoming::Response> response)
     {
+        OATPP_LOGD("Api", "Response => %d %s", response->getStatusCode(), response->getStatusDescription()->c_str());
+
         switch (response->getStatusCode())
         {
             // success
@@ -38,7 +40,14 @@ namespace kdeck
             case 404:
             case 500:
             case 503:
-                return response->readBodyToDto<oatpp::Object<ErrorResponse>>(objectMapper.get()).getPtr();
+                auto errorResponse = response->readBodyToDto<oatpp::Object<ErrorResponse>>(objectMapper.get());
+
+                if (errorResponse->error->message)
+                {
+                    OATPP_LOGE("Api", "Error => %s", errorResponse->error->message->c_str());
+                }
+
+                return errorResponse.getPtr();
         }
 
         throw std::runtime_error("Unknown JSON error.");
