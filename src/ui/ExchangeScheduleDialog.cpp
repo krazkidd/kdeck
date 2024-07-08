@@ -2,12 +2,13 @@
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 #include "ui/ExchangeScheduleDialog.hpp"
 #include "ui/event.hpp"
 
 namespace kdeck
 {
+    class ExchangeScheduleResponse;
+
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 

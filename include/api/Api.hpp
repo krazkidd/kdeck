@@ -9,7 +9,6 @@
 
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 
-#include "config.hpp"
 #include "api/types.hpp"
 #include "api/_Api.hpp"
 

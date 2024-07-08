@@ -1,12 +1,13 @@
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 #include "ui/ExchangeStatusDialog.hpp"
 #include "ui/event.hpp"
 
 namespace kdeck
 {
+    class ExchangeStatusResponse;
+
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 

@@ -1,16 +1,9 @@
 #ifndef _API_HPP
 #define _API_HPP
 
-#include <map>
-#include <string_view>
-#include <vector>
-
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/web/client/ApiClient.hpp"
-
-#include "config.hpp"
-#include "api/types.hpp"
 
 namespace kdeck
 {

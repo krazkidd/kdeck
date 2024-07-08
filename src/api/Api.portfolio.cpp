@@ -1,14 +1,15 @@
 #include <memory>
 #include <stdexcept>
 #include <string_view>
-#include <variant>
-#include <vector>
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 
 namespace kdeck
 {
+    class ErrorResponse;
+    class PortfolioBalanceResponse;
+    class PortfolioPositionsResponse;
+
     double Api::GetBalance()
     {
         if (!IsLoggedIn())

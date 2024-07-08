@@ -1,14 +1,14 @@
 #include <stdexcept>
-#include <variant>
-#include <vector>
-
-#include "oatpp/core/base/Environment.hpp"
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 
 namespace kdeck
 {
+    class ErrorResponse;
+    class ExchangeAnnouncementsResponse;
+    class ExchangeScheduleResponse;
+    class ExchangeStatusResponse;
+
     std::shared_ptr<ExchangeAnnouncementsResponse> Api::GetExchangeAnnouncements()
     {
         // we don't need to be logged in!

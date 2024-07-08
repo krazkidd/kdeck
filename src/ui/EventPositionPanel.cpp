@@ -4,6 +4,7 @@
 
 #include <wx/wx.h>
 
+#include "api/types.hpp"
 #include "ui/EventPositionPanel.hpp"
 #include "ui/StaticCurrency.hpp"
 

@@ -1,10 +1,6 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-#include <string>
-#include <string_view>
-#include <vector>
-
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/Types.hpp"
 

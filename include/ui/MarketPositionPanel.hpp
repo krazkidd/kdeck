@@ -5,10 +5,10 @@
 
 #include <wx/wx.h>
 
-#include "api/types.hpp"
-
 namespace kdeck
 {
+    class MarketPosition;
+
     class MarketPositionPanel : public wxPanel
     {
     public:

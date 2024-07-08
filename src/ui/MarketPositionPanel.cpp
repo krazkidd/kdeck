@@ -4,6 +4,7 @@
 
 #include <wx/wx.h>
 
+#include "api/types.hpp"
 #include "ui/MarketPositionPanel.hpp"
 #include "ui/StaticCurrency.hpp"
 

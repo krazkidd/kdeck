@@ -1,19 +1,14 @@
 #include <string_view>
-#include <stdexcept>
-#include <variant>
 
-#include "oatpp/core/Types.hpp"
 #include "oatpp/network/tcp/client/ConnectionProvider.hpp"
 #include "oatpp/network/Url.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "oatpp/web/client/HttpRequestExecutor.hpp"
-#include "oatpp/web/protocol/http/incoming/Response.hpp"
 #include "oatpp-openssl/Config.hpp"
 #include "oatpp-openssl/client/ConnectionProvider.hpp"
 #include "oatpp-openssl/configurer/TrustStore.hpp"
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 
 namespace kdeck
 {

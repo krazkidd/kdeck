@@ -1,15 +1,15 @@
 #include <memory>
 #include <string_view>
 #include <stdexcept>
-#include <variant>
-
-#include "oatpp/core/base/Environment.hpp"
 
 #include "api/Api.hpp"
-#include "api/types.hpp"
 
 namespace kdeck
 {
+    class VoidResponse;
+    class ErrorResponse;
+    class LoginResponse;
+
     void Api::Login(std::string_view email, std::string_view password)
     {
         if (IsLoggedIn())
