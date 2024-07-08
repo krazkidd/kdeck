@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run mitmproxy",
+      "type": "shell",
+      "command": "mitmproxy",
+      "args": [
+        "-s",
+        "${workspaceFolder}/utils/kproxy.py"
+      ],
+      "group": {
+        "kind": "none",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "echo": false,
+        "close": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
