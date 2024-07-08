@@ -37,8 +37,7 @@ namespace kdeck
 
             if (!sslTrustStoreDir.empty())
             {
-                //TODO this throws an error
-                config->addContextConfigurer(std::make_shared<oatpp::openssl::configurer::TrustStore>(std::string{sslTrustStoreDir}, nullptr));
+                config->addContextConfigurer(std::make_shared<oatpp::openssl::configurer::TrustStore>(nullptr, std::string{sslTrustStoreDir}));
             }
 
             connectionProvider = oatpp::openssl::client::ConnectionProvider::createShared(config, {url.authority.host, static_cast<uint16_t>(url.authority.port == -1 ? 443 : url.authority.port)});
