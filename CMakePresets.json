@@ -18,7 +18,7 @@
                 "CMAKE_CXX_COMPILER": "/usr/bin/g++",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vendor/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays",
-                "SSL_TRUST_STORE_DIR": ""
+                "SSL_TRUST_STORE_DIR": "/etc/ssl/certs"
             }
         },
         {
