@@ -15,9 +15,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${FullOutputDir}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${FullOutputDir}")
 
 configure_file(
-    "${CMAKE_SOURCE_DIR}/include/config.hpp.in"
-    "${CMAKE_BINARY_DIR}/include/config.hpp"
+    "${CMAKE_SOURCE_DIR}/include/app_config.hpp.in"
+    "${CMAKE_BINARY_DIR}/include/app_config.hpp"
 )
+
+find_package(fmt CONFIG REQUIRED)
 
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets CONFIG REQUIRED COMPONENTS core base gl)

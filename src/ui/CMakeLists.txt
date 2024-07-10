@@ -24,6 +24,7 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         api
+        config
     PRIVATE
         OpenGL::EGL
         wx::core

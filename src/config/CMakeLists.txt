@@ -1,7 +1,7 @@
-project(kdeck)
+project(config)
 
-add_executable(${PROJECT_NAME}
-    main.cpp
+add_library(${PROJECT_NAME} STATIC
+    Config.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -11,15 +11,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC
-        ui
     PRIVATE
-        OpenGL::EGL
-        wx::core
-        wx::base
-        wx::gl
+        fmt::fmt
+        oatpp::oatpp
 )
-
-add_subdirectory(api)
-add_subdirectory(config)
-add_subdirectory(ui)
