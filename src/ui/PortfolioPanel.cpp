@@ -66,7 +66,7 @@ namespace kdeck
 
                 pnlPositions->SetSizerAndFit(boxSizer);
             }
-            catch (std::exception &e)
+            catch (const std::exception &e)
             {
                 wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
                 evt->SetEventObject(this);

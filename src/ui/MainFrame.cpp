@@ -112,7 +112,7 @@ namespace kdeck
                 evt->SetString("Login succeeded!");
                 QueueEvent(evt);
             }
-            catch (std::exception &e)
+            catch (const std::exception &e)
             {
                 wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
                 evt->SetEventObject(this);
@@ -137,7 +137,7 @@ namespace kdeck
                 evt->SetString("Logout succeeded!");
                 QueueEvent(evt);
             }
-            catch (std::exception &e)
+            catch (const std::exception &e)
             {
                 wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
                 evt->SetEventObject(this);
@@ -252,7 +252,7 @@ namespace kdeck
                 {
                     api.Logout();
                 }
-                catch (std::exception &e)
+                catch (const std::exception &e)
                 {
                     // do nothing; we're closing anyway
                 }

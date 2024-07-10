@@ -101,7 +101,7 @@ namespace kdeck
             lblFridaySchedule->SetLabel(wxString::Format(L"%s—%s ET", schedule->schedule->standard_hours->friday->open_time->c_str(), schedule->schedule->standard_hours->friday->close_time->c_str()));
             lblSaturdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", schedule->schedule->standard_hours->saturday->open_time->c_str(), schedule->schedule->standard_hours->saturday->close_time->c_str()));
         }
-        catch (std::exception &e)
+        catch (const std::exception &e)
         {
             wxCommandEvent* evt = new wxCommandEvent(EVT_API_ERROR);
             evt->SetEventObject(this);
