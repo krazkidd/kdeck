@@ -3,8 +3,8 @@
 #include <wx/string.h>
 #include <wx/wx.h>
 
-#include "app_config.hpp"
 #include "api/Api.hpp"
+#include "config/Config.hpp"
 #include "ui/ExchangeAnnouncementsDialog.hpp"
 #include "ui/ExchangeScheduleDialog.hpp"
 #include "ui/ExchangeStatusDialog.hpp"
@@ -20,7 +20,8 @@ namespace kdeck
 
     MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
         : wxFrame(parent, winid, title)
-        , api{kKalshiApiUrl, kSslTrustStoreDir}
+        , config{}
+        , api{config.GetKalshiApiUrl(), config.GetSslTrustStoreDir()}
     {
         Setup();
     }

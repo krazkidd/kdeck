@@ -19,6 +19,8 @@ configure_file(
     "${CMAKE_BINARY_DIR}/include/app_config.hpp"
 )
 
+find_package(fmt CONFIG REQUIRED)
+
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets CONFIG REQUIRED COMPONENTS core base gl)
 

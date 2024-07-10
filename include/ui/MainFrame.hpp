@@ -5,6 +5,7 @@
 
 #include "app_config.hpp"
 #include "api/Api.hpp"
+#include "config/Config.hpp"
 
 namespace kdeck
 {
@@ -27,6 +28,8 @@ namespace kdeck
         void UpdateStuff();
 
     private:
+        // config must be ordered before api (see constructor in MainFrame.cpp)
+        Config config;
         Api api;
 
         wxMenuItem *mnuLogin;
