@@ -1,11 +1,8 @@
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
-
 #include <string_view>
 
 namespace kdeck
 {
-    // NOTE: These are set by CMake. Also see CMakePresets.json.
+    // NOTE: These are configured in CMakePresets.json.
 
     constexpr std::string_view kProjectName{"@CMAKE_PROJECT_NAME@"};
     constexpr std::string_view kProjectVersion{"@CMAKE_PROJECT_VERSION@"};
@@ -14,5 +11,3 @@ namespace kdeck
 
     constexpr std::string_view kSslTrustStoreDir{"@SSL_TRUST_STORE_DIR@"};
 }
-
-#endif

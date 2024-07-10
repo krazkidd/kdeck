@@ -3,7 +3,7 @@
 #include <wx/string.h>
 #include <wx/wx.h>
 
-#include "config.hpp"
+#include "app_config.hpp"
 #include "api/Api.hpp"
 #include "ui/ExchangeAnnouncementsDialog.hpp"
 #include "ui/ExchangeScheduleDialog.hpp"
