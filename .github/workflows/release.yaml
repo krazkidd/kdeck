@@ -41,9 +41,9 @@ jobs:
 
       - name: Run build in Docker container
         run: |
-          docker run
-            -v "${{ github.workspace }}/build:/src/build"
-            -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed"
+          docker run \
+            -v "${{ github.workspace }}/build:/src/build" \
+            -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed" \
             kdeck-build
 
       - name: Record hash
