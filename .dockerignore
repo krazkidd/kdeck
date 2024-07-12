@@ -3,8 +3,6 @@
 #**/.classpath
 **/.dockerignore
 **/.env
-**/.git
-**/.gitignore
 **/.github
 #**/.project
 #**/.settings
@@ -21,8 +19,23 @@
 **/Dockerfile*
 #**/node_modules
 #**/npm-debug.log
+
+# we need to copy the repo to the container because
+# vcpkg leans on git for managing port versions
+#**/.git
+#**/.gitignore
+
+# we bind-mount these to get build output and to take
+# advantage of vcpkg binary caching on the host
 build/
-vendor/
+vcpkg_installed/
+
+# these directories can be immense in size and should be
+# superseded by a bind-mounted binary cache (vcpkg_installed/)
+vendor/microsoft/vcpkg/buildtrees/
+vendor/microsoft/vcpkg/downloads/
+vendor/microsoft/vcpkg/packages/
+
 CMakeUserPresets.json
 LICENSE.md
 README.md

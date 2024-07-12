@@ -21,6 +21,18 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Maximize build space
+        uses: AdityaGarg8/remove-unwanted-software@e2a42bc9a15f8414a9078f38b702de2a2976733d # tag `v3`
+        with:
+          remove-android: 'true'
+          remove-cached-tools: 'true'
+          remove-codeql: 'true'
+          #remove-docker-images: 'true'
+          remove-dotnet: 'true'
+          remove-haskell: 'true'
+          remove-large-packages: 'true'
+          #remove-swapfile: 'true'
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -32,47 +44,36 @@ jobs:
           key: vcpkg-${{ runner.os }}-${{ hashFiles('**/vcpkg.json') }}
           path: vcpkg_installed
 
-      # NOTE: Our .dockerignore doesn't copy git repo metadata,
-      #       so vcpkg will be unable to install dependencies
-      #       inside the container.
+      - name: Build Docker image
+        run: docker build -t kdeck-build .
 
-      - name: Install vcpkg dependencies
+      # NOTE: We use a bind-mount instead of a volume for the build dir
+      #       because the runner user will not have permission to access
+      #       an (automatically created) anonymous volume.
+
+      - name: Run build in Docker container
         run: |
-          cd "${{ github.workspace }}/vendor/microsoft/vcpkg" \
-          && ./bootstrap-vcpkg.sh \
-          && ./vcpkg install
+          docker run \
+            -v "${{ github.workspace }}/build:/src/build" \
+            -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed" \
+            kdeck-build
 
-      # - name: Build Docker image
-      #   run: docker build -t kdeck-build .
+      - name: Record hash
+        run: echo ${{ github.sha }} > release.txt
 
-      # # NOTE: We use a bind-mount instead of a volume for the build dir
-      # #       because the runner user will not have permission to access
-      # #       an (automatically created) anonymous volume.
+      - name: Create tarball
+        run: |
+          tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
+            --directory="${{ github.workspace }}" \
+              release.txt \
+              LICENSE.md \
+            --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
+              kdeck
 
-      # - name: Run build in Docker container
-      #   run: |
-      #     docker run
-      #       -v "${{ github.workspace }}/build:/src/build"
-      #       -v "${{ github.workspace }}/vendor:/src/vendor"
-      #       -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed"
-      #       kdeck-build
-
-      # - name: Record hash
-      #   run: echo ${{ github.sha }} > release.txt
-
-      # - name: Create tarball
-      #   run: |
-      #     tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
-      #       --directory="${{ github.workspace }}" \
-      #         release.txt \
-      #         LICENSE.md \
-      #       --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
-      #         kdeck
-
-      # - name: Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     prerelease: true
-      #     fail_on_unmatched_files: true
-      #     files: |
-      #       kdeck-Linux64-${{ github.ref_name }}.tar.gz
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: |
+            kdeck-Linux64-${{ github.ref_name }}.tar.gz

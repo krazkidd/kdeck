@@ -21,21 +21,25 @@ The program is statically linked so no shared libraries should be required. Perf
 
 ### Build Requirements
 
-First install required submodules:
+This project uses vcpkg to manage dependencies and builds. vcpkg is a [CMake](https://cmake.org/) integration and is loaded via a special toolchain file. Per upstream recommendation, vcpkg is stored as a git submodule.
+
+First install required submodules and bootstrap vcpkg:
 
 ```bash
 git submodule update --init --recursive
+./vendor/microsoft/vcpkg/bootstrap-vcpkg.sh
 ```
 
-This project uses vcpkg to manage dependencies which is installed as a git submodule. vcpkg is designed to statically compile programs and makes it difficult to rely on shared libraries[^1]. For the time being, this repo follows the path of least resistance. However, a number of build tools are required to be present.
+vcpkg is designed to statically compile programs and makes it difficult to rely on shared libraries. For the time being, this repo follows the path of least resistance[^1].
 
-[^1]: Previously, kdeck used the [Boost.JSON](https://boost.org/libs/json) and [curlpp](http://www.curlpp.org/) ([libcURL](https://curl.se/libcurl/) wrapper) libraries to make API requests. See the `curl-and-boost` branch for the version based on these other libraries. (This branch does not make use of vcpkg.)
+[^1]: Previously, kdeck used the [Boost.JSON](https://boost.org/libs/json) and [curlpp](http://www.curlpp.org/) ([libcURL](https://curl.se/libcurl/) wrapper) libraries to make API requests. See the `curl-and-boost` branch for the version based on these other libraries. (This branch does not make use of vcpkg but rather vanilla CMake.)
 
-A `Dockerfile` documents which packages are required to acquire the necessary tools and build on a Debian-based system. You may install these directly or use the Docker-based build
+However, a number of build tools are required to be present on the system. A `Dockerfile` documents which packages must be installed to acquire the necessary tools on a Debian-based system. You may install these directly or use the Docker-based build.
 
 ## Build Steps
 
-This project uses [CMake](https://cmake.org/) for builds.
+> [!NOTE]
+> While kdeck is statically linked by the vcpkg build process, it is not tested on systems other than Debian 12 (Bookworm).
 
 ### Debug Builds
 
@@ -84,15 +88,21 @@ cmake --build --preset release
 For official releases, a `Dockerfile` is provided. If you have Docker installed, you may run from the root source directory:
 
 ```bash
-./vendor/microsoft/vcpkg/vcpkg install
 docker build -t kdeck-build .
-docker run -v "<MOUNT_PATH>:/src/build" -v "<SOURCE_PATH>/vendor:/src/vendor" kdeck-build
+docker run -v "$(pwd)/build:/src/build" kdeck-build
 ```
 
-where `<MOUNT_PATH>` is a named volume (e.g. `kdeck-build-volume`) or a bind-mounted directory (e.g. `$(pwd)/build`) and where `<SOURCE_PATH>` is the source root directory (e.g. `$(pwd)`).
+You will find the final build output under `$(pwd)/build/bin`. The container is no longer needed.
 
-> [!NOTE]
-> While kdeck is statically linked by the vcpkg build process, it is not tested on systems other than Debian 12 (Bookworm).
+For repeated builds, **you should persist vcpkg's binary cache of installed dependencies with an additional bind mount:**
+
+```bash
+docker build -t kdeck-build .
+docker run -v "$(pwd)/build:/src/build" -v "$(pwd)/vcpkg_installed:/src/vcpkg_installed" kdeck-build
+```
+
+> [!WARNING]
+> This is the default vcpkg binary cache directory for this project. If your host system is Debian 12 (Bookworm), it should be safe to bind-mount this directory and share installed dependencies with the container. Users on other systems wishing to build with and without Docker may want to bind-mount to a different host directory (although builds targeting different system triplets can coexist).
 
 ## Design Tools
 
