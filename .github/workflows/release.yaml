@@ -42,37 +42,37 @@ jobs:
           && ./bootstrap-vcpkg.sh \
           && ./vcpkg install
 
-      - name: Build Docker image
-        run: docker build -t kdeck-build .
+      # - name: Build Docker image
+      #   run: docker build -t kdeck-build .
 
-      # NOTE: We use a bind-mount instead of a volume for the build dir
-      #       because the runner user will not have permission to access
-      #       an (automatically created) anonymous volume.
+      # # NOTE: We use a bind-mount instead of a volume for the build dir
+      # #       because the runner user will not have permission to access
+      # #       an (automatically created) anonymous volume.
 
-      - name: Run build in Docker container
-        run: |
-          docker run
-            -v "${{ github.workspace }}/build:/src/build"
-            -v "${{ github.workspace }}/vendor:/src/vendor"
-            -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed"
-            kdeck-build
+      # - name: Run build in Docker container
+      #   run: |
+      #     docker run
+      #       -v "${{ github.workspace }}/build:/src/build"
+      #       -v "${{ github.workspace }}/vendor:/src/vendor"
+      #       -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed"
+      #       kdeck-build
 
-      - name: Record hash
-        run: echo ${{ github.sha }} > release.txt
+      # - name: Record hash
+      #   run: echo ${{ github.sha }} > release.txt
 
-      - name: Create tarball
-        run: |
-          tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
-            --directory="${{ github.workspace }}" \
-              release.txt \
-              LICENSE.md \
-            --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
-              kdeck
+      # - name: Create tarball
+      #   run: |
+      #     tar -czvf "kdeck-Linux64-${{ github.ref_name }}.tar.gz" \
+      #       --directory="${{ github.workspace }}" \
+      #         release.txt \
+      #         LICENSE.md \
+      #       --directory="${{ github.workspace }}/build/bin/Linux64/Release" \
+      #         kdeck
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          prerelease: true
-          fail_on_unmatched_files: true
-          files: |
-            kdeck-Linux64-${{ github.ref_name }}.tar.gz
+      # - name: Release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     prerelease: true
+      #     fail_on_unmatched_files: true
+      #     files: |
+      #       kdeck-Linux64-${{ github.ref_name }}.tar.gz
