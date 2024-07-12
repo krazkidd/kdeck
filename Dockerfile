@@ -1,40 +1,22 @@
 FROM debian:bookworm-slim
 
-# NOTE: This is not a minimal set of dependencies. However, because
-#       different vcpkg packages expect various build tools to be
-#       present, it was easier to install them as secondary dependencies
-#       of their Debian counterparts.
+# NOTE: vcpkg packages expect various build tools to be present.
+#       The *-dev packages especially pull in many additional
+#       dependencies.
 
 RUN apt-get update && apt-get -y --no-install-suggests install \
-    autoconf \
     automake \
     bison \
-    build-essential \
     ca-certificates \
     cmake \
     curl \
     g++ \
     git \
     make \
-    libdbus-1-dev \
-    libegl1-mesa-dev \
-    libgles2-mesa-dev \
     libgtk-3-dev \
-    libibus-1.0-dev \
-    libsystemd-dev \
     libtool \
-    libwayland-dev \
     libwxgtk3.2-dev \
-    libx11-dev \
-    libxext-dev \
-    libxft-dev \
-    libxi-dev \
-    libxkbcommon-dev \
-    libxtst-dev \
-    linux-libc-dev \
-    pkg-config \
     python3 \
-    python3-babel \
     python3-jinja2 \
     unzip \
     zip \
