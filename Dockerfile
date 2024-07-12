@@ -44,11 +44,22 @@ RUN apt-get update && apt-get -y --no-install-suggests install \
 WORKDIR /src
 COPY . /src
 
+# not necessary if this has been performed on the host, but just in case
+RUN ["git", "submodule", "update", "--init", "--recursive"]
+
+# bootstrap vcpkg (download the vcpkg executable itself)
+RUN ["./vendor/microsoft/vcpkg/bootstrap-vcpkg.sh"]
+
 # NOTE: We have to run the configure step and the build step together
 #       because /src/build is bind-mounted to the host machine, and that
 #       needs to occur before the configure step is run or else the
 #       files are obscured. Therefore, we have to use the shell form
 #       rather than the exec form.
 
+SHELL ["/bin/bash", "-c"]
+
 #TODO it's not clear why we need CMAKE_MAKE_PROGRAM; this is supposed to be detected automatically
-CMD cmake -DCMAKE_MAKE_PROGRAM=make --preset release && cmake --build --preset release
+
+CMD ./vendor/microsoft/vcpkg/vcpkg install \
+    && cmake -DCMAKE_MAKE_PROGRAM=make --preset release \
+    && cmake --build --preset release
