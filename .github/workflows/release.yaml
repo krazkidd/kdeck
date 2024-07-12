@@ -32,16 +32,6 @@ jobs:
           key: vcpkg-${{ runner.os }}-${{ hashFiles('**/vcpkg.json') }}
           path: vcpkg_installed
 
-      # NOTE: Our .dockerignore doesn't copy git repo metadata,
-      #       so vcpkg will be unable to install dependencies
-      #       inside the container.
-
-      - name: Install vcpkg dependencies
-        run: |
-          cd "${{ github.workspace }}/vendor/microsoft/vcpkg" \
-          && ./bootstrap-vcpkg.sh \
-          && ./vcpkg install
-
       - name: Build Docker image
         run: docker build -t kdeck-build .
 
@@ -53,7 +43,6 @@ jobs:
         run: |
           docker run
             -v "${{ github.workspace }}/build:/src/build"
-            -v "${{ github.workspace }}/vendor:/src/vendor"
             -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed"
             kdeck-build
 
