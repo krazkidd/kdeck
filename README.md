@@ -2,7 +2,7 @@
 
 A wxWidgets-based desktop client for the [Kalshi](https://kalshi.com/) event trading platform written in C++.
 
-Project hosted at: https://github.com/krazkidd/kdeck
+Project hosted on [GitHub](https://github.com/krazkidd/kdeck).
 
 License: GPLv3 (see LICENSE.md file)
 
@@ -52,7 +52,7 @@ cmake -DCMAKE_BUILD_TYPE="Debug" ..
 make
 ```
 
-Or, preferrably:
+Or, preferably:
 
 ```bash
 cmake --preset debug
@@ -78,7 +78,7 @@ cmake -DCMAKE_BUILD_TYPE="Release" ..
 make
 ```
 
-Or, preferrably:
+Or, preferably:
 
 ```bash
 cmake --preset release
@@ -112,8 +112,10 @@ This project is **not yet** making use of wxWidgets' XRC support. In the future,
 * codelite
 * wxglade
 
+**Suggestions are welcome.**
+
 ## Kalshi API
 
 Kalshi provides a [REST API](https://trading-api.readme.io/reference/getting-started) for getting portfolio information and making trades, among other things. kdeck uses the [Oat++](https://oatpp.io/) library to make API requests[^1].
 
-Kalshi provides a [demo environment](https://trading-api.readme.io/reference/creating-a-demo-account) for API development.
+Kalshi provides a [demo environment](https://trading-api.readme.io/reference/creating-a-demo-account) for API development. This is configured by default for debug builds. It is recommended to use different credentials for live and demo environments.
