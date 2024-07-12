@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v3
         with:
           key: vcpkg-${{ runner.os }}-${{ hashFiles('**/vcpkg.json') }}
-          path: cpkg_installed
+          path: vcpkg_installed
 
       # NOTE: Our .dockerignore doesn't copy git repo metadata,
       #       so vcpkg will be unable to install dependencies
@@ -54,7 +54,7 @@ jobs:
           docker run
             -v "${{ github.workspace }}/build:/src/build"
             -v "${{ github.workspace }}/vendor:/src/vendor"
-            -v "${{ github.workspace }}/vcpkg_installed:/src/cpkg_installed"
+            -v "${{ github.workspace }}/vcpkg_installed:/src/vcpkg_installed"
             kdeck-build
 
       - name: Record hash
