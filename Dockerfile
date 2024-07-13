@@ -36,6 +36,5 @@ SHELL ["/bin/bash", "-c"]
 
 #TODO it's not clear why we need CMAKE_MAKE_PROGRAM; this is supposed to be detected automatically;
 #     is it because the shell form of RUN doesn't capture environment variables? (a new shell is invoked)
-CMD ./vendor/microsoft/vcpkg/vcpkg install \
-    && cmake -DCMAKE_MAKE_PROGRAM=make --preset release \
+CMD cmake -DCMAKE_MAKE_PROGRAM=make --preset release \
     && cmake --build --preset release

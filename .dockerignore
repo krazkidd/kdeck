@@ -25,13 +25,12 @@
 #**/.git
 #**/.gitignore
 
-# we bind-mount these to get build output and to take
-# advantage of vcpkg binary caching on the host
+# we bind-mount this to get build output and to take
+# advantage of any vcpkg binary cache on the host
 build/
-vcpkg_installed/
 
 # these directories can be immense in size and should be
-# superseded by a bind-mounted binary cache (vcpkg_installed/)
+# superseded by a bind-mounted binary cache (i.e. `build/vcpkg_installed`)
 vendor/microsoft/vcpkg/buildtrees/
 vendor/microsoft/vcpkg/downloads/
 vendor/microsoft/vcpkg/packages/

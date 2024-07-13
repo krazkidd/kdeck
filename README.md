@@ -94,12 +94,7 @@ docker run -v "$(pwd)/build:/src/build" kdeck-build
 
 You will find the final build output under `$(pwd)/build/bin`. The container is no longer needed.
 
-For repeated builds, **you should persist vcpkg's binary cache of installed dependencies with an additional bind mount:**
-
-```bash
-docker build -t kdeck-build .
-docker run -v "$(pwd)/build:/src/build" -v "$(pwd)/vcpkg_installed:/src/vcpkg_installed" kdeck-build
-```
+For subsequent builds, vcpkg will make use of the binary cache under `$(pwd)/build/vcpkg_installed`, resulting in quicker turnarounds.
 
 > [!WARNING]
 > This is the default vcpkg binary cache directory for this project. If your host system is Debian 12 (Bookworm), it should be safe to bind-mount this directory and share installed dependencies with the container. Users on other systems wishing to build with and without Docker may want to bind-mount to a different host directory (although builds targeting different system triplets can coexist).

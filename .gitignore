@@ -1,5 +1,4 @@
 **/__pycache__
 
 build/**
-vcpkg_installed/**
 CMakeUserPresets.json
