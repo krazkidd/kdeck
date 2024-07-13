@@ -151,6 +151,7 @@ namespace kdeck
         config->Version = kConfigVersion;
         config->KalshiApiUrl = std::string{kKalshiApiUrl};
         config->SslTrustStoreDir = std::string{kSslTrustStoreDir};
+        config->Email = std::string{};
 
         return config.getPtr();
     }
