@@ -24,6 +24,7 @@ namespace kdeck
             DTO_FIELD(Int32, Version);
             DTO_FIELD(String, KalshiApiUrl);
             DTO_FIELD(String, SslTrustStoreDir);
+            DTO_FIELD(String, Email);
 
         };
 
@@ -39,6 +40,10 @@ namespace kdeck
         std::string GetKalshiApiUrl() const;
 
         std::string GetSslTrustStoreDir() const;
+
+        std::string GetEmail() const;
+
+        void SetEmail(std::string email);
 
     private:
         static constexpr int32_t kConfigVersion = 1;

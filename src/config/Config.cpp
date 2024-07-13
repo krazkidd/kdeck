@@ -134,6 +134,16 @@ namespace kdeck
         return m_config->SslTrustStoreDir->c_str();
     }
 
+    std::string Config::GetEmail() const
+    {
+        return m_config->Email ? m_config->Email->c_str() : std::string{};
+    }
+
+    void Config::SetEmail(std::string email)
+    {
+        m_config->Email = oatpp::String{email};
+    }
+
     std::shared_ptr<Config::UserConfig> Config::MakeDefaultConfig()
     {
         auto config = UserConfig::createShared();
