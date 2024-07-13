@@ -29,10 +29,10 @@ namespace kdeck
 
         wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
-        wxSizerFlags flagsPnl = wxSizerFlags().Border(wxALL, 10).Expand();
+        wxSizerFlags flags = wxSizerFlags().Border(wxALL, 10).Expand();
 
-        boxSizer->Add(pnlBalance, flagsPnl);
-        boxSizer->Add(pnlPositions, flagsPnl);
+        boxSizer->Add(pnlBalance, flags);
+        boxSizer->Add(pnlPositions, flags);
 
         SetSizerAndFit(boxSizer);
         SetScrollRate(10, 10);
@@ -52,15 +52,15 @@ namespace kdeck
 
                 wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 
-                wxSizerFlags flagsPnl = wxSizerFlags().Border(wxUP | wxDOWN, 10).Expand();
+                wxSizerFlags flags = wxSizerFlags().Border(wxUP | wxDOWN, 10).Expand();
 
                 for (auto event : api->GetEventPositions())
                 {
-                    boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, event), flagsPnl);
+                    boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, event), flags);
 
                     for (auto market : api->GetMarketPositions(*event->event_ticker))
                     {
-                        boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flagsPnl);
+                        boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flags);
                     }
                 }
 

@@ -45,23 +45,24 @@ namespace kdeck
         {
             std::shared_ptr<ExchangeAnnouncementsResponse> announcements = api->GetExchangeAnnouncements();
 
-            wxSizerFlags flags = wxSizerFlags().Border(wxALL, 10); //.Expand();
-
             if (announcements->announcements->empty())
             {
-                boxSizer->Add(new wxStaticText(this, wxID_ANY, "No announcements."), flags);
+                boxSizer->Add(new wxStaticText(this, wxID_ANY, "No announcements."));
             }
             else
             {
+                wxSizerFlags flags = wxSizerFlags().Border(wxUP | wxDOWN, 10).Expand();
+
                 for (auto announcement : *announcements->announcements)
                 {
                     wxBoxSizer* szr = new wxBoxSizer(wxHORIZONTAL);
 
-                    //TODO need to stringify/localize time
-                    //szr->Add(new wxStaticText(this, wxID_ANY, announcement.delivery_time), flags);
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->status->c_str()), flags);
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->type->c_str()), flags);
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->message->c_str()), flags);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->delivery_time->c_str()));
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->status->c_str()));
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->type->c_str()));
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->message->c_str()));
+
+                    boxSizer->Add(szr, flags);
                 }
             }
         }
