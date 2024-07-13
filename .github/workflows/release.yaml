@@ -43,6 +43,7 @@ jobs:
         with:
           key: vcpkg-${{ runner.os }}-${{ hashFiles('**/vcpkg.json') }}
           path: vcpkg_installed
+          save-always: true
 
       - name: Build Docker image
         run: docker build -t kdeck-build .
