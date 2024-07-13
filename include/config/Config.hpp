@@ -49,10 +49,12 @@ namespace kdeck
         static constexpr int32_t kConfigVersion = 1;
         static constexpr std::string_view kConfigFilename = "config.json";
 
+        const std::shared_ptr<UserConfig> m_defaultConfig;
+
         std::string m_filePath;
 
         std::shared_ptr<oatpp::parser::json::mapping::ObjectMapper> m_objectMapper;
-        std::shared_ptr<UserConfig> m_config;
+        std::shared_ptr<UserConfig> m_activeConfig;
 
         static std::shared_ptr<UserConfig> MakeDefaultConfig();
     };

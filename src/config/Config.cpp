@@ -20,7 +20,8 @@ namespace kdeck
         : m_objectMapper{oatpp::parser::json::mapping::ObjectMapper::createShared(
             oatpp::parser::json::mapping::Serializer::Config::createShared(),
             oatpp::parser::json::mapping::Deserializer::Config::createShared()
-          )}
+          )},
+          m_defaultConfig{MakeDefaultConfig()}
     {
         std::string xdgConfigHome = std::getenv("XDG_CONFIG_HOME") ? std::getenv("XDG_CONFIG_HOME") : "";
 
@@ -46,8 +47,10 @@ namespace kdeck
 
         auto serializeConfig = m_objectMapper->getSerializer()->getConfig();
         serializeConfig->useBeautifier = true;
-        serializeConfig->includeNullFields = true;
-        serializeConfig->alwaysIncludeRequired = true;
+        // we will use default values if not set in user config
+        //serializeConfig->includeNullFields = true;
+        // this is not a burden we should put on the user
+        //serializeConfig->alwaysIncludeRequired = true;
 
         auto deserializeConfig = m_objectMapper->getDeserializer()->getConfig();
         deserializeConfig->allowUnknownFields = true;
@@ -62,13 +65,14 @@ namespace kdeck
             //     in which case, we probably don't want to perform the Load() operation
             //     in the constructor
 
-            m_config = MakeDefaultConfig();
+            m_activeConfig = MakeDefaultConfig();
         }
     }
 
     void Config::Save()
     {
-        if (!m_config)
+        //TODO i think m_activeConfig should never be null, but if it is, we should save the default config
+        if (!m_activeConfig)
         {
             throw std::runtime_error("User config is not loaded.");
         }
@@ -83,7 +87,7 @@ namespace kdeck
             throw new std::runtime_error("Failed to open the config file for writing.");
         }
 
-        oatpp::String json = m_objectMapper->writeToString(oatpp::Void(m_config));
+        oatpp::String json = m_objectMapper->writeToString(oatpp::Void(m_activeConfig));
 
         static auto action = oatpp::async::Action::createActionByType(oatpp::async::Action::TYPE_NONE);
 
@@ -115,7 +119,7 @@ namespace kdeck
             throw new std::runtime_error("Failed to read the config file.");
         }
 
-        m_config = m_objectMapper->readFromString<oatpp::Object<UserConfig>>(std::string{*json}).getPtr();
+        m_activeConfig = m_objectMapper->readFromString<oatpp::Object<UserConfig>>(std::string{*json}).getPtr();
 
         //TODO validate the config?
         //TODO check the version?
@@ -124,24 +128,22 @@ namespace kdeck
 
     std::string Config::GetKalshiApiUrl() const
     {
-        //TODO check if empty
-        return m_config->KalshiApiUrl->c_str();
+        return m_activeConfig->KalshiApiUrl ? m_activeConfig->KalshiApiUrl->c_str() : m_defaultConfig->KalshiApiUrl->c_str();
     }
 
     std::string Config::GetSslTrustStoreDir() const
     {
-        //TODO check if empty
-        return m_config->SslTrustStoreDir->c_str();
+        return m_activeConfig->SslTrustStoreDir ? m_activeConfig->SslTrustStoreDir->c_str() : m_defaultConfig->SslTrustStoreDir->c_str();
     }
 
     std::string Config::GetEmail() const
     {
-        return m_config->Email ? m_config->Email->c_str() : std::string{};
+        return m_activeConfig->Email ? m_activeConfig->Email->c_str() : m_defaultConfig->Email->c_str();
     }
 
     void Config::SetEmail(std::string email)
     {
-        m_config->Email = oatpp::String{email};
+        m_activeConfig->Email = oatpp::String{email};
     }
 
     std::shared_ptr<Config::UserConfig> Config::MakeDefaultConfig()
