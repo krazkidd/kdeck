@@ -99,10 +99,21 @@ namespace kdeck
     void MainFrame::DoLogin()
     {
         LoginDialog dlgLogin = LoginDialog(this);
+        dlgLogin.UpdateStuff(&config);
+
         int answer = dlgLogin.ShowModal();
 
         if (answer == wxID_OK)
         {
+            if (dlgLogin.GetRememberMe())
+            {
+                config.SetEmail(dlgLogin.GetEmail());
+            }
+            else
+            {
+                config.SetEmail(std::string{});
+            }
+
             try
             {
                 api.Login(dlgLogin.GetEmail(), dlgLogin.GetPassword());
