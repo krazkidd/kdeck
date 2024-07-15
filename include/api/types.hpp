@@ -165,6 +165,86 @@ namespace kdeck
 
     };
 
+    // markets //////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////
+
+    struct EventsRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(EventsRequest, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Int32, limit);
+        DTO_FIELD(String, status);
+        DTO_FIELD(String, series_ticker);
+        DTO_FIELD(Boolean, with_nested_markets);
+
+    };
+
+    struct EventRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(EventRequest, DTO /* extends */)
+
+        DTO_FIELD(Boolean, with_nested_markets);
+
+    };
+
+    struct MarketsRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MarketsRequest, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Int32, limit);
+        DTO_FIELD(String, event_ticker);
+        DTO_FIELD(String, series_ticker);
+        DTO_FIELD(Int64, max_close_ts);
+        DTO_FIELD(Int64, min_close_ts);
+        DTO_FIELD(String, status);
+        DTO_FIELD(String, tickers);
+
+    };
+
+    struct TradesRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(TradesRequest, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Int32, limit);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(Int64, min_ts);
+        DTO_FIELD(Int64, max_ts);
+
+    };
+
+    struct MarketOrderbookRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MarketOrderbookRequest, DTO /* extends */)
+
+        DTO_FIELD(Int32, depth);
+
+    };
+
+    struct MarketCandlesticksRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(MarketCandlesticksRequest, DTO /* extends */)
+
+        DTO_FIELD(Int64, start_ts);
+        DTO_FIELD(Int64, end_ts);
+        DTO_FIELD(Int32, period_interval);
+
+    };
+
     // portfolio ////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
