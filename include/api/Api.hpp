@@ -31,6 +31,16 @@ namespace kdeck
         std::shared_ptr<ExchangeScheduleResponse> GetExchangeSchedule();
         std::shared_ptr<ExchangeStatusResponse> GetExchangeStatus();
 
+        // market
+        std::shared_ptr<EventsResponse> GetEvents();
+        std::shared_ptr<EventResponse> GetEvent();
+        std::shared_ptr<MarketsResponse> GetMarkets();
+        std::shared_ptr<TradesResponse> GetTrades();
+        std::shared_ptr<MarketResponse> GetMarket();
+        std::shared_ptr<MarketOrderbookResponse> GetMarketOrderbook();
+        std::shared_ptr<SeriesResponse> GetSeries();
+        std::shared_ptr<MarketCandlesticksResponse> GetMarketCandlesticks();
+
         // portfolio
         double GetBalance();
         std::shared_ptr<PortfolioPositionsResponse> GetPositions();
