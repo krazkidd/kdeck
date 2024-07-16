@@ -49,12 +49,7 @@ namespace kdeck
 
         auto requestExecutor = oatpp::web::client::HttpRequestExecutor::createShared(connectionProvider);
 
-        // auto serializeConfig = oatpp::parser::json::mapping::Serializer::Config::createShared();
-        // serializeConfig->useBeautifier = true;
-
-        // auto deserializeConfig = oatpp::parser::json::mapping::Deserializer::Config::createShared();
-
-        objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared(/* serializeConfig, deserializeConfig */);
+        objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
         _api = _Api::createShared(requestExecutor, objectMapper);
     }
 
