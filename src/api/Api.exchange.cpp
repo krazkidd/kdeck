@@ -5,18 +5,13 @@
 namespace kdeck
 {
     class ErrorResponse;
+
     class ExchangeAnnouncementsResponse;
     class ExchangeScheduleResponse;
     class ExchangeStatusResponse;
 
     std::shared_ptr<ExchangeAnnouncementsResponse> Api::GetExchangeAnnouncements()
     {
-        // we don't need to be logged in!
-        // if (!IsLoggedIn())
-        // {
-        //     throw std::logic_error("Not logged in.");
-        // }
-
         OATPP_LOGD("Api", "GetExchangeAnnouncements");
 
         ApiResult<ExchangeAnnouncementsResponse> res = HandleResponse<ExchangeAnnouncementsResponse>(_api->GetExchangeAnnouncements(basePath));
@@ -35,12 +30,6 @@ namespace kdeck
 
     std::shared_ptr<ExchangeScheduleResponse> Api::GetExchangeSchedule()
     {
-        // we don't need to be logged in!
-        // if (!IsLoggedIn())
-        // {
-        //     throw std::logic_error("Not logged in.");
-        // }
-
         OATPP_LOGD("Api", "GetExchangeSchedule");
 
         ApiResult<ExchangeScheduleResponse> res = HandleResponse<ExchangeScheduleResponse>(_api->GetExchangeSchedule(basePath));
@@ -59,12 +48,6 @@ namespace kdeck
 
     std::shared_ptr<ExchangeStatusResponse> Api::GetExchangeStatus()
     {
-        // we don't need to be logged in!
-        // if (!IsLoggedIn())
-        // {
-        //     throw std::logic_error("Not logged in.");
-        // }
-
         OATPP_LOGD("Api", "GetExchangeStatus");
 
         ApiResult<ExchangeStatusResponse> res = HandleResponse<ExchangeStatusResponse>(_api->GetExchangeStatus(basePath));

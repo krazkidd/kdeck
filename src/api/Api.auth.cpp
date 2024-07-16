@@ -8,6 +8,7 @@ namespace kdeck
 {
     class VoidResponse;
     class ErrorResponse;
+
     class LoginResponse;
 
     void Api::Login(std::string_view email, std::string_view password)
@@ -25,11 +26,11 @@ namespace kdeck
             throw std::invalid_argument("Password not provided.");
         }
 
+        OATPP_LOGD("Api", "Login");
+
         auto req = LoginRequest::createShared();
         req->email = std::string{email};
         req->password = std::string{password};
-
-        OATPP_LOGD("Api", "Login");
 
         ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(basePath, req));
 
@@ -47,11 +48,6 @@ namespace kdeck
 
     void Api::Logout()
     {
-        if (!IsLoggedIn())
-        {
-            throw std::logic_error("Already logged out.");
-        }
-
         OATPP_LOGD("Api", "Logout");
 
         ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(basePath, login->token));
