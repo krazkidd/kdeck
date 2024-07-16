@@ -40,21 +40,18 @@ namespace kdeck
 
         API_CALL_HEADERS(GetExchangeAnnouncements)
         {
-            headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
         API_CALL("GET", "{basePath}/exchange/announcements", GetExchangeAnnouncements, PATH(String, basePath))
 
         API_CALL_HEADERS(GetExchangeSchedule)
         {
-            headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
         API_CALL("GET", "{basePath}/exchange/schedule", GetExchangeSchedule, PATH(String, basePath))
 
         API_CALL_HEADERS(GetExchangeStatus)
         {
-            headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
         API_CALL("GET", "{basePath}/exchange/status", GetExchangeStatus, PATH(String, basePath))
@@ -115,7 +112,6 @@ namespace kdeck
 
         API_CALL_HEADERS(GetBalance)
         {
-            headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
         API_CALL("GET", "{basePath}/portfolio/balance", GetBalance, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"))
