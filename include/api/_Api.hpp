@@ -13,10 +13,10 @@ namespace kdeck
         : public oatpp::web::client::ApiClient
     {
 
-        API_CLIENT_INIT(_Api)
-
         // NOTE: API_CALL returns std::shared_ptr<IncomingResponse>.
         //       Source: https://oatpp.io/api/latest/oatpp/web/protocol/http/incoming/Response/
+
+        API_CLIENT_INIT(_Api)
 
         // auth /////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
