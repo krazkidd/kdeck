@@ -31,6 +31,16 @@ namespace kdeck
         std::shared_ptr<ExchangeScheduleResponse> GetExchangeSchedule();
         std::shared_ptr<ExchangeStatusResponse> GetExchangeStatus();
 
+        // market
+        std::shared_ptr<EventsResponse> GetEvents();
+        std::shared_ptr<EventResponse> GetEvent(std::string_view eventTicker);
+        std::shared_ptr<MarketsResponse> GetMarkets();
+        std::shared_ptr<TradesResponse> GetTrades();
+        std::shared_ptr<MarketResponse> GetMarket(std::string_view marketTicker);
+        std::shared_ptr<MarketOrderbookResponse> GetMarketOrderbook(std::string_view marketTicker);
+        std::shared_ptr<SeriesResponse> GetSeries(std::string_view seriesTicker);
+        std::shared_ptr<MarketCandlesticksResponse> GetMarketCandlesticks(std::string_view seriesTicker, std::string_view marketTicker);
+
         // portfolio
         double GetBalance();
         std::shared_ptr<PortfolioPositionsResponse> GetPositions();
@@ -53,6 +63,10 @@ namespace kdeck
         std::shared_ptr<ExchangeAnnouncementsResponse> announcements;
         std::shared_ptr<ExchangeScheduleResponse> schedule;
         std::shared_ptr<ExchangeStatusResponse> status;
+
+        // market
+        std::shared_ptr<EventsResponse> events;
+        std::shared_ptr<MarketsResponse> markets;
 
         // portfolio
         std::shared_ptr<PortfolioBalanceResponse> balance;
