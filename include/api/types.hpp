@@ -14,6 +14,14 @@ namespace kdeck
 
     #include OATPP_CODEGEN_BEGIN(DTO)
 
+    class VoidResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(VoidResponse, DTO /* extends */)
+
+    };
+
     class Error
         : public oatpp::DTO
     {
@@ -23,14 +31,6 @@ namespace kdeck
         DTO_FIELD(String, code);
         DTO_FIELD(String, message);
         DTO_FIELD(String, service);
-
-    };
-
-    class VoidResponse
-        : public oatpp::DTO
-    {
-
-        DTO_INIT(VoidResponse, DTO /* extends */)
 
     };
 
