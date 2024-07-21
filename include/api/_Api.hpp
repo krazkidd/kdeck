@@ -122,12 +122,68 @@ namespace kdeck
         }
         API_CALL("GET", "{basePath}/portfolio/balance", GetBalance, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"))
 
+        API_CALL_HEADERS(GetFills)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "{basePath}/portfolio/fills", GetFills, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<FillsRequest>, req))
+
+        API_CALL_HEADERS(GetOrders)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "{basePath}/portfolio/orders", GetOrders, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<OrdersRequest>, req))
+
+        API_CALL_HEADERS(CreateOrder)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("POST", "{basePath}/portfolio/orders", CreateOrder, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<CreateOrderRequest>, req))
+
+        API_CALL_HEADERS(GetOrder)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "{basePath}/portfolio/orders/{order_id}", GetOrder, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, order_id))
+
+        API_CALL_HEADERS(CancelOrder)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("DELETE", "{basePath}/portfolio/orders/{order_id}", CancelOrder, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, order_id))
+
+        API_CALL_HEADERS(AmendOrder)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("POST", "{basePath}/portfolio/orders/{order_id}/amend", AmendOrder, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, order_id), BODY_DTO(Object<AmendOrderRequest>, req))
+
+        API_CALL_HEADERS(DecreaseOrder)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("POST", "{basePath}/portfolio/orders/{order_id}/decrease", DecreaseOrder, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, order_id), BODY_DTO(Object<DecreaseOrderRequest>, req))
+
         API_CALL_HEADERS(GetPositions)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
         API_CALL("GET", "{basePath}/portfolio/positions", GetPositions, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioPositionsRequest>, portfolioPositionsRequest))
+
+        API_CALL_HEADERS(GetPortfolioSettlements)
+        {
+            headers.put("Content-Type", "application/json");
+            headers.put("Accept", "application/json");
+        }
+        API_CALL("GET", "{basePath}/portfolio/settlements", GetPortfolioSettlements, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioSettlementsRequest>, req))
 
     };
 

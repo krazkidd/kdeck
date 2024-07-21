@@ -526,6 +526,194 @@ namespace kdeck
 
     };
 
+    class FillsRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(FillsRequest, DTO /* extends */)
+
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, order_id);
+        DTO_FIELD(Int64, min_ts);
+        DTO_FIELD(Int64, max_ts);
+        DTO_FIELD(Int32, limit);
+        DTO_FIELD(String, cursor);
+
+    };
+
+    class Fill
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(Fill, DTO /* extends */)
+
+        DTO_FIELD(String, action);
+        DTO_FIELD(Int32, count);
+        DTO_FIELD(DateTime_Iso8601, created_time);
+        DTO_FIELD(Boolean, is_taker);
+        DTO_FIELD(Int64, no_price);
+        DTO_FIELD(String, order_id);
+        DTO_FIELD(String, side);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(Int64, yes_price);
+
+    };
+
+    class FillsResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(FillsResponse, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Object<Fill>, fills);
+
+    };
+
+    class OrdersRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(OrdersRequest, DTO /* extends */)
+
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, event_ticker);
+        DTO_FIELD(Int64, min_ts);
+        DTO_FIELD(Int64, max_ts);
+        DTO_FIELD(String, status);
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Int32, limit);
+
+    };
+
+    class Order
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(Order, DTO /* extends */)
+
+        DTO_FIELD(String, action);
+        DTO_FIELD(Int32, amend_count);
+        DTO_FIELD(Int32, amend_taker_fill_count);
+        DTO_FIELD(String, client_order_id);
+        DTO_FIELD(Int32, close_cancel_count);
+        DTO_FIELD(DateTime_Iso8601, created_time);
+        DTO_FIELD(Int32, decrease_count);
+        DTO_FIELD(DateTime_Iso8601, expiration_time);
+        DTO_FIELD(Int32, fcc_cancel_count);
+        DTO_FIELD(DateTime_Iso8601, last_update_time);
+        DTO_FIELD(Int64, maker_fees);
+        DTO_FIELD(Int64, maker_fill_cost);
+        DTO_FIELD(Int32, maker_fill_count);
+        DTO_FIELD(Int64, no_price);
+        DTO_FIELD(String, order_id);
+        DTO_FIELD(Int32, place_count);
+        DTO_FIELD(Int32, queue_position);
+        DTO_FIELD(Int32, remaining_count);
+        DTO_FIELD(String, side);
+        DTO_FIELD(String, status);
+        DTO_FIELD(Int64, taker_fees);
+        DTO_FIELD(Int64, taker_fill_cost);
+        DTO_FIELD(Int32, taker_fill_count);
+        DTO_FIELD(Int32, taker_self_trade_cancel_count);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, type);
+        DTO_FIELD(String, user_id);
+        DTO_FIELD(Int64, yes_price);
+
+    };
+
+    class OrdersResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(OrdersResponse, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(List<Object<Order>>, orders);
+
+    };
+
+    class CreateOrderRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(CreateOrderRequest, DTO /* extends */)
+
+        DTO_FIELD(String, action);
+        DTO_FIELD(Int64, buy_max_cost);
+        DTO_FIELD(String, client_order_id);
+        DTO_FIELD(Int32, count);
+        DTO_FIELD(Int64, expiration_ts);
+        DTO_FIELD(Int64, no_price);
+        DTO_FIELD(Int32, sell_position_floor);
+        DTO_FIELD(String, side);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, type);
+        DTO_FIELD(Int64, yes_price);
+
+    };
+
+    class OrderResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(OrderResponse, DTO /* extends */)
+
+        DTO_FIELD(Object<Order>, order);
+
+    };
+
+    class CancelOrderResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(CancelOrderResponse, DTO /* extends */)
+
+        DTO_FIELD(Object<Order>, order);
+        DTO_FIELD(Int32, reduced_by);
+
+    };
+
+    class AmendOrderRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(AmendOrderRequest, DTO /* extends */)
+
+        DTO_FIELD(String, action);
+        DTO_FIELD(String, client_order_id);
+        DTO_FIELD(Int32, count);
+        DTO_FIELD(Int64, no_price);
+        DTO_FIELD(String, side);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(String, updated_client_order_id);
+        DTO_FIELD(Int64, yes_price);
+
+    };
+
+    class AmendOrderResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(AmendOrderResponse, DTO /* extends */)
+
+        DTO_FIELD(Object<Order>, old_order);
+        DTO_FIELD(Object<Order>, order);
+
+    };
+
+    class DecreaseOrderRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(DecreaseOrderRequest, DTO /* extends */)
+
+        DTO_FIELD(Int32, reduce_by);
+        DTO_FIELD(Int32, reduce_to);
+
+    };
+
     struct PortfolioPositionsRequest
         : public oatpp::DTO
     {
@@ -581,6 +769,45 @@ namespace kdeck
         DTO_FIELD(String, cursor);
         DTO_FIELD(List<Object<EventPosition>>, event_positions);
         DTO_FIELD(List<Object<MarketPosition>>, market_positions);
+
+    };
+
+    class PortfolioSettlementsRequest
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(PortfolioSettlementsRequest, DTO /* extends */)
+
+        DTO_FIELD(Int64, limit);
+        DTO_FIELD(String, cursor);
+
+    };
+
+    class Settlement
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(Settlement, DTO /* extends */)
+
+        DTO_FIELD(String, market_result);
+        DTO_FIELD(Int64, no_count);
+        DTO_FIELD(Int64, no_total_cost);
+        DTO_FIELD(Int64, revenue);
+        DTO_FIELD(DateTime_Iso8601, settled_time);
+        DTO_FIELD(String, ticker);
+        DTO_FIELD(Int64, yes_count);
+        DTO_FIELD(Int64, yes_total_cost);
+
+    };
+
+    class PortfolioSettlementsResponse
+        : public oatpp::DTO
+    {
+
+        DTO_INIT(PortfolioSettlementsResponse, DTO /* extends */)
+
+        DTO_FIELD(String, cursor);
+        DTO_FIELD(Object<Settlement>, settlements);
 
     };
 
