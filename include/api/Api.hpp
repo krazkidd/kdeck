@@ -43,7 +43,15 @@ namespace kdeck
 
         // portfolio
         double GetBalance();
+        std::shared_ptr<FillsResponse> GetFills();
+        std::shared_ptr<OrdersResponse> GetOrders();
+        std::shared_ptr<OrderResponse> CreateOrder();
+        std::shared_ptr<OrderResponse> GetOrder(std::string_view orderId);
+        std::shared_ptr<CancelOrderResponse> CancelOrder(std::string_view orderId);
+        std::shared_ptr<AmendOrderResponse> AmendOrder(std::string_view orderId);
+        std::shared_ptr<OrderResponse> DecreaseOrder(std::string_view orderId);
         std::shared_ptr<PortfolioPositionsResponse> GetPositions();
+        std::shared_ptr<PortfolioSettlementsResponse> GetPortfolioSettlements();
 
         // helpers
         bool IsLoggedIn();

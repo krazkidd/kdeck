@@ -29,6 +29,128 @@ namespace kdeck
         return balance->balance;
     }
 
+    std::shared_ptr<OrdersResponse> Api::GetOrders()
+    {
+        OATPP_LOGD("Api", "GetOrders");
+
+        auto req = OrdersRequest::createShared();
+
+        ApiResult<OrdersResponse> res = HandleResponse<OrdersResponse>(_api->GetOrders(basePath, login->token, req));
+
+        if (std::holds_alternative<std::shared_ptr<OrdersResponse>>(res))
+        {
+            //TODO populate orders
+            return std::get<std::shared_ptr<OrdersResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return orders;
+    }
+
+    std::shared_ptr<OrderResponse> Api::CreateOrder()
+    {
+        OATPP_LOGD("Api", "CreateOrder");
+
+        auto req = CreateOrderRequest::createShared();
+
+        ApiResult<OrderResponse> res = HandleResponse<OrderResponse>(_api->CreateOrder(basePath, login->token, req));
+
+        if (std::holds_alternative<std::shared_ptr<OrderResponse>>(res))
+        {
+            //TODO populate orders
+            return std::get<std::shared_ptr<OrderResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return order;
+    }
+
+    std::shared_ptr<OrderResponse> Api::GetOrder(std::string_view orderId)
+    {
+        OATPP_LOGD("Api", "GetOrder");
+
+        ApiResult<OrderResponse> res = HandleResponse<OrderResponse>(_api->GetOrder(basePath, login->token, std::string{orderId}));
+
+        if (std::holds_alternative<std::shared_ptr<OrderResponse>>(res))
+        {
+            //TODO populate orders
+            return std::get<std::shared_ptr<OrderResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return order;
+    }
+
+    std::shared_ptr<CancelOrderResponse> Api::CancelOrder(std::string_view orderId)
+    {
+        OATPP_LOGD("Api", "CancelOrder");
+
+        ApiResult<CancelOrderResponse> res = HandleResponse<CancelOrderResponse>(_api->CancelOrder(basePath, login->token, std::string{orderId}));
+
+        if (std::holds_alternative<std::shared_ptr<CancelOrderResponse>>(res))
+        {
+            //TODO depopulate orders; this can return a partially filled order!
+            return std::get<std::shared_ptr<CancelOrderResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return order;
+    }
+
+    std::shared_ptr<AmendOrderResponse> Api::AmendOrder(std::string_view orderId)
+    {
+        OATPP_LOGD("Api", "AmendOrder");
+
+        auto req = AmendOrderRequest::createShared();
+
+        ApiResult<AmendOrderResponse> res = HandleResponse<AmendOrderResponse>(_api->AmendOrder(basePath, login->token, std::string{orderId}, req));
+
+        if (std::holds_alternative<std::shared_ptr<AmendOrderResponse>>(res))
+        {
+            //TODO populate orders
+            return std::get<std::shared_ptr<AmendOrderResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return order;
+    }
+
+    std::shared_ptr<OrderResponse> Api::DecreaseOrder(std::string_view orderId)
+    {
+        OATPP_LOGD("Api", "DecreaseOrder");
+
+        auto req = DecreaseOrderRequest::createShared();
+
+        ApiResult<OrderResponse> res = HandleResponse<OrderResponse>(_api->DecreaseOrder(basePath, login->token, std::string{orderId}, req));
+
+        if (std::holds_alternative<std::shared_ptr<OrderResponse>>(res))
+        {
+            //TODO populate orders
+            return std::get<std::shared_ptr<OrderResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return order;
+    }
+
     std::shared_ptr<PortfolioPositionsResponse> Api::GetPositions()
     {
         OATPP_LOGD("Api", "GetPositions");
@@ -67,6 +189,27 @@ namespace kdeck
         }
 
         return positions;
+    }
+
+    std::shared_ptr<PortfolioSettlementsResponse> Api::GetPortfolioSettlements()
+    {
+        OATPP_LOGD("Api", "GetPortfolioSettlements");
+
+        auto req = PortfolioSettlementsRequest::createShared();
+
+        ApiResult<PortfolioSettlementsResponse> res = HandleResponse<PortfolioSettlementsResponse>(_api->GetPortfolioSettlements(basePath, login->token, req));
+
+        if (std::holds_alternative<std::shared_ptr<PortfolioSettlementsResponse>>(res))
+        {
+            //TODO populate settlements
+            return std::get<std::shared_ptr<PortfolioSettlementsResponse>>(res);
+        }
+        else
+        {
+            throw std::runtime_error(std::get<std::shared_ptr<ErrorResponse>>(res)->error->message->c_str());
+        }
+
+        //TODO return settlements;
     }
 
     // helpers /////////////////////////////////////////////////////////////////////
