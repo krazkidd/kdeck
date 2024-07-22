@@ -1,6 +1,7 @@
 #include <wx/wx.h>
 
 #include "api/Api.hpp"
+#include "config/Config.hpp"
 #include "ui/BalancePanel.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/EventPositionPanel.hpp"
@@ -38,7 +39,7 @@ namespace kdeck
         SetScrollRate(10, 10);
     }
 
-    void PortfolioPanel::UpdateStuff(Api* api)
+    void PortfolioPanel::UpdateStuff(const Config* config, Api* api)
     {
         pnlBalance->UpdateStuff(api);
 
@@ -56,10 +57,20 @@ namespace kdeck
 
                 for (auto event : api->GetEventPositions())
                 {
+                    if (0 == *event->event_exposure && !config->GetShowClosedPositions())
+                    {
+                        continue;
+                    }
+
                     boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, event), flags);
 
                     for (auto market : api->GetMarketPositions(*event->event_ticker))
                     {
+                        if (0 == *market->market_exposure && !config->GetShowClosedPositions())
+                        {
+                            continue;
+                        }
+
                         boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flags);
                     }
                 }

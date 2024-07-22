@@ -7,13 +7,14 @@ namespace kdeck
 {
     class Api;
     class BalancePanel;
+    class Config;
 
     class PortfolioPanel : public wxScrolledWindow
     {
     public:
         PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
-        void UpdateStuff(Api* api);
+        void UpdateStuff(const Config* config, Api* api);
 
     private:
         BalancePanel* pnlBalance;
