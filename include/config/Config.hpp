@@ -25,6 +25,7 @@ namespace kdeck
             DTO_FIELD(String, KalshiApiUrl);
             DTO_FIELD(String, SslTrustStoreDir);
             DTO_FIELD(String, Email);
+            DTO_FIELD(Boolean, ShowClosedPositions);
 
         };
 
@@ -43,7 +44,11 @@ namespace kdeck
 
         std::string GetEmail() const;
 
+        bool GetShowClosedPositions() const;
+
         void SetEmail(std::string email);
+
+        void SetShowClosedPositions(bool doShow);
 
     private:
         static constexpr int32_t kConfigVersion = 1;

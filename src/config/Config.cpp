@@ -141,9 +141,19 @@ namespace kdeck
         return m_activeConfig->Email ? m_activeConfig->Email->c_str() : m_defaultConfig->Email->c_str();
     }
 
+    bool Config::GetShowClosedPositions() const
+    {
+        return m_activeConfig->ShowClosedPositions ? m_activeConfig->ShowClosedPositions : m_defaultConfig->ShowClosedPositions;
+    }
+
     void Config::SetEmail(std::string email)
     {
         m_activeConfig->Email = oatpp::String{email};
+    }
+
+    void Config::SetShowClosedPositions(bool doShow)
+    {
+        m_activeConfig->ShowClosedPositions = doShow;
     }
 
     std::shared_ptr<Config::UserConfig> Config::MakeDefaultConfig()
@@ -154,6 +164,7 @@ namespace kdeck
         config->KalshiApiUrl = std::string{kKalshiApiUrl};
         config->SslTrustStoreDir = std::string{kSslTrustStoreDir};
         config->Email = std::string{};
+        config->ShowClosedPositions = false;
 
         return config.getPtr();
     }
