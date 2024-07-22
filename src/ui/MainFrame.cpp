@@ -55,6 +55,14 @@ namespace kdeck
 
         ///////////////////////////////////////////////////////////////////////////
 
+        wxMenu *menuView = new wxMenu;
+
+        mnuShowClosedPositions = menuView->AppendCheckItem(ID_View_ShowClosedPositions, "Show Closed Positions", "Show Closed Positions");
+
+        mnuShowClosedPositions->Enable(false);
+
+        ///////////////////////////////////////////////////////////////////////////
+
         wxMenu *menuHelp = new wxMenu;
         menuHelp->Append(wxID_ABOUT);
 
@@ -63,6 +71,7 @@ namespace kdeck
         wxMenuBar *menuBar = new wxMenuBar;
         menuBar->Append(menuFile, "&File");
         menuBar->Append(menuExchange, "&Exchange");
+        menuBar->Append(menuView, "&View");
         menuBar->Append(menuHelp, "&Help");
 
         SetMenuBar(menuBar);
@@ -87,10 +96,13 @@ namespace kdeck
 
     void MainFrame::UpdateStuff()
     {
-        pnlPortfolio->UpdateStuff(&api);
+        pnlPortfolio->UpdateStuff(&config, &api);
 
         mnuLogin->Enable(!api.IsLoggedIn());
         mnuLogout->Enable(api.IsLoggedIn());
+
+        mnuShowClosedPositions->Enable(api.IsLoggedIn());
+        mnuShowClosedPositions->Check(config.GetShowClosedPositions());
     }
 
     // helpers ////////////////////////////////////////////////////////////////////
@@ -238,6 +250,12 @@ namespace kdeck
                 break;
             case ID_Exchange_Status:
                 DoShowExchangeStatus();
+
+                break;
+            case ID_View_ShowClosedPositions:
+                config.SetShowClosedPositions(mnuShowClosedPositions->IsChecked());
+
+                UpdateStuff();
 
                 break;
             case wxID_ABOUT:
