@@ -3,23 +3,20 @@
 #include <string_view>
 
 #include "api/Api.hpp"
+#include "api/types.hpp"
 
 namespace kdeck
 {
-    class ErrorResponse;
-
-    class PortfolioBalanceResponse;
-    class PortfolioPositionsResponse;
 
     double Api::GetBalance()
     {
         OATPP_LOGD("Api", "GetBalance");
 
-        ApiResult<PortfolioBalanceResponse> res = HandleResponse<PortfolioBalanceResponse>(_api->GetBalance(basePath, login->token));
+        ApiResult<BalanceResponse> res = HandleResponse<BalanceResponse>(_api->GetBalance(basePath, login->token));
 
-        if (std::holds_alternative<std::shared_ptr<PortfolioBalanceResponse>>(res))
+        if (std::holds_alternative<std::shared_ptr<BalanceResponse>>(res))
         {
-            balance = std::get<std::shared_ptr<PortfolioBalanceResponse>>(res);
+            balance = std::get<std::shared_ptr<BalanceResponse>>(res);
         }
         else
         {
@@ -151,17 +148,17 @@ namespace kdeck
         //TODO return order;
     }
 
-    std::shared_ptr<PortfolioPositionsResponse> Api::GetPositions()
+    std::shared_ptr<PositionsResponse> Api::GetPositions()
     {
         OATPP_LOGD("Api", "GetPositions");
 
-        auto req = PortfolioPositionsRequest::createShared();
+        auto req = PositionsRequest::createShared();
 
-        ApiResult<PortfolioPositionsResponse> res = HandleResponse<PortfolioPositionsResponse>(_api->GetPositions(basePath, login->token, req));
+        ApiResult<PositionsResponse> res = HandleResponse<PositionsResponse>(_api->GetPositions(basePath, login->token, req));
 
-        if (std::holds_alternative<std::shared_ptr<PortfolioPositionsResponse>>(res))
+        if (std::holds_alternative<std::shared_ptr<PositionsResponse>>(res))
         {
-            positions = std::get<std::shared_ptr<PortfolioPositionsResponse>>(res);
+            positions = std::get<std::shared_ptr<PositionsResponse>>(res);
 
             eventsMap.clear();
             marketsMap.clear();

@@ -515,10 +515,11 @@ namespace kdeck
     // portfolio ////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
 
-    class PortfolioBalanceResponse
+    class BalanceResponse
         : public oatpp::DTO
     {
-        DTO_INIT(PortfolioBalanceResponse, DTO /* extends */)
+
+        DTO_INIT(BalanceResponse, DTO /* extends */)
 
         DTO_FIELD(Int64, balance);
         //TODO how to make optional?
@@ -714,16 +715,16 @@ namespace kdeck
 
     };
 
-    struct PortfolioPositionsRequest
+    struct PositionsRequest
         : public oatpp::DTO
     {
 
-        DTO_INIT(PortfolioPositionsRequest, DTO /* extends */)
+        DTO_INIT(PositionsRequest, DTO /* extends */)
 
         DTO_FIELD(String, cursor);
-        DTO_FIELD(Int32, limit) = 100;
-        DTO_FIELD(String, count_filter) = "position,total_traded,resting_order_count";
-        DTO_FIELD(String, settlement_status) = "unsettled";
+        DTO_FIELD(Int32, limit);
+        DTO_FIELD(String, count_filter);
+        DTO_FIELD(String, settlement_status);
         DTO_FIELD(String, ticker);
         DTO_FIELD(String, event_ticker);
 
@@ -760,11 +761,11 @@ namespace kdeck
 
     };
 
-    struct PortfolioPositionsResponse
+    struct PositionsResponse
         : public oatpp::DTO
     {
 
-        DTO_INIT(PortfolioPositionsResponse, DTO /* extends */)
+        DTO_INIT(PositionsResponse, DTO /* extends */)
 
         DTO_FIELD(String, cursor);
         DTO_FIELD(List<Object<EventPosition>>, event_positions);

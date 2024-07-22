@@ -1,18 +1,10 @@
 #include <stdexcept>
 
 #include "api/Api.hpp"
+#include "api/types.hpp"
 
 namespace kdeck
 {
-    class ErrorResponse;
-
-    class EventsResponse;
-    class EventResponse;
-    class MarketsResponse;
-    class TradesResponse;
-    class MarketOrderbookResponse;
-    class SeriesResponse;
-    class MarketCandlesticksResponse;
 
     std::shared_ptr<EventsResponse> Api::GetEvents()
     {

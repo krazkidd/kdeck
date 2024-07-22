@@ -1,14 +1,10 @@
 #include <stdexcept>
 
 #include "api/Api.hpp"
+#include "api/types.hpp"
 
 namespace kdeck
 {
-    class ErrorResponse;
-
-    class ExchangeAnnouncementsResponse;
-    class ExchangeScheduleResponse;
-    class ExchangeStatusResponse;
 
     std::shared_ptr<ExchangeAnnouncementsResponse> Api::GetExchangeAnnouncements()
     {

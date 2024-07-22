@@ -50,7 +50,7 @@ namespace kdeck
         std::shared_ptr<CancelOrderResponse> CancelOrder(std::string_view orderId);
         std::shared_ptr<AmendOrderResponse> AmendOrder(std::string_view orderId);
         std::shared_ptr<OrderResponse> DecreaseOrder(std::string_view orderId);
-        std::shared_ptr<PortfolioPositionsResponse> GetPositions();
+        std::shared_ptr<PositionsResponse> GetPositions();
         std::shared_ptr<PortfolioSettlementsResponse> GetPortfolioSettlements();
 
         // helpers
@@ -77,8 +77,8 @@ namespace kdeck
         std::shared_ptr<MarketsResponse> markets;
 
         // portfolio
-        std::shared_ptr<PortfolioBalanceResponse> balance;
-        std::shared_ptr<PortfolioPositionsResponse> positions;
+        std::shared_ptr<BalanceResponse> balance;
+        std::shared_ptr<PositionsResponse> positions;
 
         std::map<std::string, std::shared_ptr<EventPosition>> eventsMap;
         std::map<std::string, std::map<std::string, std::shared_ptr<MarketPosition>>> marketsMap;

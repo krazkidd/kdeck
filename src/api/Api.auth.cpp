@@ -3,13 +3,10 @@
 #include <stdexcept>
 
 #include "api/Api.hpp"
+#include "api/types.hpp"
 
 namespace kdeck
 {
-    class VoidResponse;
-    class ErrorResponse;
-
-    class LoginResponse;
 
     void Api::Login(std::string_view email, std::string_view password)
     {

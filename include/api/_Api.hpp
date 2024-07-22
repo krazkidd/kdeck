@@ -26,7 +26,7 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("POST", "{basePath}/login", Login, PATH(String, basePath), BODY_DTO(Object<LoginRequest>, loginRequest))
+        API_CALL("POST", "{basePath}/login", Login, PATH(String, basePath), BODY_DTO(Object<LoginRequest>, req))
 
         API_CALL_HEADERS(Logout)
         {
@@ -64,28 +64,28 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/events", GetEvents, PATH(String, basePath), BODY_DTO(Object<EventsRequest>, eventsRequest))
+        API_CALL("GET", "{basePath}/events", GetEvents, PATH(String, basePath), BODY_DTO(Object<EventsRequest>, req))
 
         API_CALL_HEADERS(GetEvent)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/events/{event_ticker}", GetEvent, PATH(String, basePath), PATH(String, event_ticker), BODY_DTO(Object<EventRequest>, eventRequest))
+        API_CALL("GET", "{basePath}/events/{event_ticker}", GetEvent, PATH(String, basePath), PATH(String, event_ticker), BODY_DTO(Object<EventRequest>, req))
 
         API_CALL_HEADERS(GetMarkets)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/markets", GetMarkets, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<MarketsRequest>, marketsRequest))
+        API_CALL("GET", "{basePath}/markets", GetMarkets, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<MarketsRequest>, req))
 
         API_CALL_HEADERS(GetTrades)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/markets/trades", GetTrades, PATH(String, basePath), BODY_DTO(Object<TradesRequest>, tradesRequest))
+        API_CALL("GET", "{basePath}/markets/trades", GetTrades, PATH(String, basePath), BODY_DTO(Object<TradesRequest>, req))
 
         API_CALL_HEADERS(GetMarket)
         {
@@ -98,7 +98,7 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/markets/{ticker}/orderbook", GetMarketOrderbook, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), QUERY(String, ticker), BODY_DTO(Object<MarketOrderbookRequest>, marketOrderbookRequest))
+        API_CALL("GET", "{basePath}/markets/{ticker}/orderbook", GetMarketOrderbook, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), QUERY(String, ticker), BODY_DTO(Object<MarketOrderbookRequest>, req))
 
         API_CALL_HEADERS(GetSeries)
         {
@@ -111,7 +111,7 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/series/{series_ticker}/markets/{ticker}/candlesticks", GetMarketCandlesticks, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, series_ticker), PATH(String, ticker), BODY_DTO(Object<MarketCandlesticksRequest>, marketCandlesticksRequest))
+        API_CALL("GET", "{basePath}/series/{series_ticker}/markets/{ticker}/candlesticks", GetMarketCandlesticks, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, series_ticker), PATH(String, ticker), BODY_DTO(Object<MarketCandlesticksRequest>, req))
 
         // portfolio ////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/portfolio/positions", GetPositions, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioPositionsRequest>, portfolioPositionsRequest))
+        API_CALL("GET", "{basePath}/portfolio/positions", GetPositions, PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PositionsRequest>, req))
 
         API_CALL_HEADERS(GetPortfolioSettlements)
         {
