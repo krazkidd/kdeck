@@ -2,5 +2,6 @@
   "Version": 1,
   "KalshiApiUrl": "https://demo-api.kalshi.co/trade-api/v2",
   "SslTrustStoreDir": "/etc/ssl/certs",
+  "Email": "example@example.com",
   "ShowClosedPositions": false
 }
