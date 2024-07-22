@@ -84,6 +84,7 @@ namespace kdeck
         ///////////////////////////////////////////////////////////////////////////
 
         pnlPortfolio = new PortfolioPanel(this);
+
         SetMinSize(wxSize{400, 400});
 
         Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
