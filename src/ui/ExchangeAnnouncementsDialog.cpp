@@ -57,10 +57,12 @@ namespace kdeck
                 {
                     wxBoxSizer* szr = new wxBoxSizer(wxHORIZONTAL);
 
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->delivery_time->c_str()));
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->status->c_str()));
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->type->c_str()));
-                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->message->c_str()));
+                    wxSizerFlags flagsLbl = wxSizerFlags().Border(wxLEFT, 10).CenterVertical();
+
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->delivery_time->c_str()), flagsLbl);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->status->c_str()), flagsLbl);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->type->c_str()), flagsLbl);
+                    szr->Add(new wxStaticText(this, wxID_ANY, announcement->message->c_str()), flagsLbl);
 
                     boxSizer->Add(szr, flags);
                 }
