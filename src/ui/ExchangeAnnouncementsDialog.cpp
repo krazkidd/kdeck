@@ -35,6 +35,10 @@ namespace kdeck
         }
 
         SetSizerAndFit(szr);
+        //TODO? messages have arbitrary length, so we should probably set a max size;
+        //      wxWidgets complains if max size is less than the sizer's minimum size
+        //      (look in git log for how I reconciled these previously)
+        //SetMaxSize(wxSize{800, 0});
     }
 
     void ExchangeAnnouncementsDialog::UpdateStuff(Api* api)
