@@ -51,7 +51,7 @@ namespace kdeck
 
             if (announcements->announcements->empty())
             {
-                boxSizer->Add(new wxStaticText(this, wxID_ANY, "No announcements."));
+                boxSizer->Add(new wxStaticText(this, wxID_ANY, "No announcements."), wxSizerFlags().Center());
             }
             else
             {
