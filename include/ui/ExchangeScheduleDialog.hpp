@@ -23,6 +23,8 @@ namespace kdeck
         wxStaticText* lblFridaySchedule;
         wxStaticText* lblSaturdaySchedule;
 
+        wxBoxSizer* boxSizer;
+
         // init
         void Setup();
     };
