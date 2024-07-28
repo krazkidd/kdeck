@@ -76,9 +76,19 @@ jobs:
               kdeck
 
       - name: Release
+        if: ${{ github.ref_type == 'tag' }}
         uses: softprops/action-gh-release@v2
         with:
           prerelease: true
           fail_on_unmatched_files: true
           files: |
             kdeck-Linux64-${{ github.ref_name }}.tar.gz
+
+      - name: Upload artifact
+        if: ${{ github.ref_type != 'tag' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          compression-level: 0
+          if-no-files-found: error
+          path: kdeck-Linux64-${{ github.ref_name }}.tar.gz
