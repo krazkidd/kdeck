@@ -44,12 +44,7 @@ jobs:
           path: build/vcpkg_installed
           save-always: true
 
-      - name: Build Docker image (with version)
-        if: ${{ github.ref_type == 'tag' }}
-        run: docker build -t kdeck-build -DAPP_VERSION=${{ github.ref_name }} .
-
-      - name: Build Docker image (without version)
-        if: ${{ github.ref_type != 'tag' }}
+      - name: Build Docker image
         run: docker build -t kdeck-build .
 
       # NOTE: We use a bind-mount instead of a volume for the build dir
@@ -60,6 +55,7 @@ jobs:
         run: |
           docker run \
             -v "${{ github.workspace }}/build:/src/build" \
+            ${{ github.ref_type == 'tag' && format('--env {0}', github.ref_name) || '' }} \
             kdeck-build
 
       - name: Record hash
