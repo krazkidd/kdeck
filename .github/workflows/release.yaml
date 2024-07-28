@@ -2,7 +2,6 @@ name: Debian Bookworm Release
 
 on:
   push:
-    # this won't work as the build requires a tag with a version number
     # branches:
     #   - main
     tags:
