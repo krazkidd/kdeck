@@ -5,7 +5,10 @@ on:
     # branches:
     #   - main
     tags:
-      - "v*.*.*"
+      # NOTE: The tag name must conform to CMake's `project` command spec:
+      #       See: https://cmake.org/cmake/help/latest/command/project.html#options
+
+      - "[0-9]+.[0-9]+.[0-9]+"
 
   workflow_dispatch:
     # allows manual execution of the workflow
