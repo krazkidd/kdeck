@@ -58,7 +58,7 @@ jobs:
         run: |
           docker run \
             -v "${{ github.workspace }}/build:/src/build" \
-            ${{ github.ref_type == 'tag' && format('--env {0}', github.ref_name) || '' }} \
+            ${{ github.ref_type == 'tag' && format('--env APP_VERSION={0}', github.ref_name) || '' }} \
             kdeck-build
 
       - name: Record hash
