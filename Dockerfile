@@ -1,5 +1,7 @@
 FROM debian:bookworm-slim
 
+ARG APP_VERSION="0.0.0"
+
 # NOTE: vcpkg packages expect various build tools to be present.
 #       The *-dev packages especially pull in many additional
 #       dependencies.
@@ -36,5 +38,5 @@ SHELL ["/bin/bash", "-c"]
 
 #TODO it's not clear why we need CMAKE_MAKE_PROGRAM; this is supposed to be detected automatically;
 #     is it because the shell form of RUN doesn't capture environment variables? (a new shell is invoked)
-CMD cmake -DCMAKE_MAKE_PROGRAM=make --preset release \
+CMD cmake -DCMAKE_MAKE_PROGRAM=make -DAPP_VERSION="$APP_VERSION" --preset release \
     && cmake --build --preset release
