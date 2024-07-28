@@ -45,11 +45,11 @@ jobs:
           path: build/vcpkg_installed
           save-always: true
 
-      - name: Build Docker image
+      - name: Build Docker image (with version)
         if: ${{ github.ref_type == 'tag' }}
         run: docker build -t kdeck-build -DAPP_VERSION=${{ github.ref_name }} .
 
-      - name: Build Docker image
+      - name: Build Docker image (without version)
         if: ${{ github.ref_type != 'tag' }}
         run: docker build -t kdeck-build .
 
