@@ -46,6 +46,11 @@ jobs:
           save-always: true
 
       - name: Build Docker image
+        if: ${{ github.ref_type == 'tag' }}
+        run: docker build -t kdeck-build -DAPP_VERSION=${{ github.ref_name }} .
+
+      - name: Build Docker image
+        if: ${{ github.ref_type != 'tag' }}
         run: docker build -t kdeck-build .
 
       # NOTE: We use a bind-mount instead of a volume for the build dir
