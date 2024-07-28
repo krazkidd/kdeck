@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.20.0)
-project(kdeck VERSION 0.2.0 LANGUAGES CXX)
+
+set(APP_VERSION "0.0.0" CACHE STRING "Application version")
+
+project(kdeck VERSION ${APP_VERSION} LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

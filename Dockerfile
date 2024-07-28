@@ -1,3 +1,5 @@
+ARG APP_VERSION="0.0.0"
+
 FROM debian:bookworm-slim
 
 # NOTE: vcpkg packages expect various build tools to be present.
@@ -34,7 +36,10 @@ RUN ["./vendor/microsoft/vcpkg/bootstrap-vcpkg.sh"]
 
 SHELL ["/bin/bash", "-c"]
 
+ARG APP_VERSION
+ENV APP_VERSION=${APP_VERSION}
+
 #TODO it's not clear why we need CMAKE_MAKE_PROGRAM; this is supposed to be detected automatically;
 #     is it because the shell form of RUN doesn't capture environment variables? (a new shell is invoked)
-CMD cmake -DCMAKE_MAKE_PROGRAM=make --preset release \
+CMD cmake -DCMAKE_MAKE_PROGRAM=make -D APP_VERSION="${APP_VERSION}" --preset release \
     && cmake --build --preset release

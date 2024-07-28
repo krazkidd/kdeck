@@ -260,7 +260,7 @@ namespace kdeck
 
                 break;
             case wxID_ABOUT:
-                wxMessageBox(wxString::Format("%s v%s", kProjectName, kProjectVersion), wxString::Format("About %s", kProjectName), wxOK | wxICON_INFORMATION);
+                wxMessageBox(wxString::Format("%s %s", kProjectName, kProjectVersion), wxString::Format("About %s", kProjectName), wxOK | wxICON_INFORMATION);
 
                 break;
             case wxID_EXIT:
