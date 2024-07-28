@@ -85,7 +85,7 @@ jobs:
         if: ${{ github.ref_type == 'tag' }}
         uses: softprops/action-gh-release@v2
         with:
-          prerelease: ${{ github.ref_name != 'main' }}
+          prerelease: true
           fail_on_unmatched_files: true
           files: |
             kdeck-Linux64-${{ github.ref_name }}.tar.gz
