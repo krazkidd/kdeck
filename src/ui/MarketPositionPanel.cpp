@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <wx/string.h>
 #include <wx/wx.h>
 
 #include "api/types.hpp"

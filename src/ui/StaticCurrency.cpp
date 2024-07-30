@@ -1,3 +1,5 @@
+#include <wx/string.h>
+
 #include "ui/StaticCurrency.hpp"
 
 namespace kdeck
