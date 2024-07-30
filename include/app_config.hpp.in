@@ -1,3 +1,6 @@
+#ifndef APP_CONFIG_HPP
+#define APP_CONFIG_HPP
+
 #include <string_view>
 
 namespace kdeck
@@ -11,3 +14,5 @@ namespace kdeck
 
     constexpr std::string_view kSslTrustStoreDir{"@SSL_TRUST_STORE_DIR@"};
 }
+
+#endif
