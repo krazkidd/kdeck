@@ -1,7 +1,7 @@
 #include <string>
 #include <string_view>
 
-#include <fmt/core.h>
+#include <wx/string.h>
 
 #include "oatpp/core/async/Coroutine.hpp"
 #include "oatpp/core/data/stream/FileStream.hpp"
@@ -27,7 +27,7 @@ namespace kdeck
 
         if (!xdgConfigHome.empty())
         {
-            m_filePath = fmt::format("{}/{}/{}", xdgConfigHome, kProjectName, kConfigFilename);
+            m_filePath = wxString::Format("%s/%s/%s", xdgConfigHome, kProjectName, kConfigFilename);
         }
         else
         {
@@ -37,11 +37,11 @@ namespace kdeck
             {
                 //TODO prefer .config/ directory if it exists
 
-                m_filePath = fmt::format("{}/{}/{}", home, kProjectName, kConfigFilename);
+                m_filePath = wxString::Format("%s/%s/%s", home, kProjectName, kConfigFilename);
             }
             else
             {
-                m_filePath = fmt::format("{}/{}", kProjectName, kConfigFilename);
+                m_filePath = wxString::Format("%s/%s", kProjectName, kConfigFilename);
             }
         }
 
