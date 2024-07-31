@@ -29,7 +29,7 @@ namespace kdeck
         req->email = std::string{email};
         req->password = std::string{password};
 
-        ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(basePath, req));
+        ApiResult<LoginResponse> res = HandleResponse<LoginResponse>(_api->Login(userAgent, basePath, req));
 
         if (std::holds_alternative<std::shared_ptr<LoginResponse>>(res))
         {
@@ -47,7 +47,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "Logout");
 
-        ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(basePath, login->token));
+        ApiResult<VoidResponse> res = HandleResponse<VoidResponse>(_api->Logout(userAgent, basePath, login->token));
 
         if (std::holds_alternative<std::shared_ptr<VoidResponse>>(res))
         {

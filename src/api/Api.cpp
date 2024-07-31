@@ -1,3 +1,4 @@
+#include <string>
 #include <string_view>
 
 #include "oatpp/network/tcp/client/ConnectionProvider.hpp"
@@ -8,6 +9,7 @@
 #include "oatpp-openssl/client/ConnectionProvider.hpp"
 #include "oatpp-openssl/configurer/TrustStore.hpp"
 
+#include "app_config.hpp"
 #include "api/Api.hpp"
 
 namespace kdeck
@@ -19,6 +21,8 @@ namespace kdeck
     Api::Api(std::string_view apiEndpointUrl, std::string_view sslTrustStoreDir)
         : login{nullptr}
     {
+        userAgent = std::string{kProjectName} + std::string{"/"} + std::string{kProjectVersion};
+
         auto url = oatpp::network::Url::Parser::parseUrl(std::string{apiEndpointUrl});
 
         // remove leading slash because oatpp's API_CALL() macro preserves it somehow

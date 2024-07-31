@@ -10,7 +10,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetExchangeAnnouncements");
 
-        ApiResult<ExchangeAnnouncementsResponse> res = HandleResponse<ExchangeAnnouncementsResponse>(_api->GetExchangeAnnouncements(basePath));
+        ApiResult<ExchangeAnnouncementsResponse> res = HandleResponse<ExchangeAnnouncementsResponse>(_api->GetExchangeAnnouncements(userAgent, basePath));
 
         if (std::holds_alternative<std::shared_ptr<ExchangeAnnouncementsResponse>>(res))
         {
@@ -28,7 +28,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetExchangeSchedule");
 
-        ApiResult<ExchangeScheduleResponse> res = HandleResponse<ExchangeScheduleResponse>(_api->GetExchangeSchedule(basePath));
+        ApiResult<ExchangeScheduleResponse> res = HandleResponse<ExchangeScheduleResponse>(_api->GetExchangeSchedule(userAgent, basePath));
 
         if (std::holds_alternative<std::shared_ptr<ExchangeScheduleResponse>>(res))
         {
@@ -46,7 +46,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetExchangeStatus");
 
-        ApiResult<ExchangeStatusResponse> res = HandleResponse<ExchangeStatusResponse>(_api->GetExchangeStatus(basePath));
+        ApiResult<ExchangeStatusResponse> res = HandleResponse<ExchangeStatusResponse>(_api->GetExchangeStatus(userAgent, basePath));
 
         if (std::holds_alternative<std::shared_ptr<ExchangeStatusResponse>>(res))
         {
