@@ -35,16 +35,35 @@ namespace kdeck
             case 404:
             case 500:
             case 503:
-                auto errorResponse = response->readBodyToDto<oatpp::Object<ErrorResponse>>(objectMapper.get());
+                oatpp::String contentType = response->getHeaders().get("Content-Type");
 
-                if (errorResponse->error->message)
+                // the MIME type could contain parameters (e.g. "application/json; charset=utf-8")
+                if (contentType->find("application/json") != std::string::npos)
                 {
-                    OATPP_LOGE("Api", "Error => %s", errorResponse->error->message->c_str());
-                }
+                    auto errorResponse = response->readBodyToDto<oatpp::Object<ErrorResponse>>(objectMapper.get());
 
-                return errorResponse.getPtr();
+                    if (errorResponse->error->message)
+                    {
+                        OATPP_LOGE("Api", "Error => %s", errorResponse->error->message->c_str());
+                    }
+
+                    return errorResponse.getPtr();
+                }
+                else
+                {
+                    // NOTE: It appears the API may be behind a Web Application Firewall (WAF)
+                    //       and in some cases is rejecting requests with an HTML response. We
+                    //       consider this a hard error and throw, since it violates the spec.
+                    //       Source: https://github.com/krazkidd/kdeck/issues/69
+
+                    oatpp::String errorBody = response->readBodyToString();
+
+                    OATPP_LOGE("Api", "Error => (%s)\n%s", contentType->c_str(), errorBody->c_str());
+
+                    throw std::runtime_error("Unknown API error.");
+                }
         }
 
-        throw std::runtime_error("Unknown JSON error.");
+        throw std::runtime_error("Unknown API error.");
     }
 }
