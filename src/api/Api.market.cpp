@@ -12,7 +12,7 @@ namespace kdeck
 
         auto req = EventsRequest::createShared();
 
-        ApiResult<EventsResponse> res = HandleResponse<EventsResponse>(_api->GetEvents(basePath, req));
+        ApiResult<EventsResponse> res = HandleResponse<EventsResponse>(_api->GetEvents(userAgent, basePath, req->cursor, req->limit, req->status, req->series_ticker, req->with_nested_markets));
 
         if (std::holds_alternative<std::shared_ptr<EventsResponse>>(res))
         {
@@ -30,9 +30,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetEvent");
 
-        auto req = EventRequest::createShared();
-
-        ApiResult<EventResponse> res = HandleResponse<EventResponse>(_api->GetEvent(basePath, std::string{eventTicker}, req));
+        ApiResult<EventResponse> res = HandleResponse<EventResponse>(_api->GetEvent(userAgent, basePath, std::string{eventTicker}, nullptr));
 
         if (std::holds_alternative<std::shared_ptr<EventResponse>>(res))
         {
@@ -53,7 +51,7 @@ namespace kdeck
 
         auto req = MarketsRequest::createShared();
 
-        ApiResult<MarketsResponse> res = HandleResponse<MarketsResponse>(_api->GetMarkets(basePath, login->token, req));
+        ApiResult<MarketsResponse> res = HandleResponse<MarketsResponse>(_api->GetMarkets(userAgent, basePath, login->token, req->cursor, req->limit, req->event_ticker, req->series_ticker, req->max_close_ts, req->min_close_ts, req->status, req->tickers));
 
         if (std::holds_alternative<std::shared_ptr<MarketsResponse>>(res))
         {
@@ -73,7 +71,7 @@ namespace kdeck
 
         auto req = TradesRequest::createShared();
 
-        ApiResult<TradesResponse> res = HandleResponse<TradesResponse>(_api->GetTrades(basePath, req));
+        ApiResult<TradesResponse> res = HandleResponse<TradesResponse>(_api->GetTrades(userAgent, basePath, req->cursor, req->limit, req->ticker, req->min_ts, req->max_ts));
 
         if (std::holds_alternative<std::shared_ptr<TradesResponse>>(res))
         {
@@ -92,7 +90,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetMarket");
 
-        ApiResult<MarketResponse> res = HandleResponse<MarketResponse>(_api->GetMarket(basePath, std::string{marketTicker}));
+        ApiResult<MarketResponse> res = HandleResponse<MarketResponse>(_api->GetMarket(userAgent, basePath, std::string{marketTicker}));
 
         if (std::holds_alternative<std::shared_ptr<MarketResponse>>(res))
         {
@@ -111,9 +109,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetMarketOrderbook");
 
-        auto req = MarketOrderbookRequest::createShared();
-
-        ApiResult<MarketOrderbookResponse> res = HandleResponse<MarketOrderbookResponse>(_api->GetMarketOrderbook(basePath, login->token, std::string{marketTicker}, req));
+        ApiResult<MarketOrderbookResponse> res = HandleResponse<MarketOrderbookResponse>(_api->GetMarketOrderbook(userAgent, basePath, login->token, std::string{marketTicker}, nullptr));
 
         if (std::holds_alternative<std::shared_ptr<MarketOrderbookResponse>>(res))
         {
@@ -132,7 +128,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetSeries");
 
-        ApiResult<SeriesResponse> res = HandleResponse<SeriesResponse>(_api->GetSeries(basePath, std::string{seriesTicker}));
+        ApiResult<SeriesResponse> res = HandleResponse<SeriesResponse>(_api->GetSeries(userAgent, basePath, std::string{seriesTicker}));
 
         if (std::holds_alternative<std::shared_ptr<SeriesResponse>>(res))
         {
@@ -151,9 +147,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetMarketCandlesticks");
 
-        auto req = MarketCandlesticksRequest::createShared();
-
-        ApiResult<MarketCandlesticksResponse> res = HandleResponse<MarketCandlesticksResponse>(_api->GetMarketCandlesticks(basePath, login->token, std::string{seriesTicker}, std::string{marketTicker}, req));
+        ApiResult<MarketCandlesticksResponse> res = HandleResponse<MarketCandlesticksResponse>(_api->GetMarketCandlesticks(userAgent, basePath, login->token, std::string{seriesTicker}, std::string{marketTicker}, nullptr, nullptr, nullptr));
 
         if (std::holds_alternative<std::shared_ptr<MarketCandlesticksResponse>>(res))
         {
