@@ -65,28 +65,73 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/events", GetEvents, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), BODY_DTO(Object<EventsRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/events",
+            GetEvents,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            QUERY(String, cursor),
+            QUERY(Int32, limit),
+            QUERY(String, status),
+            QUERY(String, series_ticker),
+            QUERY(Boolean, with_nested_markets)
+        )
 
         API_CALL_HEADERS(GetEvent)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/events/{event_ticker}", GetEvent, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), PATH(String, event_ticker), BODY_DTO(Object<EventRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/events/{event_ticker}",
+            GetEvent,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            PATH(String, event_ticker),
+            QUERY(Boolean, with_nested_markets)
+        )
 
         API_CALL_HEADERS(GetMarkets)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/markets", GetMarkets, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<MarketsRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/markets",
+            GetMarkets,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            QUERY(String, cursor),
+            QUERY(Int32, limit),
+            QUERY(String, event_ticker),
+            QUERY(String, series_ticker),
+            QUERY(Int64, max_close_ts),
+            QUERY(Int64, min_close_ts),
+            QUERY(String, status),
+            QUERY(String, tickers)
+        )
 
         API_CALL_HEADERS(GetTrades)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/markets/trades", GetTrades, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), BODY_DTO(Object<TradesRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/markets/trades",
+            GetTrades,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            QUERY(String, cursor),
+            QUERY(Int32, limit),
+            QUERY(String, ticker),
+            QUERY(Int64, min_ts),
+            QUERY(Int64, max_ts)
+        )
 
         API_CALL_HEADERS(GetMarket)
         {
@@ -99,7 +144,16 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/markets/{ticker}/orderbook", GetMarketOrderbook, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), QUERY(String, ticker), BODY_DTO(Object<MarketOrderbookRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/markets/{ticker}/orderbook",
+            GetMarketOrderbook,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            QUERY(String, ticker),
+            QUERY(Int32, depth)
+        )
 
         API_CALL_HEADERS(GetSeries)
         {
@@ -112,7 +166,18 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/series/{series_ticker}/markets/{ticker}/candlesticks", GetMarketCandlesticks, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), PATH(String, series_ticker), PATH(String, ticker), BODY_DTO(Object<MarketCandlesticksRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/series/{series_ticker}/markets/{ticker}/candlesticks",
+            GetMarketCandlesticks,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            PATH(String, series_ticker), PATH(String, ticker),
+            QUERY(Int64, start_ts),
+            QUERY(Int64, end_ts),
+            QUERY(Int64, period_interval)
+        )
 
         // portfolio ////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
@@ -128,14 +193,41 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/portfolio/fills", GetFills, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<FillsRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/portfolio/fills",
+            GetFills,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            QUERY(String, ticker),
+            QUERY(String, order_id),
+            QUERY(Int64, min_ts),
+            QUERY(Int64, max_ts),
+            QUERY(Int32, limit),
+            QUERY(String, cursor)
+        )
 
         API_CALL_HEADERS(GetOrders)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/portfolio/orders", GetOrders, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<OrdersRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/portfolio/orders",
+            GetOrders,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            QUERY(String, ticker),
+            QUERY(String, event_ticker),
+            QUERY(Int64, min_ts),
+            QUERY(Int64, max_ts),
+            QUERY(String, status),
+            QUERY(String, cursor),
+            QUERY(Int32, limit)
+        )
 
         API_CALL_HEADERS(CreateOrder)
         {
@@ -177,14 +269,36 @@ namespace kdeck
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/portfolio/positions", GetPositions, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PositionsRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/portfolio/positions",
+            GetPositions,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            QUERY(String, cursor),
+            QUERY(Int32, limit),
+            QUERY(String, count_filter),
+            QUERY(String, settlement_status),
+            QUERY(String, ticker),
+            QUERY(String, event_ticker)
+        )
 
         API_CALL_HEADERS(GetPortfolioSettlements)
         {
             headers.put("Content-Type", "application/json");
             headers.put("Accept", "application/json");
         }
-        API_CALL("GET", "{basePath}/portfolio/settlements", GetPortfolioSettlements, HEADER(String, userAgent, "User-Agent"), PATH(String, basePath), AUTHORIZATION(String, authString, "Bearer"), BODY_DTO(Object<PortfolioSettlementsRequest>, req))
+        API_CALL(
+            "GET",
+            "{basePath}/portfolio/settlements",
+            GetPortfolioSettlements,
+            HEADER(String, userAgent, "User-Agent"),
+            PATH(String, basePath),
+            AUTHORIZATION(String, authString, "Bearer"),
+            QUERY(Int64, limit),
+            QUERY(String, cursor)
+        )
 
     };
 

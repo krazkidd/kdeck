@@ -32,7 +32,7 @@ namespace kdeck
 
         auto req = OrdersRequest::createShared();
 
-        ApiResult<OrdersResponse> res = HandleResponse<OrdersResponse>(_api->GetOrders(userAgent, basePath, login->token, req));
+        ApiResult<OrdersResponse> res = HandleResponse<OrdersResponse>(_api->GetOrders(userAgent, basePath, login->token, req->ticker, req->event_ticker, req->min_ts, req->max_ts, req->status, req->cursor, req->limit));
 
         if (std::holds_alternative<std::shared_ptr<OrdersResponse>>(res))
         {
@@ -154,7 +154,7 @@ namespace kdeck
 
         auto req = PositionsRequest::createShared();
 
-        ApiResult<PositionsResponse> res = HandleResponse<PositionsResponse>(_api->GetPositions(userAgent, basePath, login->token, req));
+        ApiResult<PositionsResponse> res = HandleResponse<PositionsResponse>(_api->GetPositions(userAgent, basePath, login->token, req->cursor, req->limit, req->count_filter, req->settlement_status, req->ticker, req->event_ticker));
 
         if (std::holds_alternative<std::shared_ptr<PositionsResponse>>(res))
         {
@@ -192,9 +192,7 @@ namespace kdeck
     {
         OATPP_LOGD("Api", "GetPortfolioSettlements");
 
-        auto req = PortfolioSettlementsRequest::createShared();
-
-        ApiResult<PortfolioSettlementsResponse> res = HandleResponse<PortfolioSettlementsResponse>(_api->GetPortfolioSettlements(userAgent, basePath, login->token, req));
+        ApiResult<PortfolioSettlementsResponse> res = HandleResponse<PortfolioSettlementsResponse>(_api->GetPortfolioSettlements(userAgent, basePath, login->token, nullptr, nullptr));
 
         if (std::holds_alternative<std::shared_ptr<PortfolioSettlementsResponse>>(res))
         {

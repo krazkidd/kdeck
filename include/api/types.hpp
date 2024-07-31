@@ -274,16 +274,6 @@ namespace kdeck
 
     };
 
-    struct EventRequest
-        : public oatpp::DTO
-    {
-
-        DTO_INIT(EventRequest, DTO /* extends */)
-
-        DTO_FIELD(Boolean, with_nested_markets);
-
-    };
-
     struct MarketsResponse
         : public oatpp::DTO
     {
@@ -381,16 +371,6 @@ namespace kdeck
         DTO_INIT(MarketOrderbookResponse, DTO /* extends */)
 
         DTO_FIELD(Object<MarketOrderbook>, orderbook);
-
-    };
-
-    struct MarketOrderbookRequest
-        : public oatpp::DTO
-    {
-
-        DTO_INIT(MarketOrderbookRequest, DTO /* extends */)
-
-        DTO_FIELD(Int32, depth);
 
     };
 
@@ -493,18 +473,6 @@ namespace kdeck
     {
 
         DTO_INIT(MarketCandlesticksResponse, DTO /* extends */)
-
-        DTO_FIELD(Int64, start_ts);
-        DTO_FIELD(Int64, end_ts);
-        DTO_FIELD(Int32, period_interval);
-
-    };
-
-    struct MarketCandlesticksRequest
-        : public oatpp::DTO
-    {
-
-        DTO_INIT(MarketCandlesticksRequest, DTO /* extends */)
 
         DTO_FIELD(Int64, start_ts);
         DTO_FIELD(Int64, end_ts);
@@ -770,17 +738,6 @@ namespace kdeck
         DTO_FIELD(String, cursor);
         DTO_FIELD(List<Object<EventPosition>>, event_positions);
         DTO_FIELD(List<Object<MarketPosition>>, market_positions);
-
-    };
-
-    class PortfolioSettlementsRequest
-        : public oatpp::DTO
-    {
-
-        DTO_INIT(PortfolioSettlementsRequest, DTO /* extends */)
-
-        DTO_FIELD(Int64, limit);
-        DTO_FIELD(String, cursor);
 
     };
 
