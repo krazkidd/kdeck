@@ -26,6 +26,12 @@ namespace kdeck
         return balance->balance;
     }
 
+    std::shared_ptr<FillsResponse> Api::GetFills()
+    {
+        //TODO
+        throw new std::runtime_error("Not implemented");
+    }
+
     std::shared_ptr<OrdersResponse> Api::GetOrders()
     {
         OATPP_LOGD("Api", "GetOrders");
