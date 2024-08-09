@@ -1,4 +1,8 @@
 **/__pycache__
 
+**/*~
+**/*.bak
+**/#~wxg.autosave~*#
+
 build/**
 CMakeUserPresets.json
