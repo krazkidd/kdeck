@@ -25,7 +25,7 @@
 // end wxGlade
 
 // begin wxGlade: ::extracode
-#include "ui/MainFrame.hpp"
+#include "ui/enum.hpp"
 // end wxGlade
 
 
