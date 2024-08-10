@@ -25,6 +25,7 @@
 // end wxGlade
 
 // begin wxGlade: ::extracode
+#include "ui/Mainframe.hpp"
 #include "ui/StaticCurrency.hpp"
 // end wxGlade
 
