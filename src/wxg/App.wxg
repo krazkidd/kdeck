@@ -111,8 +111,7 @@
                             <option>0</option>
                             <border>4</border>
                             <flag>wxALL</flag>
-                            <object class="StaticCurrency" name="text_ctrl_1" base="EditTextCtrl">
-                                <extracode>#include "ui/StaticCurrency.hpp"</extracode>
+                            <object class="wxTextCtrl" name="text_ctrl_1" base="EditTextCtrl">
                                 <style>wxTE_READONLY|wxBORDER_NONE</style>
                             </object>
                         </object>

@@ -67,7 +67,7 @@ MainFrame::MainFrame(wxWindow* parent, wxWindowID id, const wxString& title, con
     sizer_2->Add(20, 20, 1, wxEXPAND, 0);
     wxStaticText* label_1 = new wxStaticText(panel_1, wxID_ANY, _("Balance:"));
     sizer_2->Add(label_1, 0, wxALL, 5);
-    text_ctrl_1 = new StaticCurrency(panel_1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxTE_READONLY);
+    text_ctrl_1 = new wxTextCtrl(panel_1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxTE_READONLY);
     sizer_2->Add(text_ctrl_1, 0, wxALL, 4);
     wxFlexGridSizer* grid_sizer_1 = new wxFlexGridSizer(0, 6, 0, 0);
     sizer_1->Add(grid_sizer_1, 0, wxEXPAND, 0);

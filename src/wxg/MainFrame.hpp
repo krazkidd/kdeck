@@ -26,7 +26,6 @@
 
 // begin wxGlade: ::extracode
 #include "ui/Mainframe.hpp"
-#include "ui/StaticCurrency.hpp"
 // end wxGlade
 
 
@@ -47,7 +46,7 @@ protected:
     wxMenuBar* frame_menubar;
     wxStatusBar* frame_statusbar;
     wxPanel* panel_1;
-    StaticCurrency* text_ctrl_1;
+    wxTextCtrl* text_ctrl_1;
     // end wxGlade
 
     DECLARE_EVENT_TABLE();
