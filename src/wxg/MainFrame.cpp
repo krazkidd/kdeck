@@ -104,13 +104,5 @@ void MainFrame::OnMenuItemSelected(wxCommandEvent &event)  // wxGlade: MainFrame
     wxLogDebug(wxT("Event handler (MainFrame::OnMenuItemSelected) not implemented yet"));
 }
 
-void MainFrame::---(wxCommandEvent &event)  // wxGlade: MainFrame.<event_handler>
-{
-    event.Skip();
-    // notify the user that he hasn't implemented the event handler yet
-    wxLogDebug(wxT("Event handler (MainFrame::---) not implemented yet"));
-}
-
 
 // wxGlade: add MainFrame event handlers
-
