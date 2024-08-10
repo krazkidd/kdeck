@@ -1,12 +1,12 @@
 project(wxg)
 
 add_library(${PROJECT_NAME} STATIC
-    ExchangeAnnouncementsDialog.cpp
-    ExchangeScheduleDialog.cpp
-    ExchangeStatusDialog.cpp
-    LoginDialog.cpp
-    LogoutDialog.cpp
-    MainFrame.cpp
+    BaseExchangeAnnouncementsDialog.cpp
+    BaseExchangeScheduleDialog.cpp
+    BaseExchangeStatusDialog.cpp
+    BaseLoginDialog.cpp
+    BaseLogoutDialog.cpp
+    BaseMainFrame.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
