@@ -25,6 +25,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
         api
         config
+        wxg
     PRIVATE
         OpenGL::EGL
         wx::core

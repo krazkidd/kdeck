@@ -11,7 +11,7 @@ add_library(${PROJECT_NAME} STATIC
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
-        .
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/wxg>
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
