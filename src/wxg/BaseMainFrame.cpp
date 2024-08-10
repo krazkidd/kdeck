@@ -20,7 +20,7 @@ BaseMainFrame::BaseMainFrame(wxWindow* parent, wxWindowID id, const wxString& ti
     wxFrame(parent, id, title, pos, size, wxDEFAULT_FRAME_STYLE)
 {
     // begin wxGlade: BaseMainFrame::BaseMainFrame
-    SetSize(wxSize(873, 300));
+    SetSize(wxSize(800, 600));
     SetTitle(_("frame"));
     frame_menubar = new wxMenuBar();
     wxMenu *wxglade_tmp_menu;
@@ -30,7 +30,7 @@ BaseMainFrame::BaseMainFrame(wxWindow* parent, wxWindowID id, const wxString& ti
     mnuLogout = wxglade_tmp_menu->Append(kdeck::ID_Logout, _("Logout..."), _("Logout"));
     Bind(wxEVT_MENU, &BaseMainFrame::OnMenuItemSelected, this, kdeck::ID_Logout);
     wxglade_tmp_menu->AppendSeparator();
-    wxglade_tmp_menu->Append(wxID_EXIT, _("~Quit~"), wxEmptyString);
+    wxglade_tmp_menu->Append(wxID_EXIT, wxEmptyString, wxEmptyString);
     frame_menubar->Append(wxglade_tmp_menu, _("&File"));
     wxglade_tmp_menu = new wxMenu();
     wxglade_tmp_menu->Append(kdeck::ID_Exchange_Announcements, _("Announcements"), _("Announcements"));
@@ -45,7 +45,7 @@ BaseMainFrame::BaseMainFrame(wxWindow* parent, wxWindowID id, const wxString& ti
     Bind(wxEVT_MENU, &BaseMainFrame::OnMenuItemSelected, this, kdeck::ID_View_ShowClosedPositions);
     frame_menubar->Append(wxglade_tmp_menu, _("&View"));
     wxglade_tmp_menu = new wxMenu();
-    wxglade_tmp_menu->Append(wxID_ABOUT, _("~About~"), wxEmptyString);
+    wxglade_tmp_menu->Append(wxID_ABOUT, wxEmptyString, wxEmptyString);
     frame_menubar->Append(wxglade_tmp_menu, _("&Help"));
     SetMenuBar(frame_menubar);
     frame_statusbar = CreateStatusBar(2);
