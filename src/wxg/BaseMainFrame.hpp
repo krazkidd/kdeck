@@ -53,7 +53,6 @@ protected:
 
 public:
     virtual void OnMenuItemSelected(wxCommandEvent &event); // wxGlade: <event_handler>
-    virtual void ---(wxCommandEvent &event); // wxGlade: <event_handler>
 }; // wxGlade: end class
 
 
