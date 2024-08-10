@@ -1,11 +1,17 @@
-project(kdeck)
+project(wxg)
 
-add_executable(${PROJECT_NAME}
-    main.cpp
+add_library(${PROJECT_NAME} STATIC
+    ExchangeAnnouncementsDialog.cpp
+    ExchangeScheduleDialog.cpp
+    ExchangeStatusDialog.cpp
+    LoginDialog.cpp
+    LogoutDialog.cpp
+    MainFrame.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
+        .
         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 )
@@ -19,8 +25,3 @@ target_link_libraries(${PROJECT_NAME}
         wx::base
         wx::gl
 )
-
-add_subdirectory(api)
-add_subdirectory(config)
-add_subdirectory(ui)
-add_subdirectory(wxg)
