@@ -23,3 +23,4 @@ target_link_libraries(${PROJECT_NAME}
 add_subdirectory(api)
 add_subdirectory(config)
 add_subdirectory(ui)
+add_subdirectory(wxfb)
