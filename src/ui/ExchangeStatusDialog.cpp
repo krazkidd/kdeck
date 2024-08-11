@@ -11,8 +11,8 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    ExchangeStatusDialog::ExchangeStatusDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
-        : wxfb::ExchangeStatusDialog(parent, winid, title)
+    ExchangeStatusDialog::ExchangeStatusDialog(wxWindow* parent, wxWindowID winid)
+        : wxfb::ExchangeStatusDialog(parent, winid)
     {
 
     }
