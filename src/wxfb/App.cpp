@@ -125,27 +125,27 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	wxBoxSizer* vszrContent;
 	vszrContent = new wxBoxSizer( wxVERTICAL );
 
-	wxGridSizer* gridInputs;
-	gridInputs = new wxGridSizer( 0, 2, 0, 0 );
+	wxGridSizer* gszrInputs;
+	gszrInputs = new wxGridSizer( 0, 2, 0, 0 );
 
 	wxStaticText* lblEmail;
 	lblEmail = new wxStaticText( this, wxID_ANY, _("Email"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblEmail->Wrap( -1 );
-	gridInputs->Add( lblEmail, 0, wxALIGN_RIGHT|wxALL, 5 );
+	gszrInputs->Add( lblEmail, 0, wxALIGN_RIGHT|wxALL, 5 );
 
 	txtEmail = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	gridInputs->Add( txtEmail, 0, wxALL|wxEXPAND, 5 );
+	gszrInputs->Add( txtEmail, 0, wxALL|wxEXPAND, 5 );
 
 	wxStaticText* lblPassword;
 	lblPassword = new wxStaticText( this, wxID_ANY, _("Password"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblPassword->Wrap( -1 );
-	gridInputs->Add( lblPassword, 0, wxALIGN_RIGHT|wxALL, 5 );
+	gszrInputs->Add( lblPassword, 0, wxALIGN_RIGHT|wxALL, 5 );
 
 	txtPassword = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	gridInputs->Add( txtPassword, 0, wxALL|wxEXPAND, 5 );
+	gszrInputs->Add( txtPassword, 0, wxALL|wxEXPAND, 5 );
 
 
-	vszrContent->Add( gridInputs, 1, wxEXPAND, 5 );
+	vszrContent->Add( gszrInputs, 1, wxEXPAND, 5 );
 
 	chkRememberMe = new wxCheckBox( this, wxID_ANY, _("Remember me"), wxDefaultPosition, wxDefaultSize, 0 );
 	vszrContent->Add( chkRememberMe, 0, wxALL, 5 );

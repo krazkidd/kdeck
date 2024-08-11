@@ -420,7 +420,7 @@
             <property name="cols">2</property>
             <property name="hgap">0</property>
             <property name="minimum_size"></property>
-            <property name="name">gridInputs</property>
+            <property name="name">gszrInputs</property>
             <property name="permission">none</property>
             <property name="rows">0</property>
             <property name="vgap">0</property>
