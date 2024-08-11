@@ -3,22 +3,18 @@
 
 #include <wx/wx.h>
 
+#include "App.h" // wxfb
+
 namespace kdeck
 {
     class Api;
 
-    class ExchangeAnnouncementsDialog : public wxDialog
+    class ExchangeAnnouncementsDialog : public wxfb::ExchangeAnnouncementsDialog
     {
     public:
-        ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Announcements");
+        ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
         void UpdateStuff(Api* api);
-
-    private:
-        wxBoxSizer* boxSizer;
-
-        // init
-        void Setup();
     };
 }
 

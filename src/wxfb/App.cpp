@@ -173,3 +173,43 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 LoginDialog::~LoginDialog()
 {
 }
+
+ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* vszrContent;
+	vszrContent = new wxBoxSizer( wxVERTICAL );
+
+	fgszrAnnouncements = new wxFlexGridSizer( 1, 4, 0, 0 );
+	fgszrAnnouncements->AddGrowableCol( 3 );
+	fgszrAnnouncements->SetFlexibleDirection( wxBOTH );
+	fgszrAnnouncements->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+
+	vszrContent->Add( fgszrAnnouncements, 1, wxEXPAND, 5 );
+
+	lblNoAnnouncements = new wxStaticText( this, wxID_ANY, _("There are no announcements."), wxDefaultPosition, wxDefaultSize, 0 );
+	lblNoAnnouncements->Wrap( -1 );
+	vszrContent->Add( lblNoAnnouncements, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+
+	wxStdDialogButtonSizer* szrStandardButtons;
+	wxButton* szrStandardButtonsOK;
+	szrStandardButtons = new wxStdDialogButtonSizer();
+	szrStandardButtonsOK = new wxButton( this, wxID_OK );
+	szrStandardButtons->AddButton( szrStandardButtonsOK );
+	szrStandardButtons->Realize();
+
+	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+
+
+	this->SetSizer( vszrContent );
+	this->Layout();
+	vszrContent->Fit( this );
+
+	this->Centre( wxBOTH );
+}
+
+ExchangeAnnouncementsDialog::~ExchangeAnnouncementsDialog()
+{
+}

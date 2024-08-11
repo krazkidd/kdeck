@@ -102,6 +102,25 @@ namespace kdeck
 
 		};
 
+		///////////////////////////////////////////////////////////////////////////////
+		/// Class ExchangeAnnouncementsDialog
+		///////////////////////////////////////////////////////////////////////////////
+		class ExchangeAnnouncementsDialog : public wxDialog
+		{
+			private:
+
+			protected:
+				wxFlexGridSizer* fgszrAnnouncements;
+				wxStaticText* lblNoAnnouncements;
+
+			public:
+
+				ExchangeAnnouncementsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Exchange Announcements"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+				~ExchangeAnnouncementsDialog();
+
+		};
+
 	} // namespace wxfb
 } // namespace kdeck
 
