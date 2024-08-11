@@ -296,7 +296,7 @@
                   <property name="center_pane">0</property>
                   <property name="class"></property>
                   <property name="close_button">1</property>
-                  <property name="construction">pnlPortfolio = new PortfolioPanel(this);</property>
+                  <property name="construction">pnlPortfolio = new PortfolioPanel(pnlRoot);</property>
                   <property name="context_help"></property>
                   <property name="context_menu">1</property>
                   <property name="declaration">PortfolioPanel* pnlPortfolio;</property>

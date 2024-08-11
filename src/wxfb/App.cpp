@@ -51,7 +51,7 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 
 	vszrContent->Add( hszrPortfolioInfo, 0, wxEXPAND, 5 );
 
-	pnlPortfolio = new PortfolioPanel(this);
+	pnlPortfolio = new PortfolioPanel(pnlRoot);
 	vszrContent->Add( pnlPortfolio, 1, wxALL|wxEXPAND, 5 );
 
 
