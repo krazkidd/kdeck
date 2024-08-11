@@ -3,14 +3,16 @@
 
 #include <wx/wx.h>
 
+#include "App.h" // wxfb
+
 namespace kdeck
 {
     class Config;
 
-    class LoginDialog : public wxDialog
+    class LoginDialog : public wxfb::LoginDialog
     {
     public:
-        LoginDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Login");
+        LoginDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
         void UpdateStuff(const Config* config);
 
@@ -18,14 +20,6 @@ namespace kdeck
         std::string GetPassword() const;
 
         bool GetRememberMe() const;
-
-    private:
-        wxTextCtrl* txtEmail;
-        wxTextCtrl* txtPassword;
-        wxCheckBox* chkRememberMe;
-
-        // init
-        void Setup();
     };
 }
 

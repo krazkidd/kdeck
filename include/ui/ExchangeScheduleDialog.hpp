@@ -3,30 +3,18 @@
 
 #include <wx/wx.h>
 
+#include "App.h" // wxfb
+
 namespace kdeck
 {
     class Api;
 
-    class ExchangeScheduleDialog : public wxDialog
+    class ExchangeScheduleDialog : public wxfb::ExchangeScheduleDialog
     {
     public:
-        ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Schedule");
+        ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
         void UpdateStuff(Api* api);
-
-    private:
-        wxStaticText* lblSundaySchedule;
-        wxStaticText* lblMondaySchedule;
-        wxStaticText* lblTuesdaySchedule;
-        wxStaticText* lblWednesdaySchedule;
-        wxStaticText* lblThursdaySchedule;
-        wxStaticText* lblFridaySchedule;
-        wxStaticText* lblSaturdaySchedule;
-
-        wxBoxSizer* boxSizer;
-
-        // init
-        void Setup();
     };
 }
 

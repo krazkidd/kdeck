@@ -1,6 +1,8 @@
 #include <wx/string.h>
 #include <wx/wx.h>
 
+#include "App.h" // wxfb
+
 #include "api/Api.hpp"
 #include "ui/ExchangeScheduleDialog.hpp"
 #include "ui/event.hpp"
@@ -12,89 +14,15 @@ namespace kdeck
     // constructor ////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
 
-    ExchangeScheduleDialog::ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid, const wxString &title)
-        : wxDialog(parent, winid, title)
+    ExchangeScheduleDialog::ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid)
+        : wxfb::ExchangeScheduleDialog(parent, winid)
     {
-        Setup();
-    }
 
-    // init ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
-
-    void ExchangeScheduleDialog::Setup()
-    {
-        wxStaticText* lblSunday = new wxStaticText(this, wxID_ANY, "Sunday:");
-        lblSundaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        wxStaticText* lblMonday = new wxStaticText(this, wxID_ANY, "Monday:");
-        lblMondaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        wxStaticText* lblTuesday = new wxStaticText(this, wxID_ANY, "Tuesday:");
-        lblTuesdaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        wxStaticText* lblWednesday = new wxStaticText(this, wxID_ANY, "Wednesday:");
-        lblWednesdaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        wxStaticText* lblThursday = new wxStaticText(this, wxID_ANY, "Thursday:");
-        lblThursdaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        wxStaticText* lblFriday = new wxStaticText(this, wxID_ANY, "Friday:");
-        lblFridaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        wxStaticText* lblSaturday = new wxStaticText(this, wxID_ANY, "Saturday:");
-        lblSaturdaySchedule = new wxStaticText(this, wxID_ANY, "");
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        wxGridSizer* gridSizer = new wxGridSizer(7, 2, wxSize{10, 10});
-
-        wxSizerFlags flagsLblLeft = wxSizerFlags().CenterVertical().Left();
-        wxSizerFlags flagsLblRight = wxSizerFlags().CenterVertical().Right();
-
-        gridSizer->Add(lblSunday, flagsLblRight);
-        gridSizer->Add(lblSundaySchedule, flagsLblLeft);
-
-        gridSizer->Add(lblMonday, flagsLblRight);
-        gridSizer->Add(lblMondaySchedule, flagsLblLeft);
-
-        gridSizer->Add(lblTuesday, flagsLblRight);
-        gridSizer->Add(lblTuesdaySchedule, flagsLblLeft);
-
-        gridSizer->Add(lblWednesday, flagsLblRight);
-        gridSizer->Add(lblWednesdaySchedule, flagsLblLeft);
-
-        gridSizer->Add(lblThursday, flagsLblRight);
-        gridSizer->Add(lblThursdaySchedule, flagsLblLeft);
-
-        gridSizer->Add(lblFriday, flagsLblRight);
-        gridSizer->Add(lblFridaySchedule, flagsLblLeft);
-
-        gridSizer->Add(lblSaturday, flagsLblRight);
-        gridSizer->Add(lblSaturdaySchedule, flagsLblLeft);
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        boxSizer = new wxBoxSizer(wxVERTICAL);
-
-        wxBoxSizer* szr = new wxBoxSizer(wxVERTICAL);
-
-        wxSizerFlags flags = wxSizerFlags().Border(wxALL, 10).Expand();
-
-        szr->Add(gridSizer, flags);
-        szr->Add(boxSizer, flags);
-
-        wxSizer* szrButton = CreateButtonSizer(wxOK);
-        if (szrButton)
-        {
-            szr->Add(szrButton, wxSizerFlags().Center());
-        }
-
-        SetSizerAndFit(szr);
     }
 
     void ExchangeScheduleDialog::UpdateStuff(Api* api)
     {
-        boxSizer->Clear();
+        gszrMaintenanceSchedule->Clear();
 
         try
         {
@@ -108,30 +36,20 @@ namespace kdeck
             lblFridaySchedule->SetLabel(wxString::Format(L"%s—%s ET", schedule->schedule->standard_hours->friday->open_time->c_str(), schedule->schedule->standard_hours->friday->close_time->c_str()));
             lblSaturdaySchedule->SetLabel(wxString::Format(L"%s—%s ET", schedule->schedule->standard_hours->saturday->open_time->c_str(), schedule->schedule->standard_hours->saturday->close_time->c_str()));
 
-            if (schedule->schedule->maintenance_windows->empty())
+            bool hasMaintenanceScheduled = !schedule->schedule->maintenance_windows->empty();
+
+            lblScheduledMaintenance->Show(hasMaintenanceScheduled);
+            gszrMaintenanceScheduleColumns->Show(hasMaintenanceScheduled);
+            gszrMaintenanceSchedule->Show(hasMaintenanceScheduled);
+
+            wxSizerFlags flagsLblLeft = wxSizerFlags().CenterVertical().Left();
+            for (auto maint : *schedule->schedule->maintenance_windows)
             {
-                boxSizer->Add(new wxStaticText(this, wxID_ANY, "No scheduled maintenance closures."), wxSizerFlags().Center());
+                gszrMaintenanceSchedule->Add(new wxStaticText(this, wxID_ANY, maint->start_datetime->c_str()), flagsLblLeft);
+                gszrMaintenanceSchedule->Add(new wxStaticText(this, wxID_ANY, maint->end_datetime->c_str()), flagsLblLeft);
             }
-            else
-            {
-                boxSizer->Add(new wxStaticText(this, wxID_ANY, "Scheduled maintenance closures:"), wxSizerFlags().Center());
 
-                wxGridSizer* gridSizer = new wxGridSizer(0, 2, wxSize{10, 10});
-
-                wxSizerFlags flagsLblCenter = wxSizerFlags().CenterVertical().Center();
-                wxSizerFlags flagsLblLeft = wxSizerFlags().CenterVertical().Left();
-
-                gridSizer->Add(new wxStaticText(this, wxID_ANY, "Start"), flagsLblCenter);
-                gridSizer->Add(new wxStaticText(this, wxID_ANY, "End"), flagsLblCenter);
-
-                for (auto maint : *schedule->schedule->maintenance_windows)
-                {
-                    gridSizer->Add(new wxStaticText(this, wxID_ANY, maint->start_datetime->c_str()), flagsLblLeft);
-                    gridSizer->Add(new wxStaticText(this, wxID_ANY, maint->end_datetime->c_str()), flagsLblLeft);
-                }
-
-                boxSizer->Add(gridSizer);
-            }
+            lblNoScheduledMaintenance->Show(!hasMaintenanceScheduled);
         }
         catch (const std::exception &e)
         {

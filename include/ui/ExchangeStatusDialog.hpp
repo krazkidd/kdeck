@@ -3,23 +3,18 @@
 
 #include <wx/wx.h>
 
+#include "App.h" // wxfb
+
 namespace kdeck
 {
     class Api;
 
-    class ExchangeStatusDialog : public wxDialog
+    class ExchangeStatusDialog : public wxfb::ExchangeStatusDialog
     {
     public:
-        ExchangeStatusDialog(wxWindow* parent, wxWindowID winid = wxID_ANY, const wxString &title = "Exchange Status");
+        ExchangeStatusDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
 
         void UpdateStuff(Api* api);
-
-    private:
-        wxStaticText* lblExchangeStatus;
-        wxStaticText* lblTradingStatus;
-
-        // init
-        void Setup();
     };
 }
 
