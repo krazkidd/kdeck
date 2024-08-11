@@ -2,6 +2,7 @@ project(wxfb)
 
 add_library(${PROJECT_NAME} STATIC
     App.cpp
+    PortfolioPanel.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
