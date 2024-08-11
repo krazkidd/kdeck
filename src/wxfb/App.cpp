@@ -122,10 +122,6 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 
-	wxBoxSizer* vszrRoot;
-	vszrRoot = new wxBoxSizer( wxVERTICAL );
-
-	pnlRoot = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* vszrContent;
 	vszrContent = new wxBoxSizer( wxVERTICAL );
 
@@ -133,49 +129,43 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	gridInputs = new wxGridSizer( 0, 2, 0, 0 );
 
 	wxStaticText* lblEmail;
-	lblEmail = new wxStaticText( pnlRoot, wxID_ANY, _("Email"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblEmail = new wxStaticText( this, wxID_ANY, _("Email"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblEmail->Wrap( -1 );
 	gridInputs->Add( lblEmail, 0, wxALIGN_RIGHT|wxALL, 5 );
 
-	txtEmail = new wxTextCtrl( pnlRoot, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtEmail = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	gridInputs->Add( txtEmail, 0, wxALL|wxEXPAND, 5 );
 
 	wxStaticText* lblPassword;
-	lblPassword = new wxStaticText( pnlRoot, wxID_ANY, _("Password"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblPassword = new wxStaticText( this, wxID_ANY, _("Password"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblPassword->Wrap( -1 );
 	gridInputs->Add( lblPassword, 0, wxALIGN_RIGHT|wxALL, 5 );
 
-	txtPassword = new wxTextCtrl( pnlRoot, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+	txtPassword = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	gridInputs->Add( txtPassword, 0, wxALL|wxEXPAND, 5 );
 
 
 	vszrContent->Add( gridInputs, 1, wxEXPAND, 5 );
 
-	chkRememberMe = new wxCheckBox( pnlRoot, wxID_ANY, _("Remember me"), wxDefaultPosition, wxDefaultSize, 0 );
+	chkRememberMe = new wxCheckBox( this, wxID_ANY, _("Remember me"), wxDefaultPosition, wxDefaultSize, 0 );
 	vszrContent->Add( chkRememberMe, 0, wxALL, 5 );
 
 	wxStdDialogButtonSizer* szrStandardButtons;
 	wxButton* szrStandardButtonsOK;
 	wxButton* szrStandardButtonsCancel;
 	szrStandardButtons = new wxStdDialogButtonSizer();
-	szrStandardButtonsOK = new wxButton( pnlRoot, wxID_OK );
+	szrStandardButtonsOK = new wxButton( this, wxID_OK );
 	szrStandardButtons->AddButton( szrStandardButtonsOK );
-	szrStandardButtonsCancel = new wxButton( pnlRoot, wxID_CANCEL );
+	szrStandardButtonsCancel = new wxButton( this, wxID_CANCEL );
 	szrStandardButtons->AddButton( szrStandardButtonsCancel );
 	szrStandardButtons->Realize();
 
 	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
 
 
-	pnlRoot->SetSizer( vszrContent );
-	pnlRoot->Layout();
-	vszrContent->Fit( pnlRoot );
-	vszrRoot->Add( pnlRoot, 1, wxEXPAND | wxALL, 5 );
-
-
-	this->SetSizer( vszrRoot );
+	this->SetSizer( vszrContent );
 	this->Layout();
-	vszrRoot->Fit( this );
+	vszrContent->Fit( this );
 
 	this->Centre( wxBOTH );
 }

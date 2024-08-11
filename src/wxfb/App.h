@@ -90,7 +90,6 @@ namespace kdeck
 			private:
 
 			protected:
-				wxPanel* pnlRoot;
 				wxTextCtrl* txtEmail;
 				wxTextCtrl* txtPassword;
 				wxCheckBox* chkRememberMe;
