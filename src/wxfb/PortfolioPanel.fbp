@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <wxFormBuilder_Project>
   <FileVersion major="1" minor="18"/>
-  <object class="Project" expanded="true">
+  <object class="Project" expanded="false">
     <property name="code_generation">C++</property>
     <property name="cpp_class_decoration">; </property>
     <property name="cpp_disconnect_events">0</property>
