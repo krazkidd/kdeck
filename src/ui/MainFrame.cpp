@@ -12,7 +12,6 @@
 #include "ui/ExchangeStatusDialog.hpp"
 #include "ui/MainFrame.hpp"
 #include "ui/LoginDialog.hpp"
-#include "ui/PortfolioPanel.hpp"
 #include "ui/event.hpp"
 
 namespace kdeck

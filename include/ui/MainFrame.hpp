@@ -11,8 +11,6 @@
 
 namespace kdeck
 {
-    class PortfolioPanel;
-
     class MainFrame : public wxfb::MainFrame
     {
     public:
