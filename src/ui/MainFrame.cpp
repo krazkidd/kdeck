@@ -24,14 +24,6 @@ namespace kdeck
         , config{}
         , api{config.GetKalshiApiUrl(), config.GetSslTrustStoreDir()}
     {
-        Setup();
-    }
-
-    // init ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
-
-    void MainFrame::Setup()
-    {
         ShowStatus(wxString::Format("Welcome to %s!", kProjectName));
 
         Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);

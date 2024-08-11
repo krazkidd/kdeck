@@ -25,9 +25,6 @@ namespace kdeck
 
         bool isLoginDialogShownOnce = false;
 
-        // init
-        void Setup();
-
         // helpers
         void DoLogin();
         void DoLogout();
