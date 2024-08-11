@@ -35,7 +35,7 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 	wxBoxSizer* vszrContent;
 	vszrContent = new wxBoxSizer( wxVERTICAL );
 
-	pnlPortfolio = new PortfolioPanel(pnlRoot);
+	pnlPortfolio = new kdeck::PortfolioPanel(pnlRoot);
 	vszrContent->Add( pnlPortfolio, 1, wxALL|wxEXPAND, 5 );
 
 

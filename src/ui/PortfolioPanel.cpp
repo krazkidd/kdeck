@@ -1,5 +1,7 @@
 #include <wx/wx.h>
 
+#include "PortfolioPanel.h" // wxfb
+
 #include "api/Api.hpp"
 #include "config/Config.hpp"
 #include "ui/BalancePanel.hpp"
@@ -14,30 +16,13 @@ namespace kdeck
     ///////////////////////////////////////////////////////////////////////////////
 
     PortfolioPanel::PortfolioPanel(wxWindow* parent, wxWindowID winid)
-        : wxScrolledWindow(parent, winid)
+        : wxfb::PortfolioPanel(parent, winid)
     {
-        Setup();
+
     }
 
     // init ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-
-    void PortfolioPanel::Setup()
-    {
-        pnlBalance = new BalancePanel(this);
-
-        pnlPositions = new wxPanel(this);
-
-        wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
-
-        wxSizerFlags flags = wxSizerFlags().Border(wxALL, 10).Expand();
-
-        boxSizer->Add(pnlBalance, flags);
-        boxSizer->Add(pnlPositions, flags);
-
-        SetSizerAndFit(boxSizer);
-        SetScrollRate(10, 10);
-    }
 
     void PortfolioPanel::UpdateStuff(const Config* config, Api* api)
     {
@@ -51,10 +36,7 @@ namespace kdeck
             {
                 api->GetPositions();
 
-                wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
-
                 wxSizerFlags flags = wxSizerFlags().Border(wxUP | wxDOWN, 10).Expand();
-
                 for (auto event : api->GetEventPositions())
                 {
                     if (0 == *event->event_exposure && !config->GetShowClosedPositions())
@@ -62,7 +44,7 @@ namespace kdeck
                         continue;
                     }
 
-                    boxSizer->Add(new EventPositionPanel(pnlPositions, wxID_ANY, event), flags);
+                    vszrPositions->Add(new EventPositionPanel(pnlPositions, wxID_ANY, event), flags);
 
                     for (auto market : api->GetMarketPositions(*event->event_ticker))
                     {
@@ -71,11 +53,10 @@ namespace kdeck
                             continue;
                         }
 
-                        boxSizer->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flags);
+                        vszrPositions->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flags);
                     }
                 }
-
-                pnlPositions->SetSizerAndFit(boxSizer);
+                pnlPositions->Layout();
             }
             catch (const std::exception &e)
             {

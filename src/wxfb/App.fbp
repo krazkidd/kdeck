@@ -148,10 +148,10 @@
                   <property name="center_pane">0</property>
                   <property name="class"></property>
                   <property name="close_button">1</property>
-                  <property name="construction">pnlPortfolio = new PortfolioPanel(pnlRoot);</property>
+                  <property name="construction">pnlPortfolio = new kdeck::PortfolioPanel(pnlRoot);</property>
                   <property name="context_help"></property>
                   <property name="context_menu">1</property>
-                  <property name="declaration">PortfolioPanel* pnlPortfolio;</property>
+                  <property name="declaration">kdeck::PortfolioPanel* pnlPortfolio;</property>
                   <property name="default_pane">0</property>
                   <property name="dock">Dock</property>
                   <property name="dock_fixed">0</property>

@@ -55,7 +55,7 @@ namespace kdeck
 				};
 
 				wxPanel* pnlRoot;
-				PortfolioPanel* pnlPortfolio;
+				kdeck::PortfolioPanel* pnlPortfolio;
 				wxMenuBar* mnuBar;
 				wxMenu* mnuFile;
 				wxMenuItem* mnuLogin;
