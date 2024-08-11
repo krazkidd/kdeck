@@ -57,12 +57,17 @@ namespace kdeck
 				wxGrid* gridPositions;
 				wxMenuBar* mnuBar;
 				wxMenu* mnuFile;
+				wxMenuItem* mnuLogin;
+				wxMenuItem* mnuLogout;
 				wxMenu* mnuExchange;
 				wxMenu* mnuView;
+				wxMenuItem* mnuShowClosedPositions;
 				wxMenu* mnuHelp;
 				wxStatusBar* statusBar;
 
 				// Virtual event handlers, override them in your derived class
+				virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
+				virtual void OnShow( wxShowEvent& event ) { event.Skip(); }
 				virtual void OnMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 
 

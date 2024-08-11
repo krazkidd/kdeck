@@ -60,6 +60,8 @@
       <property name="window_name"></property>
       <property name="window_style">wxTAB_TRAVERSAL</property>
       <property name="xrc_skip_sizer">1</property>
+      <event name="OnClose">OnClose</event>
+      <event name="OnShow">OnShow</event>
       <object class="wxBoxSizer" expanded="false">
         <property name="minimum_size"></property>
         <property name="name">vszrRoot</property>
@@ -402,7 +404,7 @@
             <property name="kind">wxITEM_NORMAL</property>
             <property name="label">Login...</property>
             <property name="name">mnuLogin</property>
-            <property name="permission">none</property>
+            <property name="permission">protected</property>
             <property name="shortcut"></property>
             <property name="unchecked_bitmap"></property>
             <event name="OnMenuSelection">OnMenuItemSelected</event>
@@ -416,7 +418,7 @@
             <property name="kind">wxITEM_NORMAL</property>
             <property name="label">Logout...</property>
             <property name="name">mnuLogout</property>
-            <property name="permission">none</property>
+            <property name="permission">protected</property>
             <property name="shortcut"></property>
             <property name="unchecked_bitmap"></property>
             <event name="OnMenuSelection">OnMenuItemSelected</event>
@@ -437,6 +439,7 @@
             <property name="permission">none</property>
             <property name="shortcut"></property>
             <property name="unchecked_bitmap"></property>
+            <event name="OnMenuSelection">OnMenuItemSelected</event>
           </object>
         </object>
         <object class="wxMenu" expanded="false">
@@ -493,13 +496,13 @@
           <object class="wxMenuItem" expanded="false">
             <property name="bitmap"></property>
             <property name="checked">0</property>
-            <property name="enabled">1</property>
+            <property name="enabled">0</property>
             <property name="help">Show Closed Positions</property>
             <property name="id">ID_View_ShowClosedPositions</property>
             <property name="kind">wxITEM_CHECK</property>
             <property name="label">Show Closed Positions</property>
             <property name="name">mnuShowClosedPositions</property>
-            <property name="permission">none</property>
+            <property name="permission">protected</property>
             <property name="shortcut"></property>
             <property name="unchecked_bitmap"></property>
             <event name="OnMenuSelection">OnMenuItemSelected</event>
@@ -521,6 +524,7 @@
             <property name="permission">none</property>
             <property name="shortcut"></property>
             <property name="unchecked_bitmap"></property>
+            <event name="OnMenuSelection">OnMenuItemSelected</event>
           </object>
         </object>
       </object>
@@ -531,7 +535,7 @@
         <property name="drag_accept_files">0</property>
         <property name="enabled">1</property>
         <property name="fg"></property>
-        <property name="fields">2</property>
+        <property name="fields">3</property>
         <property name="font"></property>
         <property name="hidden">0</property>
         <property name="id">wxID_ANY</property>

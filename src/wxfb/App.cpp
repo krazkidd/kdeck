@@ -92,11 +92,9 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 	this->Layout();
 	mnuBar = new wxMenuBar( 0 );
 	mnuFile = new wxMenu();
-	wxMenuItem* mnuLogin;
 	mnuLogin = new wxMenuItem( mnuFile, ID_Login, wxString( _("Login...") ) , _("Login"), wxITEM_NORMAL );
 	mnuFile->Append( mnuLogin );
 
-	wxMenuItem* mnuLogout;
 	mnuLogout = new wxMenuItem( mnuFile, ID_Logout, wxString( _("Logout...") ) , _("Logout"), wxITEM_NORMAL );
 	mnuFile->Append( mnuLogout );
 	mnuLogout->Enable( false );
@@ -125,9 +123,9 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 	mnuBar->Append( mnuExchange, _("&Exchange") );
 
 	mnuView = new wxMenu();
-	wxMenuItem* mnuShowClosedPositions;
 	mnuShowClosedPositions = new wxMenuItem( mnuView, ID_View_ShowClosedPositions, wxString( _("Show Closed Positions") ) , _("Show Closed Positions"), wxITEM_CHECK );
 	mnuView->Append( mnuShowClosedPositions );
+	mnuShowClosedPositions->Enable( false );
 
 	mnuBar->Append( mnuView, _("&View") );
 
@@ -140,17 +138,21 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 
 	this->SetMenuBar( mnuBar );
 
-	statusBar = this->CreateStatusBar( 2, wxSTB_SIZEGRIP, wxID_ANY );
+	statusBar = this->CreateStatusBar( 3, wxSTB_SIZEGRIP, wxID_ANY );
 
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrame::OnClose ) );
+	this->Connect( wxEVT_SHOW, wxShowEventHandler( MainFrame::OnShow ) );
 	mnuFile->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuLogin->GetId());
 	mnuFile->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuLogout->GetId());
+	mnuFile->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuExit->GetId());
 	mnuExchange->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuItemExchangeAnnouncements->GetId());
 	mnuExchange->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuItemExchangeSchedule->GetId());
 	mnuExchange->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuItemExchangeStatus->GetId());
 	mnuView->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuShowClosedPositions->GetId());
+	mnuHelp->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuAbout->GetId());
 
 	return true;
 }
