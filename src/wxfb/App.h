@@ -18,7 +18,7 @@
 #include <wx/settings.h>
 #include <wx/textctrl.h>
 #include <wx/sizer.h>
-#include <wx/grid.h>
+#include "ui/PortfolioPanel.hpp"
 #include <wx/panel.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -54,7 +54,7 @@ namespace kdeck
 				wxPanel* pnlRoot;
 				wxStaticText* lblBalance;
 				wxTextCtrl* txtBalance;
-				wxGrid* gridPositions;
+				PortfolioPanel* pnlPortfolio;
 				wxMenuBar* mnuBar;
 				wxMenu* mnuFile;
 				wxMenuItem* mnuLogin;

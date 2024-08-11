@@ -51,35 +51,8 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 
 	vszrContent->Add( hszrPortfolioInfo, 0, wxEXPAND, 5 );
 
-	gridPositions = new wxGrid( pnlRoot, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-
-	// Grid
-	gridPositions->CreateGrid( 0, 6 );
-	gridPositions->EnableEditing( true );
-	gridPositions->EnableGridLines( true );
-	gridPositions->EnableDragGridSize( false );
-	gridPositions->SetMargins( 0, 0 );
-
-	// Columns
-	gridPositions->EnableDragColMove( false );
-	gridPositions->EnableDragColSize( true );
-	gridPositions->SetColLabelValue( 0, _("Ticker") );
-	gridPositions->SetColLabelValue( 1, _("Position") );
-	gridPositions->SetColLabelValue( 2, _("Exposure") );
-	gridPositions->SetColLabelValue( 3, _("Realized P/L") );
-	gridPositions->SetColLabelValue( 4, _("Total Traded") );
-	gridPositions->SetColLabelValue( 5, _("Resting Orders") );
-	gridPositions->SetColLabelAlignment( wxALIGN_CENTER, wxALIGN_CENTER );
-
-	// Rows
-	gridPositions->EnableDragRowSize( true );
-	gridPositions->SetRowLabelAlignment( wxALIGN_CENTER, wxALIGN_CENTER );
-
-	// Label Appearance
-
-	// Cell Defaults
-	gridPositions->SetDefaultCellAlignment( wxALIGN_LEFT, wxALIGN_TOP );
-	vszrContent->Add( gridPositions, 1, wxALL|wxEXPAND, 5 );
+	pnlPortfolio = new PortfolioPanel(this);
+	vszrContent->Add( pnlPortfolio, 1, wxALL|wxEXPAND, 5 );
 
 
 	pnlRoot->SetSizer( vszrContent );
