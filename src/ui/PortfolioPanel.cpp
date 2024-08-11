@@ -4,7 +4,6 @@
 
 #include "api/Api.hpp"
 #include "config/Config.hpp"
-#include "ui/BalancePanel.hpp"
 #include "ui/PortfolioPanel.hpp"
 #include "ui/EventPositionPanel.hpp"
 #include "ui/MarketPositionPanel.hpp"
@@ -26,14 +25,14 @@ namespace kdeck
 
     void PortfolioPanel::UpdateStuff(const Config* config, Api* api)
     {
-        pnlBalance->UpdateStuff(api);
-
         pnlPositions->DestroyChildren();
 
         if (api->IsLoggedIn())
         {
             try
             {
+                lblBalanceAmount->SetAmount(api->GetBalance());
+
                 api->GetPositions();
 
                 wxSizerFlags flags = wxSizerFlags().Border(wxUP | wxDOWN, 10).Expand();
@@ -56,7 +55,6 @@ namespace kdeck
                         vszrPositions->Add(new MarketPositionPanel(pnlPositions, wxID_ANY, market), flags);
                     }
                 }
-                pnlPositions->Layout();
             }
             catch (const std::exception &e)
             {
@@ -66,5 +64,11 @@ namespace kdeck
                 QueueEvent(evt);
             }
         }
+        else
+        {
+            lblBalanceAmount->SetAmount(0);
+        }
+
+        Layout();
     }
 }

@@ -15,8 +15,22 @@ PortfolioPanel::PortfolioPanel( wxWindow* parent, wxWindowID id, const wxPoint& 
 	wxBoxSizer* vszrContent;
 	vszrContent = new wxBoxSizer( wxVERTICAL );
 
-	pnlBalance = new BalancePanel(this);
-	vszrContent->Add( pnlBalance, 0, wxALL, 5 );
+	wxBoxSizer* hszrPortfolioInfo;
+	hszrPortfolioInfo = new wxBoxSizer( wxHORIZONTAL );
+
+
+	hszrPortfolioInfo->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	wxStaticText* lblBalance;
+	lblBalance = new wxStaticText( this, wxID_ANY, _("Balance"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblBalance->Wrap( -1 );
+	hszrPortfolioInfo->Add( lblBalance, 0, wxALL, 5 );
+
+	lblBalanceAmount = new StaticCurrency(this);
+	hszrPortfolioInfo->Add( lblBalanceAmount, 0, wxALL, 5 );
+
+
+	vszrContent->Add( hszrPortfolioInfo, 0, wxEXPAND, 5 );
 
 	pnlPositions = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	pnlPositions->SetScrollRate( 5, 5 );

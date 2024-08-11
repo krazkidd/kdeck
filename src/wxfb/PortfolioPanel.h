@@ -10,12 +10,13 @@
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/intl.h>
-#include "ui/BalancePanel.hpp"
+#include <wx/string.h>
+#include <wx/stattext.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/string.h>
+#include "ui/StaticCurrency.hpp"
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
 #include <wx/panel.h>
@@ -34,7 +35,7 @@ namespace kdeck
 			private:
 
 			protected:
-				BalancePanel* pnlBalance;
+				StaticCurrency* lblBalanceAmount;
 				wxScrolledWindow* pnlPositions;
 				wxBoxSizer* vszrPositions;
 

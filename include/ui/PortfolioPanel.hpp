@@ -8,7 +8,6 @@
 namespace kdeck
 {
     class Api;
-    class BalancePanel;
     class Config;
 
     class PortfolioPanel : public wxfb::PortfolioPanel
