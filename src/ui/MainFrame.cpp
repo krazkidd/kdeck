@@ -3,6 +3,8 @@
 #include <wx/string.h>
 #include <wx/wx.h>
 
+#include "App.h" // wxfb
+
 #include "api/Api.hpp"
 #include "config/Config.hpp"
 #include "ui/ExchangeAnnouncementsDialog.hpp"
@@ -19,7 +21,7 @@ namespace kdeck
     ///////////////////////////////////////////////////////////////////////////////
 
     MainFrame::MainFrame(wxWindow* parent, wxWindowID winid, const wxString &title)
-        : wxFrame(parent, winid, title)
+        : wxfb::MainFrame(parent, winid, title)
         , config{}
         , api{config.GetKalshiApiUrl(), config.GetSslTrustStoreDir()}
     {
@@ -31,68 +33,11 @@ namespace kdeck
 
     void MainFrame::Setup()
     {
-        // NOTE: It appears to be important that we add the status bar (and possibly
-        //       the menu bar) before we add a panel/sizer. It seems to change the
-        //       dimensions of the panel/frame and messes with sizer logic.
-
-        wxMenu *menuFile = new wxMenu;
-
-        mnuLogin = menuFile->Append(ID_Login, "Login...", "Login");
-        mnuLogout = menuFile->Append(ID_Logout, "Logout...", "Logout");
-
-        mnuLogout->Enable(false);
-
-        menuFile->AppendSeparator();
-        menuFile->Append(wxID_EXIT);
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        wxMenu *menuExchange = new wxMenu;
-
-        menuExchange->Append(ID_Exchange_Announcements, "Announcements", "Announcements");
-        menuExchange->Append(ID_Exchange_Schedule, "Schedule", "Schedule");
-        menuExchange->Append(ID_Exchange_Status, "Status", "Status");
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        wxMenu *menuView = new wxMenu;
-
-        mnuShowClosedPositions = menuView->AppendCheckItem(ID_View_ShowClosedPositions, "Show Closed Positions", "Show Closed Positions");
-
-        mnuShowClosedPositions->Enable(false);
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        wxMenu *menuHelp = new wxMenu;
-        menuHelp->Append(wxID_ABOUT);
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        wxMenuBar *menuBar = new wxMenuBar;
-        menuBar->Append(menuFile, "&File");
-        menuBar->Append(menuExchange, "&Exchange");
-        menuBar->Append(menuView, "&View");
-        menuBar->Append(menuHelp, "&Help");
-
-        SetMenuBar(menuBar);
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        CreateStatusBar(3);
         ShowStatus(wxString::Format("Welcome to %s!", kProjectName));
-
-        ///////////////////////////////////////////////////////////////////////////
-
-        pnlPortfolio = new PortfolioPanel(this);
-
-        SetMinSize(wxSize{400, 400});
 
         Bind(EVT_LOGIN, &MainFrame::OnLoginOrLogout, this);
         Bind(EVT_LOGOUT, &MainFrame::OnLoginOrLogout, this);
         Bind(EVT_API_ERROR, &MainFrame::OnApiError, this);
-        Bind(wxEVT_IDLE, &MainFrame::OnIdleRunOnce, this);
-        Bind(wxEVT_MENU, &MainFrame::OnMenuItemSelected, this);
-        Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
     }
 
     void MainFrame::UpdateStuff()
@@ -221,12 +166,14 @@ namespace kdeck
         ShowStatus(event.GetString());
     }
 
-    void MainFrame::OnIdleRunOnce(wxIdleEvent &event)
+    void MainFrame::OnShow(wxShowEvent &event)
     {
-        // unbind this event handler so it only runs once
-        Unbind(wxEVT_IDLE, &MainFrame::OnIdleRunOnce, this);
+        if (!isLoginDialogShownOnce)
+        {
+            isLoginDialogShownOnce = true;
 
-        DoLogin();
+            DoLogin();
+        }
     }
 
     void MainFrame::OnMenuItemSelected(wxCommandEvent &event)
