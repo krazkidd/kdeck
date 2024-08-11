@@ -53,7 +53,7 @@
       <property name="size">800,600</property>
       <property name="style">wxDEFAULT_FRAME_STYLE</property>
       <property name="subclass">; ; forward_declare</property>
-      <property name="title">kdeck</property>
+      <property name="title"></property>
       <property name="tooltip"></property>
       <property name="two_step_creation">1</property>
       <property name="window_extra_style"></property>
