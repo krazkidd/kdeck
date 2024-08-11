@@ -24,6 +24,11 @@
 #include <wx/menu.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
+#include <wx/checkbox.h>
+#include <wx/button.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -74,6 +79,27 @@ namespace kdeck
 				bool Create( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 				~MainFrame();
+
+		};
+
+		///////////////////////////////////////////////////////////////////////////////
+		/// Class LoginDialog
+		///////////////////////////////////////////////////////////////////////////////
+		class LoginDialog : public wxDialog
+		{
+			private:
+
+			protected:
+				wxPanel* pnlRoot;
+				wxTextCtrl* txtEmail;
+				wxTextCtrl* txtPassword;
+				wxCheckBox* chkRememberMe;
+
+			public:
+
+				LoginDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Login"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+				~LoginDialog();
 
 		};
 
