@@ -10,22 +10,8 @@
 ///////////////////////////////////////////////////////////////////////////
 using namespace kdeck::wxfb;
 
-MainFrame::MainFrame()
+MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-}
-
-MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-{
-	this->Create( parent, id, title, pos, size, style );
-}
-
-bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style )
-{
-	if ( !wxFrame::Create( parent, id, title, pos, size, style ) )
-	{
-		return false;
-	}
-
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 
 	wxBoxSizer* vszrRoot;
@@ -110,8 +96,6 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 	mnuExchange->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuItemExchangeStatus->GetId());
 	mnuView->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuShowClosedPositions->GetId());
 	mnuHelp->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnMenuItemSelected ), this, mnuAbout->GetId());
-
-	return true;
 }
 
 MainFrame::~MainFrame()
