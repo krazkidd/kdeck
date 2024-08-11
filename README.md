@@ -36,6 +36,10 @@ vcpkg is designed to statically compile programs and makes it difficult to rely 
 
 However, a number of build tools are required to be present on the system. A `Dockerfile` documents which packages must be installed to acquire the necessary tools on a Debian-based system. You may install these directly or use the Docker-based build.
 
+### Design Tools
+
+This project makes use of [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder) for rapid UI iteration. The project file and generated classes can be found under `src/wxfb`.
+
 ## Build Steps
 
 > [!NOTE]
@@ -98,16 +102,6 @@ For subsequent builds, vcpkg will make use of the binary cache under `$(pwd)/bui
 
 > [!WARNING]
 > This is the default vcpkg binary cache directory for this project. If your host system is Debian 12 (Bookworm), it should be safe to bind-mount this directory and share installed dependencies with the container. Users on other systems wishing to build with and without Docker may want to bind-mount to a different host directory (although builds targeting different system triplets can coexist).
-
-## Design Tools
-
-This project is **not yet** making use of wxWidgets' XRC support. In the future, one of the following design tools will be recommended for work on the kdeck project:
-
-* codeblocks
-* codelite
-* wxglade
-
-**Suggestions are welcome.**
 
 ## Kalshi API
 
