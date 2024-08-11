@@ -1,5 +1,7 @@
 # kdeck
 
+![Debian Bookworm Release](https://github.com/krazkidd/kdeck/actions/workflows/release.yaml/badge.svg)
+
 A wxWidgets-based desktop client for the [Kalshi](https://kalshi.com/) event trading platform written in C++.
 
 Project hosted on [GitHub](https://github.com/krazkidd/kdeck).
