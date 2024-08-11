@@ -214,6 +214,131 @@ ExchangeAnnouncementsDialog::~ExchangeAnnouncementsDialog()
 {
 }
 
+ExchangeScheduleDialog::ExchangeScheduleDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* vszrContent;
+	vszrContent = new wxBoxSizer( wxVERTICAL );
+
+	wxGridSizer* gszrSchedule;
+	gszrSchedule = new wxGridSizer( 0, 2, 0, 0 );
+
+	wxStaticText* lblSunday;
+	lblSunday = new wxStaticText( this, wxID_ANY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblSunday->Wrap( -1 );
+	gszrSchedule->Add( lblSunday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblSundaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblSundaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblSundaySchedule, 0, wxALIGN_LEFT|wxALL, 5 );
+
+	wxStaticText* lblMonday;
+	lblMonday = new wxStaticText( this, wxID_ANY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblMonday->Wrap( -1 );
+	gszrSchedule->Add( lblMonday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblMondaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblMondaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblMondaySchedule, 0, wxALL, 5 );
+
+	wxStaticText* lblTuesday;
+	lblTuesday = new wxStaticText( this, wxID_ANY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblTuesday->Wrap( -1 );
+	gszrSchedule->Add( lblTuesday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblTuesdaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblTuesdaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblTuesdaySchedule, 0, wxALL, 5 );
+
+	wxStaticText* lblWednesday;
+	lblWednesday = new wxStaticText( this, wxID_ANY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblWednesday->Wrap( -1 );
+	gszrSchedule->Add( lblWednesday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblWednesdaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblWednesdaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblWednesdaySchedule, 0, wxALL, 5 );
+
+	wxStaticText* lblThursday;
+	lblThursday = new wxStaticText( this, wxID_ANY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblThursday->Wrap( -1 );
+	gszrSchedule->Add( lblThursday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblThursdaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblThursdaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblThursdaySchedule, 0, wxALL, 5 );
+
+	wxStaticText* lblFriday;
+	lblFriday = new wxStaticText( this, wxID_ANY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblFriday->Wrap( -1 );
+	gszrSchedule->Add( lblFriday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblFridaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblFridaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblFridaySchedule, 0, wxALL, 5 );
+
+	wxStaticText* lblSaturday;
+	lblSaturday = new wxStaticText( this, wxID_ANY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblSaturday->Wrap( -1 );
+	gszrSchedule->Add( lblSaturday, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblSaturdaySchedule = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblSaturdaySchedule->Wrap( -1 );
+	gszrSchedule->Add( lblSaturdaySchedule, 0, wxALL, 5 );
+
+
+	vszrContent->Add( gszrSchedule, 1, wxEXPAND, 5 );
+
+	lblScheduledMaintenance = new wxStaticText( this, wxID_ANY, _("Scheduled Maintenance Closures"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblScheduledMaintenance->Wrap( -1 );
+	vszrContent->Add( lblScheduledMaintenance, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+
+	gszrMaintenanceScheduleColumns = new wxGridSizer( 0, 2, 0, 0 );
+
+	wxStaticText* lblStart;
+	lblStart = new wxStaticText( this, wxID_ANY, _("Start"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblStart->Wrap( -1 );
+	gszrMaintenanceScheduleColumns->Add( lblStart, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+
+	wxStaticText* m_staticText118;
+	m_staticText118 = new wxStaticText( this, wxID_ANY, _("End"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText118->Wrap( -1 );
+	gszrMaintenanceScheduleColumns->Add( m_staticText118, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxLEFT, 5 );
+
+
+	vszrContent->Add( gszrMaintenanceScheduleColumns, 0, wxEXPAND, 5 );
+
+	gszrMaintenanceSchedule = new wxGridSizer( 0, 2, 0, 0 );
+
+
+	vszrContent->Add( gszrMaintenanceSchedule, 1, wxEXPAND, 5 );
+
+	lblNoScheduledMaintenance = new wxStaticText( this, wxID_ANY, _("There are no scheduled maintenance closures."), wxDefaultPosition, wxDefaultSize, 0 );
+	lblNoScheduledMaintenance->Wrap( -1 );
+	vszrContent->Add( lblNoScheduledMaintenance, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+
+	wxStdDialogButtonSizer* szrStandardButtons;
+	wxButton* szrStandardButtonsOK;
+	szrStandardButtons = new wxStdDialogButtonSizer();
+	szrStandardButtonsOK = new wxButton( this, wxID_OK );
+	szrStandardButtons->AddButton( szrStandardButtonsOK );
+	szrStandardButtons->Realize();
+
+	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+
+
+	this->SetSizer( vszrContent );
+	this->Layout();
+	vszrContent->Fit( this );
+
+	this->Centre( wxBOTH );
+}
+
+ExchangeScheduleDialog::~ExchangeScheduleDialog()
+{
+}
+
 ExchangeStatusDialog::ExchangeStatusDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );

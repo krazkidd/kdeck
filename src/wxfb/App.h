@@ -122,6 +122,34 @@ namespace kdeck
 		};
 
 		///////////////////////////////////////////////////////////////////////////////
+		/// Class ExchangeScheduleDialog
+		///////////////////////////////////////////////////////////////////////////////
+		class ExchangeScheduleDialog : public wxDialog
+		{
+			private:
+
+			protected:
+				wxStaticText* lblSundaySchedule;
+				wxStaticText* lblMondaySchedule;
+				wxStaticText* lblTuesdaySchedule;
+				wxStaticText* lblWednesdaySchedule;
+				wxStaticText* lblThursdaySchedule;
+				wxStaticText* lblFridaySchedule;
+				wxStaticText* lblSaturdaySchedule;
+				wxStaticText* lblScheduledMaintenance;
+				wxGridSizer* gszrMaintenanceScheduleColumns;
+				wxGridSizer* gszrMaintenanceSchedule;
+				wxStaticText* lblNoScheduledMaintenance;
+
+			public:
+
+				ExchangeScheduleDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Exchange Schedule"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+				~ExchangeScheduleDialog();
+
+		};
+
+		///////////////////////////////////////////////////////////////////////////////
 		/// Class ExchangeStatusDialog
 		///////////////////////////////////////////////////////////////////////////////
 		class ExchangeStatusDialog : public wxDialog
