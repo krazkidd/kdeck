@@ -213,3 +213,55 @@ ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog( wxWindow* parent, wxWi
 ExchangeAnnouncementsDialog::~ExchangeAnnouncementsDialog()
 {
 }
+
+ExchangeStatusDialog::ExchangeStatusDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* vszrContent;
+	vszrContent = new wxBoxSizer( wxVERTICAL );
+
+	wxGridSizer* gszrStatus;
+	gszrStatus = new wxGridSizer( 0, 2, 0, 0 );
+
+	wxStaticText* lblExchange;
+	lblExchange = new wxStaticText( this, wxID_ANY, _("Exchange"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblExchange->Wrap( -1 );
+	gszrStatus->Add( lblExchange, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblExchangeStatus = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblExchangeStatus->Wrap( -1 );
+	gszrStatus->Add( lblExchangeStatus, 0, wxALL, 5 );
+
+	wxStaticText* lblTrading;
+	lblTrading = new wxStaticText( this, wxID_ANY, _("Trading"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblTrading->Wrap( -1 );
+	gszrStatus->Add( lblTrading, 0, wxALIGN_RIGHT|wxALL, 5 );
+
+	lblTradingStatus = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	lblTradingStatus->Wrap( -1 );
+	gszrStatus->Add( lblTradingStatus, 0, wxALL, 5 );
+
+
+	vszrContent->Add( gszrStatus, 1, wxEXPAND, 5 );
+
+	wxStdDialogButtonSizer* szrStandardButtons;
+	wxButton* szrStandardButtonsOK;
+	szrStandardButtons = new wxStdDialogButtonSizer();
+	szrStandardButtonsOK = new wxButton( this, wxID_OK );
+	szrStandardButtons->AddButton( szrStandardButtonsOK );
+	szrStandardButtons->Realize();
+
+	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+
+
+	this->SetSizer( vszrContent );
+	this->Layout();
+	vszrContent->Fit( this );
+
+	this->Centre( wxBOTH );
+}
+
+ExchangeStatusDialog::~ExchangeStatusDialog()
+{
+}

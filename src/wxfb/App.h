@@ -121,6 +121,25 @@ namespace kdeck
 
 		};
 
+		///////////////////////////////////////////////////////////////////////////////
+		/// Class ExchangeStatusDialog
+		///////////////////////////////////////////////////////////////////////////////
+		class ExchangeStatusDialog : public wxDialog
+		{
+			private:
+
+			protected:
+				wxStaticText* lblExchangeStatus;
+				wxStaticText* lblTradingStatus;
+
+			public:
+
+				ExchangeStatusDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Exchange Status"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+				~ExchangeStatusDialog();
+
+		};
+
 	} // namespace wxfb
 } // namespace kdeck
 
