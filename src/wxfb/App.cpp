@@ -160,7 +160,7 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	szrStandardButtons->AddButton( szrStandardButtonsCancel );
 	szrStandardButtons->Realize();
 
-	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+	vszrContent->Add( szrStandardButtons, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 
 
 	this->SetSizer( vszrContent );
@@ -200,7 +200,7 @@ ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog( wxWindow* parent, wxWi
 	szrStandardButtons->AddButton( szrStandardButtonsOK );
 	szrStandardButtons->Realize();
 
-	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+	vszrContent->Add( szrStandardButtons, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 
 
 	this->SetSizer( vszrContent );
@@ -325,7 +325,7 @@ ExchangeScheduleDialog::ExchangeScheduleDialog( wxWindow* parent, wxWindowID id,
 	szrStandardButtons->AddButton( szrStandardButtonsOK );
 	szrStandardButtons->Realize();
 
-	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+	vszrContent->Add( szrStandardButtons, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 
 
 	this->SetSizer( vszrContent );
@@ -377,7 +377,7 @@ ExchangeStatusDialog::ExchangeStatusDialog( wxWindow* parent, wxWindowID id, con
 	szrStandardButtons->AddButton( szrStandardButtonsOK );
 	szrStandardButtons->Realize();
 
-	vszrContent->Add( szrStandardButtons, 0, wxEXPAND, 5 );
+	vszrContent->Add( szrStandardButtons, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 
 
 	this->SetSizer( vszrContent );
