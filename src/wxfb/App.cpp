@@ -35,21 +35,6 @@ bool MainFrame::Create( wxWindow* parent, wxWindowID id, const wxString& title, 
 	wxBoxSizer* vszrContent;
 	vszrContent = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* hszrPortfolioInfo;
-	hszrPortfolioInfo = new wxBoxSizer( wxHORIZONTAL );
-
-
-	hszrPortfolioInfo->Add( 0, 0, 1, wxEXPAND, 5 );
-
-	lblBalance = new wxStaticText( pnlRoot, wxID_ANY, _("Balance"), wxDefaultPosition, wxDefaultSize, 0 );
-	lblBalance->Wrap( -1 );
-	hszrPortfolioInfo->Add( lblBalance, 0, wxALL, 5 );
-
-	txtBalance = new wxTextCtrl( pnlRoot, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
-	hszrPortfolioInfo->Add( txtBalance, 0, wxALL, 5 );
-
-
-	vszrContent->Add( hszrPortfolioInfo, 0, wxEXPAND, 5 );
 
 	pnlPortfolio = new PortfolioPanel(pnlRoot);
 	vszrContent->Add( pnlPortfolio, 1, wxALL|wxEXPAND, 5 );
