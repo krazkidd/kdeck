@@ -19,9 +19,6 @@ namespace kdeck
 
     }
 
-    // init ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
-
     void ExchangeAnnouncementsDialog::UpdateStuff(Api* api)
     {
         fgszrAnnouncements->Clear();
@@ -33,17 +30,17 @@ namespace kdeck
             bool hasAnnouncements = !announcements->announcements->empty();
 
             fgszrAnnouncements->Show(hasAnnouncements);
-            lblNoAnnouncements->Show(!hasAnnouncements);
 
+            wxSizerFlags flagsLbl = wxSizerFlags().Border(wxLEFT, 10).CenterVertical();
             for (auto announcement : *announcements->announcements)
             {
-                wxSizerFlags flagsLbl = wxSizerFlags().Border(wxLEFT, 10).CenterVertical();
-
                 fgszrAnnouncements->Add(new wxStaticText(this, wxID_ANY, announcement->delivery_time->c_str()), flagsLbl);
                 fgszrAnnouncements->Add(new wxStaticText(this, wxID_ANY, announcement->status->c_str()), flagsLbl);
                 fgszrAnnouncements->Add(new wxStaticText(this, wxID_ANY, announcement->type->c_str()), flagsLbl);
                 fgszrAnnouncements->Add(new wxStaticText(this, wxID_ANY, announcement->message->c_str()), flagsLbl);
             }
+
+            lblNoAnnouncements->Show(!hasAnnouncements);
         }
         catch (const std::exception &e)
         {
