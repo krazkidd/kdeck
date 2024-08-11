@@ -2,13 +2,11 @@ project(ui)
 
 add_library(${PROJECT_NAME} STATIC
     App.cpp
-    EventPositionPanel.cpp
     ExchangeAnnouncementsDialog.cpp
     ExchangeScheduleDialog.cpp
     ExchangeStatusDialog.cpp
     LoginDialog.cpp
     MainFrame.cpp
-    MarketPositionPanel.cpp
     PortfolioPanel.cpp
     StaticCurrency.cpp
     event.cpp

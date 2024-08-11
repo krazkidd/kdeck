@@ -264,11 +264,18 @@
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style">wxHSCROLL|wxVSCROLL</property>
-            <object class="wxBoxSizer" expanded="false">
+            <object class="wxFlexGridSizer" expanded="false">
+              <property name="cols">6</property>
+              <property name="flexible_direction">wxBOTH</property>
+              <property name="growablecols">0</property>
+              <property name="growablerows"></property>
+              <property name="hgap">10</property>
               <property name="minimum_size"></property>
-              <property name="name">vszrPositions</property>
-              <property name="orient">wxVERTICAL</property>
+              <property name="name">fgszrPositions</property>
+              <property name="non_flexible_grow_mode">wxFLEX_GROWMODE_SPECIFIED</property>
               <property name="permission">protected</property>
+              <property name="rows">0</property>
+              <property name="vgap">10</property>
             </object>
           </object>
         </object>

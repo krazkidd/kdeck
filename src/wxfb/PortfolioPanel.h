@@ -37,7 +37,7 @@ namespace kdeck
 			protected:
 				StaticCurrency* lblBalanceAmount;
 				wxScrolledWindow* pnlPositions;
-				wxBoxSizer* vszrPositions;
+				wxFlexGridSizer* fgszrPositions;
 
 			public:
 
