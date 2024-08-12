@@ -35,7 +35,6 @@ PortfolioPanel::PortfolioPanel( wxWindow* parent, wxWindowID id, const wxPoint& 
 	pnlPositions = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
 	pnlPositions->SetScrollRate( 5, 5 );
 	fgszrPositions = new wxFlexGridSizer( 0, 6, 10, 10 );
-	fgszrPositions->AddGrowableCol( 0 );
 	fgszrPositions->SetFlexibleDirection( wxBOTH );
 	fgszrPositions->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
