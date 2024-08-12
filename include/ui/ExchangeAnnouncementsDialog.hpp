@@ -12,7 +12,8 @@ namespace kdeck
     class ExchangeAnnouncementsDialog : public wxfb::ExchangeAnnouncementsDialog
     {
     public:
-        ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
+        ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid = wxID_ANY)
+            : wxfb::ExchangeAnnouncementsDialog(parent, winid) {};
 
         void UpdateStuff(Api* api);
     };

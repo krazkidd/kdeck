@@ -12,7 +12,8 @@ namespace kdeck
     class ExchangeStatusDialog : public wxfb::ExchangeStatusDialog
     {
     public:
-        ExchangeStatusDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
+        ExchangeStatusDialog(wxWindow* parent, wxWindowID winid = wxID_ANY)
+            : wxfb::ExchangeStatusDialog(parent, winid) {};
 
         void UpdateStuff(Api* api);
     };

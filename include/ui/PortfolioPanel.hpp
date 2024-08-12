@@ -13,7 +13,8 @@ namespace kdeck
     class PortfolioPanel : public wxfb::PortfolioPanel
     {
     public:
-        PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY);
+        PortfolioPanel(wxWindow* parent, wxWindowID winid = wxID_ANY)
+            : wxfb::PortfolioPanel(parent, winid) {};
 
         void UpdateStuff(const Config* config, Api* api);
     };

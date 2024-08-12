@@ -12,7 +12,8 @@ namespace kdeck
     class LoginDialog : public wxfb::LoginDialog
     {
     public:
-        LoginDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
+        LoginDialog(wxWindow* parent, wxWindowID winid = wxID_ANY)
+            : wxfb::LoginDialog(parent, winid) {};
 
         void UpdateStuff(const Config* config);
 

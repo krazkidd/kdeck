@@ -11,15 +11,6 @@ namespace kdeck
 {
     class ExchangeScheduleResponse;
 
-    // constructor ////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
-
-    ExchangeScheduleDialog::ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid)
-        : wxfb::ExchangeScheduleDialog(parent, winid)
-    {
-
-    }
-
     void ExchangeScheduleDialog::UpdateStuff(Api* api)
     {
         gszrMaintenanceSchedule->Clear(true);

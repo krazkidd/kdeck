@@ -12,7 +12,8 @@ namespace kdeck
     class ExchangeScheduleDialog : public wxfb::ExchangeScheduleDialog
     {
     public:
-        ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY);
+        ExchangeScheduleDialog(wxWindow* parent, wxWindowID winid = wxID_ANY)
+            : wxfb::ExchangeScheduleDialog(parent, winid) {};
 
         void UpdateStuff(Api* api);
     };

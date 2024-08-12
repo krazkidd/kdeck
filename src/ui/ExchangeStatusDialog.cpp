@@ -8,15 +8,6 @@ namespace kdeck
 {
     class ExchangeStatusResponse;
 
-    // constructor ////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
-
-    ExchangeStatusDialog::ExchangeStatusDialog(wxWindow* parent, wxWindowID winid)
-        : wxfb::ExchangeStatusDialog(parent, winid)
-    {
-
-    }
-
     void ExchangeStatusDialog::UpdateStuff(Api* api)
     {
         try

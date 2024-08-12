@@ -10,15 +10,6 @@ namespace kdeck
 {
     class ExchangeAnnouncementsResponse;
 
-    // constructor ////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////
-
-    ExchangeAnnouncementsDialog::ExchangeAnnouncementsDialog(wxWindow* parent, wxWindowID winid)
-        : wxfb::ExchangeAnnouncementsDialog(parent, winid)
-    {
-
-    }
-
     void ExchangeAnnouncementsDialog::UpdateStuff(Api* api)
     {
         fgszrAnnouncements->Clear();
