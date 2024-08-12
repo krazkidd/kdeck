@@ -23,7 +23,7 @@ namespace kdeck
 
     void PortfolioPanel::UpdateStuff(const Config* config, Api* api)
     {
-        pnlPositions->DestroyChildren();
+        fgszrPositions->Clear(true);
 
         if (api->IsLoggedIn())
         {

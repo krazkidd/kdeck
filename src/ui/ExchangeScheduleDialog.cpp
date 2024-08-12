@@ -22,7 +22,7 @@ namespace kdeck
 
     void ExchangeScheduleDialog::UpdateStuff(Api* api)
     {
-        gszrMaintenanceSchedule->Clear();
+        gszrMaintenanceSchedule->Clear(true);
 
         try
         {
