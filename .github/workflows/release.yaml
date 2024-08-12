@@ -1,4 +1,4 @@
-name: Debian Bookworm Release
+name: Debian Bookworm release
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: cpp-linter
+name: Linter checks
 
 on:
   pull_request:
