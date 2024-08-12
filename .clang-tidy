@@ -1,0 +1,7 @@
+---
+# ignore generated files
+HeaderFilter: 'src/wxfb/.*'
+# disable some checks
+Checks: '-modernize-use-trailing-return-type'
+# ignore vendor includes
+ExtraArgs: ['-isystem', 'wx']
